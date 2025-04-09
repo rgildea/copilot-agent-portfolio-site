@@ -5,6 +5,7 @@ A professional portfolio website showcasing my audio engineering, mixing, and pr
 ## Overview
 
 This responsive portfolio site features:
+
 - Animated hero section with rotating background images
 - Detailed services and project sections
 - Interactive portfolio gallery

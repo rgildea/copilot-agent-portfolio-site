@@ -5,6 +5,7 @@ All notable changes to the portfolio site will be documented in this file.
 ## April 9, 2025
 
 ### Changed
+
 - Removed podcast portfolio tile to focus on music production projects
 - Updated corresponding CSS and documentation
 
