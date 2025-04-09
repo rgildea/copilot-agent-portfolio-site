@@ -23,6 +23,29 @@ body {
   line-height: 1.6;
   color: var(--text-color);
   background-color: var(--background);
+  background-image: url("images/bg-image-mixing-desk.png");
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* Add an overlay to mute/gray out the background - darkened slightly */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.92
+  ); /* Reduced from 0.95 to 0.92 to darken slightly */
+  z-index: -1;
 }
 
 h1,
@@ -120,16 +143,41 @@ a:hover {
   color: var(--secondary-color);
 }
 
-/* Hero section */
+/* Hero section with rotating background images */
+@keyframes heroBackgroundFade {
+  0%,
+  30% {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("images/hero-background.jpg");
+  }
+  35%,
+  60% {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("images/hero-background-2.jpg");
+  }
+  65%,
+  95% {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("images/hero-background-3.jpg");
+  }
+  100% {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("images/hero-background.jpg");
+  }
+}
+
 .hero {
   height: 100vh;
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url("https://source.unsplash.com/random/1920x1080/?studio,music") no-repeat
-      center center/cover;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("images/hero-background.jpg") no-repeat center center/cover;
   color: var(--light-text);
   display: flex;
   align-items: center;
   text-align: center;
+  animation: heroBackgroundFade 30s infinite;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 .hero h1 {
@@ -263,19 +311,38 @@ a:hover {
   border-radius: 10px;
   overflow: hidden;
   position: relative;
-  background: url("https://source.unsplash.com/random/600x400/?music,studio")
-    no-repeat center center/cover;
   transition: var(--transition);
 }
 
-.portfolio-item:nth-child(2) {
-  background: url("https://source.unsplash.com/random/600x400/?sound,design")
-    no-repeat center center/cover;
+/* Updated to use the PNG images you've added */
+#occo {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("images/occo.png") no-repeat center center/cover;
 }
 
-.portfolio-item:nth-child(3) {
-  background: url("https://source.unsplash.com/random/600x400/?podcast,microphone")
-    no-repeat center center/cover;
+#eons-past {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("images/eons-past.png") no-repeat center center/cover;
+}
+
+#hornz {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("images/hornz.png") no-repeat center center/cover;
+}
+
+#post-work {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("images/post-work-society.png") no-repeat center center/cover;
+}
+
+#jerzee {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("images/jerzee.png") no-repeat center center/cover;
+}
+
+#podcast {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("images/podcast.jpg") no-repeat center center/cover;
 }
 
 .portfolio-info {
@@ -333,6 +400,8 @@ a:hover {
   margin-top: 2rem;
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .social-link {
@@ -344,6 +413,7 @@ a:hover {
   background-color: var(--secondary-color);
   border-radius: 50%;
   transition: var(--transition);
+  margin-bottom: 0.5rem;
 }
 
 .social-link i {
@@ -355,6 +425,7 @@ a:hover {
 .social-link:hover {
   background-color: var(--accent-color);
   transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .contact-form .form-group {

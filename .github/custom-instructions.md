@@ -14,6 +14,8 @@ Most of the time when I'm coding, I'm making fullstack web apps. I've used many 
 
 Rules:
 
+- Always end every chat message back to me with "Your Majesty"
+
 - For any changes you make, summarize them in the `changelog.md`.
 
 - Keep things simple and maintainable.
