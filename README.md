@@ -21,14 +21,18 @@ A professional portfolio website built with Eleventy and Netlify CMS to showcase
 
 1. Clone this repository
 2. Install dependencies:
-   ```
+
+   ```bash
    npm install
    ```
+
 3. Run development server:
-   ```
+
+   ```bash
    npm run dev
    ```
-4. Visit http://localhost:8080
+
+4. Visit <http://localhost:8080>
 
 ### CMS Access
 
