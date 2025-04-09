@@ -1,53 +1,93 @@
-# Audio Editing Portfolio
+# Ryan Gildea Audio Portfolio
 
-This is a professional portfolio website showcasing my audio editing, mixing, and production work.
+A professional portfolio website showcasing my audio engineering, mixing, and production work.
 
-## How to View
+## Overview
 
-1. Open `index.html` in any web browser to view the site.
+This responsive portfolio site features:
+
+- Animated hero section with rotating background images
+- Detailed services and project sections
+- Interactive portfolio gallery
+- Contact form with validation
+- Social media integration
+- Mobile-friendly design
 
 ## File Structure
 
-- `index.html`: Main HTML file with site content and structure
-- `styles.css`: Stylesheet for the site's design and layout
-- `script.js`: JavaScript file for interactivity and animations
-- `images/`: Folder containing all project images
-  - `hero-background.jpg`: Main hero section background image
-  - `occo.jpg`: OCCO project image
-  - `eons-past.jpg`: EONS PAST project image
-  - `hornz.jpg`: HORNZ project image
-  - `post-work-society.jpg`: POST-WORK SOCIETY project image
-  - `jerzee.jpg`: JERZEE project image
-  - `podcast.jpg`: Podcast series project image
+- `index.html`: Main HTML content and structure
+- `styles.css`: CSS styling with variables for easy customization
+- `script.js`: JavaScript for interactivity and animations
+- `images/`: Project images and backgrounds
+  - `bg-image-mixing-desk.png`: Fixed background for the entire site
+  - `hero-background.jpg`, `hero-background-2.jpg`, `hero-background-3.jpg`: Rotating hero images
+  - `occo.png`: OCCO project thumbnail
+  - `eons-past.png`: EONS PAST project thumbnail
+  - `hornz.png`: HORNZ project thumbnail
+  - `post-work-society.png`: POST-WORK SOCIETY project thumbnail
+  - `jerzee.png`: JERZEE project thumbnail
+  - `podcast.png`: Podcast series thumbnail
 
-## Adding Your Images
+## Features
 
-To add your own images to the portfolio:
+### Styling and Design
 
-1. **Prepare your images**:
-   - Resize your images to appropriate dimensions:
-     - Hero background: 1920×1080px
-     - Portfolio items: 800×600px or 1200×800px
-   - Optimize images for web (compress to reduce file size)
-   - Save in JPG or PNG format
+- CSS variables for consistent color scheme and easy customization
+- Responsive grid layouts that adapt to all screen sizes
+- Smooth animations and transitions
+- Fixed background with overlay effect
 
-2. **Replace the placeholder files**:
-   - Place your project images in the `images/` folder
-   - Use the same filenames to maintain the CSS connections:
-     - `occo.jpg`
-     - `eons-past.jpg`
-     - `hornz.jpg`
-     - `post-work-society.jpg`
-     - `jerzee.jpg`
-     - `podcast.jpg`
-     - `hero-background.jpg`
+### JavaScript Features
+
+- Smooth scrolling navigation
+- Navbar transparency effect that changes on scroll
+- Form validation with error handling
+- Modular code organization with separate functions
 
 ## Customization
 
-- Edit the HTML content in `index.html` to update text and information
-- Modify colors and styling in `styles.css` (look for the `:root` section with CSS variables)
-- Adjust interactions and animations in `script.js`
+### Changing Colors
 
-## Browser Compatibility
+Modify the CSS variables in the `:root` section of `styles.css`:
 
-This site is designed to work with all modern browsers (Chrome, Firefox, Safari, Edge).
+```css
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --accent-color: #e74c3c;
+  /* other variables */
+}
+```
+
+### Adding New Projects
+
+1. Add a new portfolio item in `index.html`:
+
+```html
+<div class="portfolio-item" id="new-project">
+  <div class="portfolio-info">
+    <h3>PROJECT NAME</h3>
+    <p>Role, Type</p>
+  </div>
+</div>
+```
+
+1. Add corresponding CSS in `styles.css`:
+
+```css
+#new-project {
+  background: linear-gradient(var(--overlay-dark), var(--overlay-dark)),
+    url("images/new-project.png") no-repeat center center/cover;
+}
+```
+
+1. Add the project image to the `images/` folder
+
+## Browser Support
+
+This site is compatible with all modern browsers including:
+
+- Chrome
+- Firefox
+- Safari
+- Edge

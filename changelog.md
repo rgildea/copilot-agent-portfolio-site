@@ -2,6 +2,18 @@
 
 All notable changes to the portfolio site will be documented in this file.
 
+## April 9, 2025
+
+### Improved
+
+- Reorganized JavaScript code into modular functions for better maintainability
+- Added CSS variables for overlays to ensure consistent styling
+- Updated portfolio image references to use PNG format consistently
+- Enhanced README with comprehensive documentation and customization guide
+- Fixed missing podcast image reference
+- Improved code formatting and organization throughout the codebase
+- Added descriptive comments for easier future maintenance
+
 ## April 8, 2025
 
 ### Added

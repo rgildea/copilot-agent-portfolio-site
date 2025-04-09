@@ -1,9 +1,18 @@
-// Navigation scroll effect
+// Portfolio site JavaScript functionality
 document.addEventListener("DOMContentLoaded", function () {
+  // Initialize all main components
+  initNavbar();
+  initSmoothScrolling();
+  initContactForm();
+
+  console.log("Portfolio site loaded successfully!");
+});
+
+// Navigation scroll effect
+function initNavbar() {
   const navbar = document.querySelector(".navbar");
   const scrollThreshold = 100;
 
-  // Add scrolled class to navbar when scrolling past threshold
   window.addEventListener("scroll", function () {
     if (window.scrollY > scrollThreshold) {
       navbar.classList.add("scrolled");
@@ -11,8 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
       navbar.classList.remove("scrolled");
     }
   });
+}
 
-  // Smooth scrolling for navigation links
+// Smooth scrolling for navigation links
+function initSmoothScrolling() {
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
       e.preventDefault();
@@ -28,86 +39,86 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+}
 
-  // Simple form validation
+// Contact form validation and submission
+function initContactForm() {
   const contactForm = document.querySelector(".contact-form");
-  if (contactForm) {
-    contactForm.addEventListener("submit", function (e) {
-      e.preventDefault();
+  if (!contactForm) return;
 
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const message = document.getElementById("message").value.trim();
-      let isValid = true;
+  contactForm.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-      if (name === "") {
-        showError("name", "Please enter your name");
-        isValid = false;
-      }
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
+    let isValid = true;
 
-      if (email === "") {
-        showError("email", "Please enter your email");
-        isValid = false;
-      } else if (!isValidEmail(email)) {
-        showError("email", "Please enter a valid email");
-        isValid = false;
-      }
-
-      if (message === "") {
-        showError("message", "Please enter your message");
-        isValid = false;
-      }
-
-      if (isValid) {
-        // In a real application, you would send the form data to a server
-        alert(
-          "Form submitted successfully! (This is a demo - no data was actually sent)"
-        );
-        contactForm.reset();
-      }
-    });
-  }
-
-  // Helper functions for form validation
-  function showError(inputId, message) {
-    const input = document.getElementById(inputId);
-    const errorMessage = document.createElement("div");
-    errorMessage.className = "error-message";
-    errorMessage.textContent = message;
-    errorMessage.style.color = "var(--accent-color)";
-    errorMessage.style.fontSize = "0.8rem";
-    errorMessage.style.marginTop = "5px";
-
-    // Remove any existing error messages
-    const existingError = input.parentElement.querySelector(".error-message");
-    if (existingError) {
-      existingError.remove();
+    // Validate form fields
+    if (name === "") {
+      showError("name", "Please enter your name");
+      isValid = false;
     }
 
-    input.parentElement.appendChild(errorMessage);
+    if (email === "") {
+      showError("email", "Please enter your email");
+      isValid = false;
+    } else if (!isValidEmail(email)) {
+      showError("email", "Please enter a valid email");
+      isValid = false;
+    }
 
-    // Highlight the input field
-    input.style.borderColor = "var(--accent-color)";
+    if (message === "") {
+      showError("message", "Please enter your message");
+      isValid = false;
+    }
 
-    // Remove error styling when input changes
-    input.addEventListener(
-      "input",
-      function () {
-        input.style.borderColor = "";
-        const error = input.parentElement.querySelector(".error-message");
-        if (error) {
-          error.remove();
-        }
-      },
-      { once: true }
-    );
+    if (isValid) {
+      // In a real application, you would send the form data to a server
+      alert(
+        "Form submitted successfully! (This is a demo - no data was actually sent)"
+      );
+      contactForm.reset();
+    }
+  });
+}
+
+// Helper functions for form validation
+function showError(inputId, message) {
+  const input = document.getElementById(inputId);
+  const errorMessage = document.createElement("div");
+  errorMessage.className = "error-message";
+  errorMessage.textContent = message;
+  errorMessage.style.color = "var(--accent-color)";
+  errorMessage.style.fontSize = "0.8rem";
+  errorMessage.style.marginTop = "5px";
+
+  // Remove any existing error messages
+  const existingError = input.parentElement.querySelector(".error-message");
+  if (existingError) {
+    existingError.remove();
   }
 
-  function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
+  input.parentElement.appendChild(errorMessage);
 
-  // Create a changelog.md file as per instructions
-  console.log("Portfolio site loaded successfully!");
-});
+  // Highlight the input field
+  input.style.borderColor = "var(--accent-color)";
+
+  // Remove error styling when input changes
+  input.addEventListener(
+    "input",
+    function () {
+      input.style.borderColor = "";
+      const error = input.parentElement.querySelector(".error-message");
+      if (error) {
+        error.remove();
+      }
+    },
+    { once: true }
+  );
+}
+
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
