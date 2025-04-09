@@ -1,0 +1,60 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads" # Media files will be stored in the repo under images/uploads
+public_folder: "/images/uploads" # The src attribute for uploaded media will begin with /images/uploads
+
+collections:
+  - name: "portfolio" # Used in routes, e.g., /admin/collections/portfolio
+    label: "Portfolio Item" # Used in the UI
+    folder: "src/portfolio" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}" # Filename template, e.g., title.md
+    fields: # The fields for each document
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Role", name: "role", widget: "string"}
+      - {label: "Image", name: "image", widget: "image"}
+      - {label: "Client", name: "client", widget: "string", required: false}
+      - {label: "Description", name: "description", widget: "markdown"}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false}
+      - {label: "Order", name: "order", widget: "number", default: 10}
+  
+  - name: "services" # Used in routes, e.g., /admin/collections/services
+    label: "Service" # Used in the UI
+    folder: "src/services" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}" # Filename template, e.g., title.md
+    fields: # The fields for each document
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Icon", name: "icon", widget: "string", hint: "Font Awesome icon class name (e.g., fa-music)"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Order", name: "order", widget: "number", default: 10}
+  
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "About Information"
+        name: "about"
+        file: "src/_data/about.json"
+        fields:
+          - {label: "Bio", name: "bio", widget: "markdown"}
+          - label: "Skills"
+            name: "skills"
+            widget: "list"
+            field: {label: "Skill", name: "skill", widget: "string"}
+      
+      - label: "Contact Information"
+        name: "contact"
+        file: "src/_data/contact.json"
+        fields:
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "Phone", name: "phone", widget: "string"}
+          - {label: "Location", name: "location", widget: "string"}
+          - label: "Social Links"
+            name: "socialLinks"
+            widget: "list"
+            fields:
+              - {label: "Platform", name: "platform", widget: "string"}
+              - {label: "URL", name: "url", widget: "string"}
+              - {label: "Icon", name: "icon", widget: "string", hint: "Font Awesome icon class (e.g., fa-linkedin)"}

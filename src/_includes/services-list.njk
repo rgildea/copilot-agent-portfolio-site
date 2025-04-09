@@ -1,0 +1,16 @@
+{% set servicesList = collections.services | sort(false, false, "data.order") %}
+
+<section id="services" class="services-section">
+  <div class="container">
+    <h2 class="section-title">Services</h2>
+    <div class="service-cards">
+      {% for service in servicesList %}
+        <div class="service-card">
+          <i class="fas {{ service.data.icon }}"></i>
+          <h3>{{ service.data.title }}</h3>
+          <p>{{ service.data.description }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

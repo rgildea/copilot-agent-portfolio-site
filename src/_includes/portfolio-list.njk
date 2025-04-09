@@ -1,0 +1,17 @@
+{% set portfolioItems = collections.portfolio | sort(false, false, "data.order") %}
+
+<section id="portfolio" class="portfolio-section">
+  <div class="container">
+    <h2 class="section-title">Featured Work</h2>
+    <div class="portfolio-gallery">
+      {% for item in portfolioItems %}
+        <div class="portfolio-item" id="{{ item.data.title | slug }}">
+          <div class="portfolio-info">
+            <h3>{{ item.data.title }}</h3>
+            <p>{{ item.data.role }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

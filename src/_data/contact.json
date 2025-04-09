@@ -1,0 +1,37 @@
+{
+  "email": "hello@ryangildea.com",
+  "phone": "(555) 123-4567",
+  "location": "Seattle, WA",
+  "socialLinks": [
+    {
+      "platform": "LinkedIn",
+      "url": "https://www.linkedin.com/in/ryan-gildea/",
+      "icon": "fa-linkedin"
+    },
+    {
+      "platform": "Twitter",
+      "url": "https://twitter.com/RyanGildea",
+      "icon": "fa-twitter"
+    },
+    {
+      "platform": "Instagram",
+      "url": "https://www.instagram.com/ryangildea.audio/",
+      "icon": "fa-instagram"
+    },
+    {
+      "platform": "SoundCloud",
+      "url": "https://soundcloud.com/ryan-gildea",
+      "icon": "fa-soundcloud"
+    },
+    {
+      "platform": "Spotify",
+      "url": "https://open.spotify.com/artist/ryangildea",
+      "icon": "fa-spotify"
+    },
+    {
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/c/RyanGildea",
+      "icon": "fa-youtube"
+    }
+  ]
+}

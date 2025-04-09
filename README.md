@@ -1,92 +1,58 @@
-# Ryan Gildea Audio Portfolio
+# Ryan Gildea - Audio Engineering Portfolio
 
-A professional portfolio website showcasing my audio engineering, mixing, and production work.
-
-## Overview
-
-This responsive portfolio site features:
-
-- Animated hero section with rotating background images
-- Detailed services and project sections
-- Interactive portfolio gallery
-- Contact form with validation
-- Social media integration
-- Mobile-friendly design
-
-## File Structure
-
-- `index.html`: Main HTML content and structure
-- `styles.css`: CSS styling with variables for easy customization
-- `script.js`: JavaScript for interactivity and animations
-- `images/`: Project images and backgrounds
-  - `bg-image-mixing-desk.png`: Fixed background for the entire site
-  - `hero-background.jpg`, `hero-background-2.jpg`, `hero-background-3.jpg`: Rotating hero images
-  - `occo.png`: OCCO project thumbnail
-  - `eons-past.png`: EONS PAST project thumbnail
-  - `hornz.png`: HORNZ project thumbnail
-  - `post-work-society.png`: POST-WORK SOCIETY project thumbnail
-  - `jerzee.png`: JERZEE project thumbnail
+A professional portfolio website built with Eleventy and Netlify CMS to showcase my audio engineering, mixing, and production work.
 
 ## Features
 
-### Styling and Design
+- Responsive design showcasing portfolio work
+- Content management with Netlify CMS
+- Fast static site generation with Eleventy
+- Contact form with Netlify Forms integration
+- Easily deployable to Netlify
 
-- CSS variables for consistent color scheme and easy customization
-- Responsive grid layouts that adapt to all screen sizes
-- Smooth animations and transitions
-- Fixed background with overlay effect
+## Development
 
-### JavaScript Features
+### Prerequisites
 
-- Smooth scrolling navigation
-- Navbar transparency effect that changes on scroll
-- Form validation with error handling
-- Modular code organization with separate functions
+- Node.js (v16 or newer)
+- npm or yarn
 
-## Customization
+### Local Development
 
-### Changing Colors
+1. Clone this repository
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Run development server:
+   ```
+   npm run dev
+   ```
+4. Visit http://localhost:8080
 
-Modify the CSS variables in the `:root` section of `styles.css`:
+### CMS Access
 
-```css
-:root {
-  --primary-color: #2c3e50;
-  --secondary-color: #3498db;
-  --accent-color: #e74c3c;
-  /* other variables */
-}
-```
+The CMS is available at `/admin` and uses Netlify Identity for authentication.
 
-### Adding New Projects
+## Deployment
 
-1. Add a new portfolio item in `index.html`:
+This site is configured for easy deployment on Netlify:
 
-```html
-<div class="portfolio-item" id="new-project">
-  <div class="portfolio-info">
-    <h3>PROJECT NAME</h3>
-    <p>Role, Type</p>
-  </div>
-</div>
-```
+1. Push to your GitHub repository
+2. Connect the repository to Netlify
+3. Configure the build settings (already defined in netlify.toml)
+4. Enable Netlify Identity for CMS access
+5. Invite users to manage content
 
-1. Add corresponding CSS in `styles.css`:
+## Project Structure
 
-```css
-#new-project {
-  background: linear-gradient(var(--overlay-dark), var(--overlay-dark)),
-    url("images/new-project.png") no-repeat center center/cover;
-}
-```
-
-1. Add the project image to the `images/` folder
-
-## Browser Support
-
-This site is compatible with all modern browsers including:
-
-- Chrome
-- Firefox
-- Safari
-- Edge
+- `src/`: Source files for the site
+  - `_data/`: JSON data files for site content
+  - `_includes/`: Reusable template components
+  - `_layouts/`: Page layouts
+  - `admin/`: Netlify CMS configuration
+  - `portfolio/`: Portfolio item content
+  - `services/`: Service description content
+- `images/`: Image assets
+- `.eleventy.js`: Eleventy configuration
+- `netlify.toml`: Netlify deployment configuration
