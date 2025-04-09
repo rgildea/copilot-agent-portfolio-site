@@ -5,8 +5,13 @@ backend:
 # Enable local backend for local development
 local_backend: true
 
-media_folder: "images/uploads" # Media files will be stored in the repo under images/uploads
-public_folder: "/images/uploads" # The src attribute for uploaded media will begin with /images/uploads
+media_folder: "images" # Media files will be stored in the repo under images
+public_folder: "/images" # The src attribute for uploaded media will begin with /images
+
+media_library:
+  name: uploadcare
+  config:
+    publicKey: "38b97d1bf198a6f54635" # Replace with your actual Uploadcare public key
 
 collections:
   - name: "portfolio" # Used in routes, e.g., /admin/collections/portfolio
@@ -18,6 +23,7 @@ collections:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Role", name: "role", widget: "string"}
       - {label: "Image", name: "image", widget: "image"}
+      - {label: "URL", name: "url", widget: "string", hint: "External link to open when clicking on this portfolio item"}
       - {label: "Client", name: "client", widget: "string", required: false}
       - {label: "Description", name: "description", widget: "markdown"}
       - {label: "Featured", name: "featured", widget: "boolean", default: false}

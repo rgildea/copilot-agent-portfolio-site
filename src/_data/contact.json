@@ -1,17 +1,17 @@
 {
   "email": "hello@ryangildea.com",
-  "phone": "(555) 123-4567",
-  "location": "Seattle, WA",
+  "phone": "(401) 465-0950",
+  "location": "East Greenwich, RI",
   "socialLinks": [
     {
       "platform": "LinkedIn",
-      "url": "https://www.linkedin.com/in/ryan-gildea/",
+      "url": "https://www.linkedin.com/in/ryangildea/",
       "icon": "fa-linkedin"
     },
     {
-      "platform": "Twitter",
-      "url": "https://twitter.com/RyanGildea",
-      "icon": "fa-twitter"
+      "platform": "X",
+      "url": "https://x.com/RyanG",
+      "icon": "fa-x"
     },
     {
       "platform": "Instagram",

@@ -6,10 +6,12 @@
     <div class="portfolio-gallery">
       {% for item in portfolioItems %}
         <div class="portfolio-item" id="{{ item.data.title | slug }}">
-          <div class="portfolio-info">
-            <h3>{{ item.data.title }}</h3>
-            <p>{{ item.data.role }}</p>
-          </div>
+          <a href="{{ item.data.url }}" target="_blank" rel="noopener noreferrer">
+            <div class="portfolio-info">
+              <h3>{{ item.data.title }}</h3>
+              <p>{{ item.data.role }}</p>
+            </div>
+          </a>
         </div>
       {% endfor %}
     </div>
