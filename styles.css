@@ -336,11 +336,6 @@ a:hover {
     url("images/jerzee.png") no-repeat center center/cover;
 }
 
-#podcast {
-  background: linear-gradient(var(--overlay-dark), var(--overlay-dark)),
-    url("images/podcast.png") no-repeat center center/cover;
-}
-
 .portfolio-info {
   position: absolute;
   bottom: 0;
