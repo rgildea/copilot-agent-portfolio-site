@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initSmoothScrolling();
   initContactForm();
   initPortfolioFilter();
+  initStickyHeaderAnimation();
 
   console.log("Portfolio site loaded successfully!");
 });
@@ -39,6 +40,54 @@ function initSmoothScrolling() {
         });
       }
     });
+  });
+}
+
+// Hero text to sticky header animation
+function initStickyHeaderAnimation() {
+  const heroName = document.getElementById("hero-name");
+  const stickyHeader = document.getElementById("sticky-header");
+  const heroSection = document.querySelector(".hero");
+
+  if (!heroName || !stickyHeader || !heroSection) return;
+
+  // Calculate when to trigger the sticky header
+  const triggerPoint = heroSection.offsetHeight - 100;
+
+  // Use requestAnimationFrame for smoother animations
+  let ticking = false;
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const scrollPosition = window.scrollY;
+
+        // When scrolled past hero section, show the sticky header
+        if (scrollPosition > triggerPoint) {
+          stickyHeader.classList.add("visible");
+        } else {
+          stickyHeader.classList.remove("visible");
+        }
+
+        // Create a parallax effect on hero text if in view
+        if (scrollPosition <= heroSection.offsetHeight) {
+          // Use a more efficient calculation with clamped values
+          const scrollRatio = Math.min(
+            scrollPosition / heroSection.offsetHeight,
+            1
+          );
+          const opacity = 1 - scrollRatio * 0.8; // Don't fade completely
+          const transform = Math.min(scrollPosition / 5, 50); // Limit transform to 50px
+
+          heroName.style.opacity = opacity.toFixed(2); // Reduce decimal precision
+          heroName.style.transform = `translateY(${Math.floor(transform)}px)`; // Use integers
+        }
+
+        ticking = false;
+      });
+
+      ticking = true;
+    }
   });
 }
 

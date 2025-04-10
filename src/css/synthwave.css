@@ -1,0 +1,112 @@
+/* Synthwave styling elements */
+
+/* Synthwave background with sunset gradient */
+.synthwave-bg {
+  background: linear-gradient(
+    0deg,
+    #ff9c5b 0%,
+    #fe3a9e 25%,
+    #662d91 50%,
+    #120b29 75%,
+    #06041d 100%
+  );
+  background-attachment: fixed;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Grid overlay - Enhanced visibility */
+.grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+      rgba(54, 233, 246, 0.3) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(54, 233, 246, 0.3) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: 0 0;
+  transform: perspective(500px) rotateX(60deg);
+  transform-origin: center bottom;
+  z-index: 2;
+  opacity: 0.7;
+  pointer-events: none;
+  animation: gridMove 15s linear infinite;
+}
+
+@keyframes gridMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 40px;
+  }
+}
+
+/* Sun element */
+.synthwave-sun {
+  position: fixed;
+  bottom: -250px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(
+    circle,
+    #ffffff 0%,
+    #ff9c5b 30%,
+    #fe3a9e 60%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  z-index: 0;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Horizon line */
+.horizon-line {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent-color);
+  box-shadow: 0 0 10px 2px var(--accent-color);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Neon text effect */
+.neon-text {
+  color: #fff;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px var(--secondary-color),
+    0 0 20px var(--secondary-color), 0 0 25px var(--secondary-color),
+    0 0 30px var(--secondary-color), 0 0 35px var(--secondary-color);
+}
+
+/* Neon borders */
+.neon-border {
+  border: 2px solid var(--secondary-color);
+  box-shadow: 0 0 5px var(--secondary-color), 0 0 10px var(--secondary-color),
+    inset 0 0 5px var(--secondary-color);
+  border-radius: 4px;
+}
+
+/* Synthwave card styling */
+.synthwave-card {
+  background-color: rgba(11, 11, 41, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--secondary-color);
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(254, 58, 158, 0.3);
+  transition: all 0.3s ease;
+}
+
+.synthwave-card:hover {
+  box-shadow: 0 0 20px rgba(254, 58, 158, 0.5), 0 0 30px rgba(254, 58, 158, 0.3);
+  transform: translateY(-5px);
+}

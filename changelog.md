@@ -8,6 +8,13 @@ All notable changes to the portfolio site will be documented in this file.
 - Added Lazer84 font for the name in hero section to match original site styling
 - Created dedicated hero-font.css file for specialized name styling
 - Added unit tests for date filter function to prevent future regressions
+- Created synthwave.css with retro-futuristic design elements (sunset gradient, perspective grid, neon effects)
+- Added synthwave background with perspective grid overlay
+- Added synthwave sun element and horizon line for depth
+- Added sticky header animation feature that transforms hero text into a fixed header during scroll
+- Enhanced UI with smooth transitions between normal and sticky states
+- Added parallax effect for hero text while scrolling
+- Improved z-index management for proper layering of site elements
 
 ### Changed
 - Updated .gitignore to exclude test results, Playwright reports, and other test artifacts
@@ -17,6 +24,11 @@ All notable changes to the portfolio site will be documented in this file.
 - Updated font declaration to use WOFF2 format for better web performance
 - Standardized CSS quote style for font-family references
 - Applied Lazer84 font to the navigation logo/initials for consistent branding
+- Transformed color scheme to use synthwave palette (neon pinks, purples, blues)
+- Replaced background with synthwave sunset gradient
+- Enhanced service cards with glass-morphism effect and neon borders
+- Updated form elements and buttons with neon glow effects
+- Simplified section layouts for a more minimal synthwave aesthetic
 
 ### Fixed
 - Fixed failing navigation tests by updating selectors to match new href format

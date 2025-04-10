@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
   initSmoothScrolling();
   initContactForm();
   initPortfolioFilter();
+  initStickyHeaderAnimation();
+  initGridOverlay();
 
   console.log("Portfolio site loaded successfully!");
 });
@@ -159,4 +161,58 @@ function showError(inputId, message) {
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
+}
+
+// Sticky header animation and hero text parallax effect
+function initStickyHeaderAnimation() {
+  const heroName = document.getElementById("hero-name");
+  const stickyHeader = document.getElementById("sticky-header");
+  const heroSection = document.querySelector(".hero-section");
+  let lastScrollY = 0;
+  let ticking = false;
+
+  // Only proceed if both elements exist
+  if (!heroName || !stickyHeader) return;
+
+  window.addEventListener("scroll", function () {
+    lastScrollY = window.scrollY;
+
+    if (!ticking) {
+      window.requestAnimationFrame(function () {
+        // Show sticky header after scrolling past hero section
+        if (heroSection && lastScrollY > heroSection.offsetHeight - 100) {
+          stickyHeader.classList.add("visible");
+        } else {
+          stickyHeader.classList.remove("visible");
+        }
+
+        // Improved hero text parallax effect with limited rate of updates
+        if (heroName && lastScrollY < heroSection.offsetHeight) {
+          const opacity =
+            1 - Math.min(1, lastScrollY / (heroSection.offsetHeight * 0.6));
+          const yOffset = lastScrollY * 0.3;
+
+          // Apply styles with hardware acceleration for better performance
+          heroName.style.opacity = opacity.toFixed(2);
+          heroName.style.transform = `translate3d(0, ${yOffset}px, 0)`;
+        }
+
+        ticking = false;
+      });
+
+      ticking = true;
+    }
+  });
+}
+
+// Initialize grid overlay
+function initGridOverlay() {
+  const body = document.body;
+
+  // Check if grid overlay already exists
+  if (!document.querySelector(".grid-overlay")) {
+    const gridOverlay = document.createElement("div");
+    gridOverlay.className = "grid-overlay";
+    body.appendChild(gridOverlay);
+  }
 }

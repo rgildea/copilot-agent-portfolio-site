@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ryan Gildea | Audio Engineer & Producer</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="src/css/synthwave.css" />
+    <link rel="stylesheet" href="src/css/hero-font.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -14,7 +16,19 @@
       rel="stylesheet"
     />
   </head>
-  <body>
+  <body class="synthwave-bg">
+    <!-- Add grid overlay for synthwave effect -->
+    <div class="grid-overlay"></div>
+    <div class="synthwave-sun"></div>
+    <div class="horizon-line"></div>
+
+    <!-- Add a sticky header element -->
+    <div id="sticky-header" class="sticky-header">
+      <div class="container">
+        <div class="logo">RG</div>
+      </div>
+    </div>
+
     <nav class="navbar">
       <div class="container">
         <div class="logo">RG</div>
@@ -29,7 +43,7 @@
 
     <header class="hero">
       <div class="container">
-        <h1>Ryan Gildea</h1>
+        <h1 id="hero-name">Ryan Gildea</h1>
         <h2>Audio Engineer, Mix Producer & Developer</h2>
         <p>Crafting immersive soundscapes since 2003</p>
         <a href="#contact" class="cta-button">Work With Me</a>
