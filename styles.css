@@ -179,10 +179,7 @@ a:hover {
   background-repeat: no-repeat;
 }
 
-.hero h1 {
-  font-size: 4rem;
-  margin-bottom: 1rem;
-}
+/* Hero h1 styles moved to hero-font.css */
 
 .hero h2 {
   font-size: 2rem;

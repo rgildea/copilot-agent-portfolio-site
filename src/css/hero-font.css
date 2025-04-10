@@ -1,0 +1,12 @@
+/* Special styling for the hero name with Lazer84 font */
+.hero h1 {
+  font-family: "Lazer84", sans-serif;
+  font-size: 4.5rem;
+  color: #fff;
+  text-shadow: 0 0 10px #3498db, 0 0 20px #3498db, 0 0 30px #3498db;
+  letter-spacing: 3px;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  transform: rotate(-2deg);
+  display: inline-block;
+}

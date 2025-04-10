@@ -1,0 +1,9 @@
+/* Custom fonts */
+@font-face {
+  font-family: "Lazer84";
+  src: url("/fonts/lazer84.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  text-rendering: optimizeLegibility;
+}

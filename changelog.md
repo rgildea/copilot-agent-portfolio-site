@@ -4,15 +4,24 @@ All notable changes to the portfolio site will be documented in this file.
 
 ## April 10, 2025
 
+### Added
+- Added Lazer84 font for the name in hero section to match original site styling
+- Created dedicated hero-font.css file for specialized name styling
+
 ### Changed
 - Updated .gitignore to exclude test results, Playwright reports, and other test artifacts
 - Fixed visual tests to match new Eleventy-generated HTML structure
 - Improved README.md with comprehensive documentation on project structure, testing, portfolio management, and styling
+- Enhanced hero name with 80s retro styling including neon glow effect and slight rotation
+- Updated font declaration to use WOFF2 format for better web performance
+- Standardized CSS quote style for font-family references
 
 ### Fixed
 - Fixed failing navigation tests by updating selectors to match new href format
 - Fixed portfolio tests to use correct IDs for portfolio items
 - Added tests for new portfolio filtering functionality
+- Resolved font display issues with Lazer84 by improving font-face implementation
+- Fixed case sensitivity issues in font file references
 
 ## April 9, 2025
 
