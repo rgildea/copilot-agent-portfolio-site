@@ -3,14 +3,24 @@
 <section id="portfolio" class="portfolio-section">
   <div class="container">
     <h2 class="section-title">Featured Work</h2>
+    
+    <div class="portfolio-filter">
+      <button class="filter-btn active" data-filter="all">All Projects</button>
+      <button class="filter-btn" data-filter="client">Client Work</button>
+      <button class="filter-btn" data-filter="personal">Personal Projects</button>
+    </div>
+    
     <div class="portfolio-gallery">
       {% for item in portfolioItems %}
-        <div class="portfolio-item" id="{{ item.data.title | slug }}">
+        <div class="portfolio-item {% if item.data.client == 'Personal Project' %}personal-project{% else %}client-project{% endif %}" id="{{ item.data.title | slug }}">
           <a href="{{ item.data.url }}" target="_blank" rel="noopener noreferrer">
             <img src="{{ item.data.image }}" alt="{{ item.data.title }}" class="portfolio-image">
             <div class="portfolio-info">
               <h3>{{ item.data.title }}</h3>
               <p>{{ item.data.role }}</p>
+              {% if item.data.client == "Personal Project" %}
+                <span class="project-badge personal">Personal Project</span>
+              {% endif %}
             </div>
           </a>
         </div>

@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initNavbar();
   initSmoothScrolling();
   initContactForm();
+  initPortfolioFilter();
 
   console.log("Portfolio site loaded successfully!");
 });
@@ -37,6 +38,43 @@ function initSmoothScrolling() {
           behavior: "smooth",
         });
       }
+    });
+  });
+}
+
+// Portfolio filtering
+function initPortfolioFilter() {
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  const portfolioItems = document.querySelectorAll(".portfolio-item");
+
+  if (!filterButtons.length) return;
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      // Update active button
+      filterButtons.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      const filterValue = button.getAttribute("data-filter");
+
+      // Filter items
+      portfolioItems.forEach((item) => {
+        if (filterValue === "all") {
+          item.style.display = "block";
+        } else if (
+          filterValue === "personal" &&
+          item.classList.contains("personal-project")
+        ) {
+          item.style.display = "block";
+        } else if (
+          filterValue === "client" &&
+          item.classList.contains("client-project")
+        ) {
+          item.style.display = "block";
+        } else {
+          item.style.display = "none";
+        }
+      });
     });
   });
 }
