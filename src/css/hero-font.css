@@ -10,3 +10,15 @@
   transform: rotate(-2deg);
   display: inline-block;
 }
+
+/* Lazer84 styling for the logo in the navbar */
+.logo {
+  font-family: "Lazer84", sans-serif !important;
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow: 0 0 5px #3498db, 0 0 10px #3498db;
+  letter-spacing: 1px;
+  transform: rotate(-1deg);
+  display: inline-block;
+  line-height: 1;
+}

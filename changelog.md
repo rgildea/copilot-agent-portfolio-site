@@ -16,6 +16,7 @@ All notable changes to the portfolio site will be documented in this file.
 - Enhanced hero name with 80s retro styling including neon glow effect and slight rotation
 - Updated font declaration to use WOFF2 format for better web performance
 - Standardized CSS quote style for font-family references
+- Applied Lazer84 font to the navigation logo/initials for consistent branding
 
 ### Fixed
 - Fixed failing navigation tests by updating selectors to match new href format
