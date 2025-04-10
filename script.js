@@ -24,6 +24,20 @@ function initNavbar() {
   });
 }
 
+// Scroll indicator functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const scrollIndicator = document.querySelector('.scroll-indicator');
+  
+  if (scrollIndicator) {
+    scrollIndicator.addEventListener('click', function() {
+      const aboutSection = document.querySelector('#about');
+      if (aboutSection) {
+        aboutSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+});
+
 // Smooth scrolling for navigation links
 function initSmoothScrolling() {
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {

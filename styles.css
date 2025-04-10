@@ -177,8 +177,49 @@ a:hover {
   align-items: center;
   justify-content: center;
   text-align: center;
+  animation: heroBackgroundFade 30s infinite;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   position: relative;
   z-index: 1;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--light-text);
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards 1s;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.scroll-text {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.scroll-arrow {
+  font-size: 1.2rem;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .hero-content {
@@ -206,6 +247,19 @@ a:hover {
   margin-left: auto;
   margin-right: auto;
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.spotify-direct-embed {
+  margin-top: 2rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+.spotify-direct-embed iframe {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
 }
 
 .cta-button {
@@ -458,6 +512,26 @@ a:hover {
   background-color: var(--accent-color);
   color: var(--dark-bg);
   box-shadow: 0 0 15px var(--accent-color);
+}
+
+/* Spotify section */
+.spotify-section {
+  padding: 100px 0;
+}
+
+.spotify-embed {
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: var(--light-bg);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.spotify-embed:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 /* Contact section */
