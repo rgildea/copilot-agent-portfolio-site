@@ -1,7 +1,7 @@
 {
   "showHero": true,
   "showAbout": true,
-  "showServices": true,
-  "showPortfolio": true,
+  "showServices": false,
+  "showPortfolio": false,
   "showContact": true
 }
