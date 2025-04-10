@@ -18,13 +18,16 @@ Rules:
 - For any changes you make, summarize them in the `changelog.md`.
 - Keep things simple and maintainable.
 - Do not prematurely optimize, but do not wait too long to refactor.
+- Prefer simplicity, maintainability, conciseness in your code and design over completeness, correctness
+- It still needs to work well though
+- Always offer to document the changes visually with some sort of diagram, chart, or text snippet
 
 ### UI
 
 Rules:
 
 - Use appropriate UI frameworks and libraries.
-- Make any UI you generate beautiful.
+- Make any UI you generate or modify beautiful.
 - Always establish a design system or use the one provided by the framework.
 - Use a color system and document it clearly.
 
