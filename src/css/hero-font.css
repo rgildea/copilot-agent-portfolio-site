@@ -1,24 +1,24 @@
-/* Special styling for the hero name with Lazer84 font */
+/* Special styling for the hero name with Lazer84 font - Toned down */
 .hero h1 {
   font-family: "Lazer84", sans-serif;
-  font-size: 4.5rem;
+  font-size: 4rem;
   color: #fff;
-  text-shadow: 0 0 10px #3498db, 0 0 20px #3498db, 0 0 30px #3498db;
-  letter-spacing: 3px;
+  text-shadow: 0 0 5px #3498db, 0 0 10px #3498db;
+  letter-spacing: 2px;
   margin-bottom: 1.5rem;
   line-height: 1.2;
-  transform: rotate(-2deg);
+  transform: rotate(-1deg); /* Reduced rotation */
   display: inline-block;
 }
 
-/* Lazer84 styling for the logo in the navbar */
+/* Lazer84 styling for the logo in the navbar - Simplified */
 .logo {
   font-family: "Lazer84", sans-serif !important;
   font-size: 2.5rem;
   color: #fff;
-  text-shadow: 0 0 5px #3498db, 0 0 10px #3498db;
+  text-shadow: 0 0 3px #3498db; /* Reduced shadow */
   letter-spacing: 1px;
-  transform: rotate(-1deg);
+  transform: none; /* Removed rotation */
   display: inline-block;
   line-height: 1;
 }

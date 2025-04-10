@@ -2,6 +2,33 @@
 
 All notable changes to the portfolio site will be documented in this file.
 
+## April 11, 2025
+
+### Changed
+- Toned down the synthwave design while preserving the core aesthetic
+- Reduced opacity and visibility of the grid overlay from 0.7 to 0.3
+- Slowed down grid animation from 15s to 30s for less distraction
+- Reduced the size and opacity of the sun element
+- Simplified the horizon line with reduced glow effect
+- Decreased text shadow intensity throughout the site
+- Updated color palette to use more muted, less neon versions of the synthwave colors
+- Reduced the intensity of hover effects and transitions
+- Removed blinking and flickering animations
+- Simplified neon text effects with fewer shadow layers
+- Made background elements more transparent
+- Reduced card hover transform effects for more subtle interactions
+- Removed parallax effect for hero text while scrolling
+- Added subtle opacity to the synthwave wrapper
+- Simplified and softened all glow effects
+- Removed rotation effects from text elements
+
+### Improved
+- Better readability with reduced text shadows
+- More professional appearance while keeping the synthwave theme
+- Less distracting animations for improved user experience
+- More subtle color scheme while maintaining the synthwave palette
+- Cleaner overall visual design with fewer overwhelming effects
+
 ## April 10, 2025
 
 ### Added
