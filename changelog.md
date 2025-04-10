@@ -7,6 +7,7 @@ All notable changes to the portfolio site will be documented in this file.
 ### Changed
 - Updated .gitignore to exclude test results, Playwright reports, and other test artifacts
 - Fixed visual tests to match new Eleventy-generated HTML structure
+- Improved README.md with comprehensive documentation on project structure, testing, portfolio management, and styling
 
 ### Fixed
 - Fixed failing navigation tests by updating selectors to match new href format
