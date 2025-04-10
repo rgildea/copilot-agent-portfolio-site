@@ -67,3 +67,13 @@ collections:
               - {label: "Platform", name: "platform", widget: "string"}
               - {label: "URL", name: "url", widget: "string"}
               - {label: "Icon", name: "icon", widget: "string", hint: "Font Awesome icon class (e.g., fa-linkedin)"}
+              
+      - label: "Section Visibility"
+        name: "sections"
+        file: "src/_data/sections.json"
+        fields:
+          - {label: "Show Hero Section", name: "showHero", widget: "boolean", default: true}
+          - {label: "Show About Section", name: "showAbout", widget: "boolean", default: true}
+          - {label: "Show Services Section", name: "showServices", widget: "boolean", default: true}
+          - {label: "Show Portfolio Section", name: "showPortfolio", widget: "boolean", default: true}
+          - {label: "Show Contact Section", name: "showContact", widget: "boolean", default: true}
