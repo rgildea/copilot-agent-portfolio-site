@@ -7,6 +7,7 @@ All notable changes to the portfolio site will be documented in this file.
 ### Added
 - Added Lazer84 font for the name in hero section to match original site styling
 - Created dedicated hero-font.css file for specialized name styling
+- Added unit tests for date filter function to prevent future regressions
 
 ### Changed
 - Updated .gitignore to exclude test results, Playwright reports, and other test artifacts
@@ -22,6 +23,7 @@ All notable changes to the portfolio site will be documented in this file.
 - Added tests for new portfolio filtering functionality
 - Resolved font display issues with Lazer84 by improving font-face implementation
 - Fixed case sensitivity issues in font file references
+- Fixed footer showing "NaN" instead of the current year by improving the date filter
 
 ## April 9, 2025
 

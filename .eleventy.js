@@ -15,7 +15,28 @@ module.exports = function (eleventyConfig) {
 
   // Add date filter
   eleventyConfig.addFilter("date", function (date, format) {
+    // Handle the special case of "now" to return current date
+    if (date === "now") {
+      const jsDate = new Date();
+      if (format === "yyyy") {
+        return jsDate.getFullYear();
+      }
+      return jsDate.toLocaleDateString();
+    }
+
+    // Handle normal date objects or strings
     const jsDate = new Date(date);
+
+    // Check if the date is valid
+    if (isNaN(jsDate.getTime())) {
+      // Return current year if date is invalid and format is yyyy
+      if (format === "yyyy") {
+        return new Date().getFullYear();
+      }
+      // Return a placeholder string for invalid dates
+      return "Invalid date";
+    }
+
     if (format === "yyyy") {
       return jsDate.getFullYear();
     }
