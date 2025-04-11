@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initContactForm();
   initPortfolioFilter();
   initStickyHeaderAnimation();
+  initScrollIndicator(); // Added missing scroll indicator functionality
   initGridOverlay();
 
   console.log("Portfolio site loaded successfully!");
@@ -24,6 +25,23 @@ function initNavbar() {
       navbar.classList.remove("scrolled");
     }
   });
+}
+
+// Scroll indicator functionality (added from the root script.js)
+function initScrollIndicator() {
+  const scrollIndicator = document.querySelector(".scroll-indicator");
+
+  if (scrollIndicator) {
+    console.log("✅ Scroll indicator found, setting up click handler");
+    scrollIndicator.addEventListener("click", function () {
+      const aboutSection = document.querySelector("#about");
+      if (aboutSection) {
+        aboutSection.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  } else {
+    console.log("ℹ️ No scroll indicator found in the document");
+  }
 }
 
 // Smooth scrolling for navigation links
