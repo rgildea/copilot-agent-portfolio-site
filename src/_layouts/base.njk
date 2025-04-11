@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ title | default("Ryan Gildea | Audio Engineer & Producer") }}</title>
+    <title>
+      {{ title | default("Ryan Gildea | Audio Engineer & Producer") }}
+    </title>
     <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="/css/fonts.css" />
     <link rel="stylesheet" href="/css/hero-font.css" />
@@ -18,16 +20,17 @@
     />
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
-      html, body {
+      html,
+      body {
         height: 100%;
         overflow-x: hidden;
       }
-      
+
       body {
         position: relative;
         overflow-y: auto;
       }
-      
+
       /* Toned down synthwave wrapper with reduced z-index */
       .synthwave-wrapper {
         position: fixed;
@@ -39,12 +42,12 @@
         pointer-events: none;
         opacity: 0.8; /* Added subtle opacity */
       }
-      
+
       .site-content {
         position: relative;
         z-index: 10;
       }
-      
+
       /* Additional sticky header style for better visibility */
       #sticky-header {
         display: block; /* Ensure it's not accidentally hidden */
@@ -59,32 +62,39 @@
       <div class="synthwave-sun"></div>
       <div class="horizon-line"></div>
     </div>
-    
+
     <div class="site-content">
       <nav class="navbar">
         <div class="container">
           <div class="logo">RTG</div>
           <ul class="nav-links">
-            {% if sections.showAbout %}<li><a href="/#about">About</a></li>{% endif %}
-            {% if sections.showServices %}<li><a href="/#services">Services</a></li>{% endif %}
-            {% if sections.showPortfolio %}<li><a href="/#portfolio">Portfolio</a></li>{% endif %}
-            {% if sections.showContact %}<li><a href="/#contact">Contact</a></li>{% endif %}
+            {% if sections.showAbout %}
+            <li><a href="/#about">About</a></li>
+            {% endif %} {% if sections.showServices %}
+            <li><a href="/#services">Services</a></li>
+            {% endif %} {% if sections.showPortfolio %}
+            <li><a href="/#portfolio">Portfolio</a></li>
+            {% endif %} {% if sections.showContact %}
+            <li><a href="/#contact">Contact</a></li>
+            {% endif %}
           </ul>
         </div>
       </nav>
-      
+
       <!-- Enhanced sticky header for animations -->
       <div id="sticky-header" class="sticky-header">
         <div class="container">
           <h1 id="sticky-name" class="sticky-title">Ryan Gildea</h1>
         </div>
       </div>
-  
+
       {{ content | safe }}
-  
+
       <footer class="site-footer">
         <div class="container">
-          <p>&copy; {{ "now" | date("yyyy") }} Ryan Gildea. All rights reserved.</p>
+          <p>
+            &copy; {{ "now" | date("yyyy") }} Ryan Gildea. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>
@@ -92,13 +102,13 @@
     <script src="/js/script.js"></script>
     <script>
       if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
+        window.netlifyIdentity.on("init", (user) => {
           if (!user) {
             window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
+              document.location.href = "/admin/"
+            })
           }
-        });
+        })
       }
     </script>
   </body>
