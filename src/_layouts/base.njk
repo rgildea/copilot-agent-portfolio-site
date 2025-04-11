@@ -47,12 +47,6 @@
         position: relative;
         z-index: 10;
       }
-
-      /* Additional sticky header style for better visibility */
-      #sticky-header {
-        display: block; /* Ensure it's not accidentally hidden */
-        visibility: visible; /* Force visibility */
-      }
     </style>
   </head>
   <body class="synthwave-bg">
@@ -80,13 +74,6 @@
           </ul>
         </div>
       </nav>
-
-      <!-- Enhanced sticky header for animations -->
-      <div id="sticky-header" class="sticky-header">
-        <div class="container">
-          <h1 id="sticky-name" class="sticky-title">Ryan Gildea</h1>
-        </div>
-      </div>
 
       {{ content | safe }}
 
