@@ -182,7 +182,7 @@ function isValidEmail(email) {
   return emailRegex.test(email);
 }
 
-// Sticky header animation with enhanced debugging
+// Sticky header animation with improved calculations
 function initStickyHeaderAnimation() {
   console.log("🔍 ANIMATION DEBUG - Starting initialization");
 
@@ -225,19 +225,24 @@ function initStickyHeaderAnimation() {
   // All essential elements found
   console.log("✅ All animation elements found");
 
-  // Add visual indicators to elements for debugging
-  heroName.style.outline = "2px solid magenta";
-  stickyName.style.outline = "2px solid magenta";
+  // IMPROVED: Add visual indicators to elements for better visibility during debugging
+  heroName.classList.add("debug-highlight");
+  heroName.setAttribute("id", "hero-name");
+
+  stickyName.classList.add("debug-highlight");
+  stickyName.setAttribute("id", "sticky-name");
 
   // Get navbar height for positioning calculations
   const navbarHeight = navbar ? navbar.offsetHeight : 70;
 
-  // Calculate the total scroll distance over which the animation should occur
+  // IMPROVED: Calculate the animation parameters
+  // Instead of using the entire hero height, use a smaller fraction for a more responsive animation
   const heroHeight = heroSection.offsetHeight;
-  const animationDistance = heroHeight - navbarHeight;
+  const animationStartPoint = 10; // Start animation as soon as we scroll 10px
+  const animationDistance = Math.min(heroHeight * 0.6, 300); // Use 60% of hero height or 300px, whichever is smaller
 
   console.log(
-    `📏 Animation will occur over ${animationDistance}px of scrolling`
+    `📏 Animation will occur over ${animationDistance}px of scrolling (starting at ${animationStartPoint}px)`
   );
 
   // Initial opacity for sticky name
@@ -258,21 +263,31 @@ function initStickyHeaderAnimation() {
   debugElement.style.fontFamily = "monospace";
   document.body.appendChild(debugElement);
 
-  // Set up scroll event listener
+  // IMPROVED: Trigger an initial scroll event to ensure everything is properly set up
+  setTimeout(() => {
+    window.dispatchEvent(new Event("scroll"));
+    console.log("🔄 Initial scroll event dispatched");
+  }, 100);
+
+  // Set up scroll event listener with improved calculations
   window.addEventListener("scroll", () => {
     const scrollY = window.scrollY;
-    const progress = Math.min(1, scrollY / animationDistance);
+
+    // IMPROVED: Calculate progress starting after a small threshold
+    const effectiveScroll = Math.max(0, scrollY - animationStartPoint);
+    const progress = Math.min(1, effectiveScroll / animationDistance);
 
     // Update debug info
     debugElement.innerHTML = `
       ScrollY: ${scrollY.toFixed(0)}px<br>
+      EffectiveScroll: ${effectiveScroll.toFixed(0)}px<br>
       Progress: ${progress.toFixed(2)}<br>
       Hero opacity: ${(1 - progress).toFixed(2)}<br>
       Animation distance: ${animationDistance}px
     `;
 
-    // Apply transformations as soon as scrolling begins
-    if (scrollY > 0) {
+    // IMPROVED: Apply transformations with more sensitive thresholds
+    if (scrollY >= animationStartPoint) {
       // Show sticky header once we start scrolling
       stickyHeader.classList.add("visible");
 
@@ -281,20 +296,20 @@ function initStickyHeaderAnimation() {
       const scaleFactor = 1 - (1 - finalScale) * progress;
 
       // Calculate target position - move from original position to navbar position
-      const translateY = -scrollY * 0.5; // Moves at half the speed of the scroll
+      const translateY = -effectiveScroll * 0.5; // Moves at half the speed of the scroll
 
       // Apply transform to hero name - a combination of scaling and position
       const transformValue = `scale(${scaleFactor}) translateY(${translateY}px)`;
       heroName.style.transform = transformValue;
 
       // Hero name opacity decreases as we scroll
-      heroName.style.opacity = (1 - progress).toFixed(2);
+      heroName.style.opacity = Math.max(0, 1 - progress * 1.2).toFixed(2); // Slightly faster fade out
 
       // Sticky name opacity increases as we scroll
-      stickyName.style.opacity = progress.toFixed(2);
+      stickyName.style.opacity = Math.min(1, progress * 1.5).toFixed(2); // Slightly faster fade in
 
       // Occasional debug logging
-      if (scrollY % 100 < 2) {
+      if (scrollY % 100 < 2 || scrollY < 110) {
         console.log(
           `🔄 SCROLL: ${scrollY.toFixed(0)}px, Progress: ${progress.toFixed(2)}`
         );
