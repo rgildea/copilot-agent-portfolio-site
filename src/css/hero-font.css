@@ -7,8 +7,9 @@
   letter-spacing: 2px;
   margin-bottom: 1.5rem;
   line-height: 1.2;
-  transform: rotate(-1deg); /* Reduced rotation */
+  /* transform: rotate(-1deg); Reduced rotation */
   display: inline-block;
+  /* Note: transition properties are now handled in main.css */
 }
 
 /* Lazer84 styling for the logo in the navbar - Simplified */
@@ -18,7 +19,6 @@
   color: #fff;
   text-shadow: 0 0 3px #3498db; /* Reduced shadow */
   letter-spacing: 1px;
-  transform: none; /* Removed rotation */
   display: inline-block;
   line-height: 1;
 }
