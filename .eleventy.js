@@ -45,8 +45,6 @@ module.exports = function (eleventyConfig) {
 
   // Pass through copy for assets
   eleventyConfig.addPassthroughCopy("images");
-  eleventyConfig.addPassthroughCopy("styles.css");
-  eleventyConfig.addPassthroughCopy("script.js");
   eleventyConfig.addPassthroughCopy("src/js"); // Copy JavaScript files
   eleventyConfig.addPassthroughCopy("src/css"); // Copy CSS files
   eleventyConfig.addPassthroughCopy("src/fonts"); // Copy font files
