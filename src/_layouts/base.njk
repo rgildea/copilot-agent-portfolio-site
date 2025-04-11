@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ title | default("Ryan Gildea | Audio Engineer & Producer") }}</title>
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="/css/fonts.css" />
     <link rel="stylesheet" href="/css/hero-font.css" />
     <link rel="stylesheet" href="/css/synthwave.css" />
@@ -65,15 +65,15 @@
         <div class="container">
           <div class="logo">RTG</div>
           <ul class="nav-links">
-            <li><a href="/#about">About</a></li>
-            <li><a href="/#services">Services</a></li>
-            <li><a href="/#portfolio">Portfolio</a></li>
-            <li><a href="/#contact">Contact</a></li>
+            {% if sections.showAbout %}<li><a href="/#about">About</a></li>{% endif %}
+            {% if sections.showServices %}<li><a href="/#services">Services</a></li>{% endif %}
+            {% if sections.showPortfolio %}<li><a href="/#portfolio">Portfolio</a></li>{% endif %}
+            {% if sections.showContact %}<li><a href="/#contact">Contact</a></li>{% endif %}
           </ul>
         </div>
       </nav>
       
-      <!-- Enhanced sticky header with clearer styling -->
+      <!-- Enhanced sticky header for animations -->
       <div id="sticky-header" class="sticky-header">
         <div class="container">
           <h1 id="sticky-name" class="sticky-title">Ryan Gildea</h1>
@@ -89,7 +89,7 @@
       </footer>
     </div>
 
-    <script src="/script.js"></script>
+    <script src="/js/script.js"></script>
     <script>
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", user => {
