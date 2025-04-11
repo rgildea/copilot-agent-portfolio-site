@@ -1,6 +1,7 @@
 // Portfolio site JavaScript functionality
 document.addEventListener("DOMContentLoaded", function () {
   // Initialize all main components
+  console.log("DOM loaded - initializing components");
   initNavbar();
   initSmoothScrolling();
   initContactForm();
@@ -163,46 +164,133 @@ function isValidEmail(email) {
   return emailRegex.test(email);
 }
 
-// Sticky header animation and hero text parallax effect
+// Sticky header animation with enhanced debugging
 function initStickyHeaderAnimation() {
+  console.log("🔍 ANIMATION DEBUG - Starting initialization");
+
+  // Get DOM elements
   const heroName = document.getElementById("hero-name");
   const stickyHeader = document.getElementById("sticky-header");
-  const heroSection = document.querySelector(".hero-section");
-  let lastScrollY = 0;
-  let ticking = false;
+  const stickyName = document.getElementById("sticky-name");
+  const heroSection = document.querySelector(".hero");
+  const navbar = document.querySelector(".navbar");
 
-  // Only proceed if both elements exist
-  if (!heroName || !stickyHeader) return;
+  // Check if elements exist
+  if (!heroName) {
+    console.error(
+      "❌ ERROR: heroName element not found! Make sure you have an element with id='hero-name'"
+    );
+    return;
+  }
 
-  window.addEventListener("scroll", function () {
-    lastScrollY = window.scrollY;
+  if (!stickyHeader) {
+    console.error(
+      "❌ ERROR: stickyHeader element not found! Make sure you have an element with id='sticky-header'"
+    );
+    return;
+  }
 
-    if (!ticking) {
-      window.requestAnimationFrame(function () {
-        // Show sticky header after scrolling past hero section
-        if (heroSection && lastScrollY > heroSection.offsetHeight - 100) {
-          stickyHeader.classList.add("visible");
-        } else {
-          stickyHeader.classList.remove("visible");
-        }
+  if (!stickyName) {
+    console.error(
+      "❌ ERROR: stickyName element not found! Make sure you have an element with id='sticky-name'"
+    );
+    return;
+  }
 
-        // Improved hero text parallax effect with limited rate of updates
-        if (heroName && lastScrollY < heroSection.offsetHeight) {
-          const opacity =
-            1 - Math.min(1, lastScrollY / (heroSection.offsetHeight * 0.6));
-          const yOffset = lastScrollY * 0.3;
+  if (!heroSection) {
+    console.error(
+      "❌ ERROR: heroSection element not found! Make sure you have a section with class='hero'"
+    );
+    return;
+  }
 
-          // Apply styles with hardware acceleration for better performance
-          heroName.style.opacity = opacity.toFixed(2);
-          heroName.style.transform = `translate3d(0, ${yOffset}px, 0)`;
-        }
+  // All essential elements found
+  console.log("✅ All animation elements found");
 
-        ticking = false;
-      });
+  // Add visual indicators to elements for debugging
+  heroName.style.outline = "2px solid magenta";
+  stickyName.style.outline = "2px solid magenta";
 
-      ticking = true;
+  // Get navbar height for positioning calculations
+  const navbarHeight = navbar ? navbar.offsetHeight : 70;
+
+  // Calculate the total scroll distance over which the animation should occur
+  const heroHeight = heroSection.offsetHeight;
+  const animationDistance = heroHeight - navbarHeight;
+
+  console.log(
+    `📏 Animation will occur over ${animationDistance}px of scrolling`
+  );
+
+  // Initial opacity for sticky name
+  stickyName.style.opacity = "0";
+
+  // Add a visual debug overlay
+  const debugElement = document.createElement("div");
+  debugElement.id = "animation-debug";
+  debugElement.style.position = "fixed";
+  debugElement.style.top = "100px";
+  debugElement.style.right = "10px";
+  debugElement.style.background = "rgba(0,0,0,0.7)";
+  debugElement.style.color = "#ff00ff";
+  debugElement.style.padding = "10px";
+  debugElement.style.borderRadius = "5px";
+  debugElement.style.zIndex = "9999";
+  debugElement.style.fontSize = "14px";
+  debugElement.style.fontFamily = "monospace";
+  document.body.appendChild(debugElement);
+
+  // Set up scroll event listener
+  window.addEventListener("scroll", () => {
+    const scrollY = window.scrollY;
+    const progress = Math.min(1, scrollY / animationDistance);
+
+    // Update debug info
+    debugElement.innerHTML = `
+      ScrollY: ${scrollY.toFixed(0)}px<br>
+      Progress: ${progress.toFixed(2)}<br>
+      Hero opacity: ${(1 - progress).toFixed(2)}<br>
+      Animation distance: ${animationDistance}px
+    `;
+
+    // Apply transformations as soon as scrolling begins
+    if (scrollY > 0) {
+      // Show sticky header once we start scrolling
+      stickyHeader.classList.add("visible");
+
+      // Scale hero name from 1 down to 0.5 as we scroll
+      const finalScale = 0.5;
+      const scaleFactor = 1 - (1 - finalScale) * progress;
+
+      // Calculate target position - move from original position to navbar position
+      const translateY = -scrollY * 0.5; // Moves at half the speed of the scroll
+
+      // Apply transform to hero name - a combination of scaling and position
+      const transformValue = `scale(${scaleFactor}) translateY(${translateY}px)`;
+      heroName.style.transform = transformValue;
+
+      // Hero name opacity decreases as we scroll
+      heroName.style.opacity = (1 - progress).toFixed(2);
+
+      // Sticky name opacity increases as we scroll
+      stickyName.style.opacity = progress.toFixed(2);
+
+      // Occasional debug logging
+      if (scrollY % 100 < 2) {
+        console.log(
+          `🔄 SCROLL: ${scrollY.toFixed(0)}px, Progress: ${progress.toFixed(2)}`
+        );
+      }
+    } else {
+      // Reset styles when at the top
+      stickyHeader.classList.remove("visible");
+      heroName.style.transform = "scale(1) translateY(0)";
+      heroName.style.opacity = "1";
+      stickyName.style.opacity = "0";
     }
   });
+
+  console.log("✅ Animation setup complete - scroll to see effects");
 }
 
 // Initialize grid overlay
