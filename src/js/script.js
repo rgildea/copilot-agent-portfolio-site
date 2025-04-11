@@ -41,21 +41,24 @@ function initScrollIndicator() {
   }
 }
 
-// Smooth scrolling for navigation links
+// DEAD SIMPLE smooth scrolling implementation
 function initSmoothScrolling() {
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    anchor.addEventListener("click", function (e) {
-      e.preventDefault();
+  // Fix for links in the navbar - they all have format "/#section"
+  document.querySelectorAll(".nav-links a").forEach((link) => {
+    link.addEventListener("click", function (e) {
+      // Only handle if we're already on the homepage
+      if (window.location.pathname === "/" || window.location.pathname === "") {
+        e.preventDefault();
 
-      const targetId = this.getAttribute("href");
-      const targetSection = document.querySelector(targetId);
+        // Extract the section id from the href (format: "/#section")
+        const sectionId = this.getAttribute("href").split("#")[1];
+        const section = document.getElementById(sectionId);
 
-      if (targetSection) {
-        window.scrollTo({
-          top: targetSection.offsetTop - 70,
-          behavior: "smooth",
-        });
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" });
+        }
       }
+      // Otherwise let the browser navigate normally to the homepage section
     });
   });
 }
