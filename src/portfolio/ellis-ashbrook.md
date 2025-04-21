@@ -1,5 +1,5 @@
 ---
-title: Ellis Ashbrook
+title: ELLIS ASHBROOK
 role: Guitar, Keys, Production, Mixing
 image: https://ucarecdn.com/faf85d95-8f0d-48cc-975a-1c93cc42937f/
 url: https://open.spotify.com/artist/1EWfPtGX70w3XI0pxF9V8B
