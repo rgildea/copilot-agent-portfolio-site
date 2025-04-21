@@ -14,6 +14,16 @@ Rules:
 - Do not prematurely optimize, but do not wait too long to refactor.
 - Prefer functionality, simplicity, maintainability, conciseness in your code and design over completeness, correctness.
 
+### Testing
+
+Rules:
+
+- Only test what matters - don't test just to test.
+- Focus on testing behavior and functionality, not implementation details.
+- Avoid redundant tests that don't add value.
+- Tests should be resilient to refactoring.
+- Prioritize testing critical user paths and edge cases.
+
 ### UI
 
 Rules:

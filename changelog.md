@@ -2,6 +2,22 @@
 
 All notable changes to the portfolio site will be documented in this file.
 
+## April 20, 2025
+
+### Changed
+- Improved hero background carousel animation with smooth 2-second crossfades
+- Slowed down the transition between hero images for a more relaxed user experience
+- Updated DOM structure to support proper background image transitions
+
+### Fixed
+- Fixed navigation test by properly mocking scrollIntoView in test environment
+
+### Improved
+- Refined testing approach to focus on testing behavior rather than implementation
+- Removed redundant tests that didn't provide value
+- Added focused tests for hero carousel functionality
+- Updated documentation on testing philosophy in custom instructions
+
 ## April 11, 2025
 
 ### Changed

@@ -23,6 +23,9 @@ describe("Navigation functionality", () => {
     // Mock window.scrollTo
     window.scrollTo = jest.fn();
 
+    // Mock scrollIntoView since it's not implemented in JSDOM
+    Element.prototype.scrollIntoView = jest.fn();
+
     // Load the script functionality
     require("../../src/js/script.js");
 
@@ -53,8 +56,11 @@ describe("Navigation functionality", () => {
     // Check if preventDefault was called
     expect(clickEvent.preventDefault).toHaveBeenCalled();
 
-    // Also check that scrollTo was called
-    expect(window.scrollTo).toHaveBeenCalled();
+    // Check that scrollIntoView was called (instead of window.scrollTo)
+    const aboutSection = document.getElementById("about");
+    expect(aboutSection.scrollIntoView).toHaveBeenCalledWith({
+      behavior: "smooth",
+    });
   });
 
   test("scrolling should add scrolled class to navbar when beyond threshold", () => {
