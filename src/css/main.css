@@ -751,12 +751,19 @@ a:hover {
   transition: var(--transition);
   margin-bottom: 0.5rem;
   box-shadow: 0 0 5px rgba(54, 233, 246, 0.2);
+  position: relative;
 }
 
 .social-link i {
   color: var(--accent-color);
   font-size: 1.2rem;
   margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
 }
 
 .social-link:hover {

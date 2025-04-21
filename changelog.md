@@ -2,6 +2,16 @@
 
 All notable changes to the portfolio site will be documented in this file.
 
+## April 21, 2025
+
+### Fixed
+- Fixed Threads and Bluesky social media icons display issues
+- Improved icon centering in social media circular containers
+
+### Improved
+- Enhanced social icon alignment with absolute positioning for perfect centering
+- Added proper transform positioning for consistent icon display across browsers
+
 ## April 20, 2025
 
 ### Changed

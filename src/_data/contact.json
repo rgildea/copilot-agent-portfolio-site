@@ -21,23 +21,22 @@
     {
       "platform": "Facebook",
       "url": "https://www.facebook.com/ryan.gildea",
-      "icon": "fa-brands fa-facebook"
+      "icon": "fa-facebook"
     },
-
     {
       "platform": "Threads",
       "url": "https://www.threads.net/@lefthandryan",
-      "icon": "fa-brands fa-threads"
+      "icon": "fa-hashtag"
     },
     {
       "platform": "X",
       "url": "https://x.com/RyanG",
-      "icon": "fa-x"
+      "icon": "fa-twitter"
     },
     {
       "platform": "Bluesky",
       "url": "https://bsky.app/profile/ryangildea.bsky.social",
-      "icon": "fa-brands fa-bluesky"
+      "icon": "fa-cloud"
     }
   ]
 }
