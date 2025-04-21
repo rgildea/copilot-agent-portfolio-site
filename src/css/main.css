@@ -150,30 +150,12 @@ a:hover {
   color: var(--secondary-color);
 }
 
-/* Hero section with rotating background images */
-@keyframes heroBackgroundFade {
-  0%,
-  30% {
-    background-image: linear-gradient(var(--overlay-dark), var(--overlay-dark)),
-      url("/images/hero-background.jpg");
-  }
-  35%,
-  60% {
-    background-image: linear-gradient(var(--overlay-dark), var(--overlay-dark)),
-      url("/images/hero-background-2.jpg");
-  }
-  65%,
-  95% {
-    background-image: linear-gradient(var(--overlay-dark), var(--overlay-dark)),
-      url("/images/hero-background-3.jpg");
-  }
-  100% {
-    background-image: linear-gradient(var(--overlay-dark), var(--overlay-dark)),
-      url("/images/hero-background.jpg");
-  }
-}
+/* Hero section with smooth crossfade for background images */
 
-/* Hero section - Reduced effects */
+/* Remove the old animation */
+/* @keyframes heroBackgroundFade {} - Removed */
+
+/* Hero section - Updated with positioning for the background elements */
 .hero {
   height: 100vh;
   color: var(--light-text);
@@ -181,12 +163,120 @@ a:hover {
   align-items: center;
   justify-content: center;
   text-align: center;
-  animation: heroBackgroundFade 15s infinite;
+  position: relative;
+  z-index: 1;
+  overflow: hidden; /* Ensure backgrounds stay contained */
+}
+
+/* Background container */
+.hero-backgrounds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Individual background styles */
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  position: relative;
+  opacity: 0;
+  transition: opacity 2s ease; /* Increased from 1s to 2s for smoother crossfade */
+}
+
+/* Apply the overlay gradient to each background */
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--overlay-dark);
   z-index: 1;
+}
+
+/* Set specific background images */
+.hero-bg.bg-1 {
+  background-image: url("/images/hero-background.jpg");
+  animation: fade1 33s infinite;
+  opacity: 1; /* Start with first image visible */
+}
+
+.hero-bg.bg-2 {
+  background-image: url("/images/hero-background-2.jpg");
+  animation: fade2 33s infinite;
+}
+
+.hero-bg.bg-3 {
+  background-image: url("/images/hero-background-3.jpg");
+  animation: fade3 33s infinite;
+}
+
+/* Keyframes for background fading with 10-second display time and 2-second crossfade */
+@keyframes fade1 {
+  0% {
+    opacity: 1;
+  }
+  27% {
+    opacity: 1;
+  } /* Show for ~9 seconds (27% of 33s) */
+  33% {
+    opacity: 0;
+  } /* Crossfade for ~2 seconds (6% of 33s) */
+  94% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  } /* Crossfade for ~2 seconds */
+}
+
+@keyframes fade2 {
+  0% {
+    opacity: 0;
+  }
+  27% {
+    opacity: 0;
+  }
+  33% {
+    opacity: 1;
+  } /* Start showing after first image */
+  60% {
+    opacity: 1;
+  } /* Show for ~9 seconds */
+  66% {
+    opacity: 0;
+  } /* Crossfade for ~2 seconds */
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fade3 {
+  0% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0;
+  }
+  66% {
+    opacity: 1;
+  } /* Start showing after second image */
+  94% {
+    opacity: 1;
+  } /* Show for ~9 seconds */
+  100% {
+    opacity: 0;
+  } /* Crossfade for ~2 seconds */
 }
 
 /* Scroll Indicator */
