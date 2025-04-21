@@ -1,10 +1,10 @@
 ---
 title: JERZEE
 role: Mix Engineer, Producer
-image: https://ucarecdn.com/2ffd8e87-904a-4975-8805-fd32bbc88dc8/-/preview/
+image: /images/portfolio/jerzee.png
 url: https://example.com/jerzee
 client: Jerzee
-description: Provided mix engineering and production services for hip-hop artist Jerzee, focusing on creating a clean, professional sound while maintaining the raw energy of the performances.
+description: Mixed and co-produced tracks for alternative R&B artist Jerzee, focusing on vocal clarity while maintaining the atmospheric production style.
 featured: true
 order: 4
 ---

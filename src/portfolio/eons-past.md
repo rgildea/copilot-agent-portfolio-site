@@ -1,11 +1,10 @@
 ---
 title: EONS PAST
 role: Editing, Mixing, Additional Produciton
-image: https://ucarecdn.com/982c0c9c-e97d-4da0-88ca-b1f47720ce8e/-/preview/
+image: /images/portfolio/eons-past.png
 url: https://open.spotify.com/album/07wo7B2fitCCDfMi1ONB7G?si=VYZ2CKPiRLGN-aAYaAPURg
 client: Eons Past
-description: Provided comprehensive editing, mixing, sound design, & additional
-  production for this psych-metal group.
+description: Handled editing and mixing work for progressive metal band Eons Past, enhancing their complex arrangements and dynamic range.
 featured: true
 order: 2
 ---

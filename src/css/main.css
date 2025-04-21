@@ -168,6 +168,30 @@ a:hover {
   overflow: hidden; /* Ensure backgrounds stay contained */
 }
 
+/* Hero styles - Updated with WebP support */
+.hero {
+  height: 100vh;
+  min-height: 600px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-on-dark);
+  overflow: hidden;
+}
+
+/* Default background for browsers without WebP support */
+.hero {
+  background-image: url("/images/hero-background.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+/* WebP version for browsers that support it */
+.webp .hero {
+  background-image: url("/images/hero-background.webp");
+}
+
 /* Background container */
 .hero-backgrounds {
   position: absolute;
@@ -219,6 +243,34 @@ a:hover {
 .hero-bg.bg-3 {
   background-image: url("/images/hero-background-3.jpg");
   animation: fade3 33s infinite;
+}
+
+/* Default backgrounds for browsers without WebP support */
+.bg-1 {
+  background-image: url("/images/hero-background.jpg");
+  opacity: 1;
+}
+
+.bg-2 {
+  background-image: url("/images/hero-background-2.jpg");
+}
+
+.bg-3 {
+  background-image: url("/images/hero-background-3.jpg");
+}
+
+/* WebP versions for browsers that support it */
+.webp .bg-1 {
+  background-image: url("/images/hero-background.webp");
+  opacity: 1;
+}
+
+.webp .bg-2 {
+  background-image: url("/images/hero-background-2.webp");
+}
+
+.webp .bg-3 {
+  background-image: url("/images/hero-background-3.webp");
 }
 
 /* Keyframes for background fading with 10-second display time and 2-second crossfade */

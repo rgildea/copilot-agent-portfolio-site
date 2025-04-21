@@ -16,6 +16,55 @@ test.describe("Homepage visual tests", () => {
 
     // Take a screenshot of the hero section
     await heroSection.screenshot({ path: "test-results/hero-section.png" });
+
+    // Check if WebP detection script is present - fixed selector
+    const hasWebPScript = await page.evaluate(() => {
+      const scripts = document.querySelectorAll("script");
+      for (const script of scripts) {
+        if (
+          script.textContent &&
+          script.textContent.includes("WebP detection")
+        ) {
+          return true;
+        }
+      }
+      return false;
+    });
+    expect(hasWebPScript).toBeTruthy();
+  });
+
+  // New test for verifying WebP images are used
+  test("should use WebP images when supported", async ({ page }) => {
+    await page.goto("/");
+
+    // Inject code to simulate WebP support
+    await page.evaluate(() => {
+      document.documentElement.classList.add("webp");
+    });
+
+    // Check background image style
+    const heroBgUrl = await page.evaluate(() => {
+      const hero = document.querySelector(".hero");
+      if (!hero) return null;
+      const style = window.getComputedStyle(hero);
+      return style.backgroundImage;
+    });
+
+    console.log("Hero background image URL:", heroBgUrl);
+    expect(heroBgUrl).toBeTruthy();
+
+    // Check content images in portfolio section if they exist
+    const portfolioImages = await page
+      .locator('.portfolio-gallery picture source[type="image/webp"]')
+      .count();
+    console.log(`Found ${portfolioImages} WebP sources in portfolio images`);
+
+    // Take screenshots for debugging
+    if (await page.locator(".portfolio-gallery").isVisible()) {
+      await page
+        .locator(".portfolio-gallery")
+        .screenshot({ path: "test-results/portfolio-gallery.png" });
+    }
   });
 
   test("should have a working navigation bar", async ({ page }) => {

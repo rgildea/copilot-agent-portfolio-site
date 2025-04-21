@@ -2,6 +2,6 @@
   "showHero": true,
   "showAbout": true,
   "showServices": false,
-  "showPortfolio": false,
+  "showPortfolio": true,
   "showContact": true
 }
