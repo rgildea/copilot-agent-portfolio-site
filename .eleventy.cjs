@@ -43,7 +43,7 @@ module.exports = function (eleventyConfig) {
     return jsDate.toLocaleDateString();
   });
 
-  // Pass through copy for assets
+  // Pass through copy for assets - consolidated images from root directory only
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("src/js"); // Copy JavaScript files
   eleventyConfig.addPassthroughCopy("src/css"); // Copy CSS files
@@ -55,6 +55,11 @@ module.exports = function (eleventyConfig) {
   });
   eleventyConfig.addPassthroughCopy({
     "src/admin/config.local.yml": "admin/config.local.yml",
+  });
+
+  // Add passthrough for updated admin config when we modify it
+  eleventyConfig.addPassthroughCopy({
+    "src/admin/index.html": "admin/index.html",
   });
 
   // Collections

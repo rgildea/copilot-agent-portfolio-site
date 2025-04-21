@@ -7,10 +7,10 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Directories to process
+// Only process the root images directory
 const imageDirs = [
   path.join(__dirname, "..", "images"),
-  path.join(__dirname, "..", "src", "images"),
+  // Removing src/images to avoid duplication
 ];
 
 // Function to convert images to WebP
@@ -23,7 +23,11 @@ async function processImage(filePath) {
 
     try {
       console.log(`Converting ${filePath} to WebP...`);
-      await sharp(filePath).webp({ quality: 80 }).toFile(outputPath);
+      // Added rotate() with auto option to preserve orientation metadata
+      await sharp(filePath)
+        .rotate() // This will auto-rotate based on EXIF orientation
+        .webp({ quality: 80 })
+        .toFile(outputPath);
       console.log(`Created ${outputPath}`);
       return true;
     } catch (error) {
