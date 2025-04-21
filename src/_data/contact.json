@@ -9,29 +9,35 @@
       "icon": "fa-linkedin"
     },
     {
+      "platform": "Instagram",
+      "url": "https://www.instagram.com/lefthandryan/",
+      "icon": "fa-instagram"
+    },
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/ryangildea",
+      "icon": "fa-github"
+    },
+    {
+      "platform": "Facebook",
+      "url": "https://www.facebook.com/ryan.gildea",
+      "icon": "fa-brands fa-facebook"
+    },
+
+    {
+      "platform": "Threads",
+      "url": "https://www.threads.net/@lefthandryan",
+      "icon": "fa-brands fa-threads"
+    },
+    {
       "platform": "X",
       "url": "https://x.com/RyanG",
       "icon": "fa-x"
     },
     {
-      "platform": "Instagram",
-      "url": "https://www.instagram.com/ryangildea.audio/",
-      "icon": "fa-instagram"
-    },
-    {
-      "platform": "SoundCloud",
-      "url": "https://soundcloud.com/ryan-gildea",
-      "icon": "fa-soundcloud"
-    },
-    {
-      "platform": "Spotify",
-      "url": "https://open.spotify.com/artist/ryangildea",
-      "icon": "fa-spotify"
-    },
-    {
-      "platform": "YouTube",
-      "url": "https://www.youtube.com/c/RyanGildea",
-      "icon": "fa-youtube"
+      "platform": "Bluesky",
+      "url": "https://bsky.app/profile/ryangildea.bsky.social",
+      "icon": "fa-brands fa-bluesky"
     }
   ]
 }
