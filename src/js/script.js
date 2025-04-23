@@ -12,11 +12,12 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("Portfolio site loaded successfully!");
 });
 
-// Navigation scroll effect
+// Navigation scroll effect - simplified without hero-name-fixed classes
 function initNavbar() {
   const navbar = document.querySelector(".navbar");
   const scrollThreshold = 100;
 
+  // Basic scroll handler that adds/removes scrolled class
   window.addEventListener("scroll", function () {
     if (window.scrollY > scrollThreshold) {
       navbar.classList.add("scrolled");
@@ -24,6 +25,11 @@ function initNavbar() {
       navbar.classList.remove("scrolled");
     }
   });
+
+  // Initial check on page load
+  if (window.scrollY > scrollThreshold) {
+    navbar.classList.add("scrolled");
+  }
 }
 
 // Scroll indicator functionality

@@ -212,19 +212,21 @@
 
     <div class="site-content">
       <nav class="navbar">
-        <div class="container">
-          <div class="logo">RTG</div>
-          <ul class="nav-links">
-            {% if sections.showAbout %}
-            <li><a href="/#about">About</a></li>
-            {% endif %} {% if sections.showServices %}
-            <li><a href="/#services">Services</a></li>
-            {% endif %} {% if sections.showPortfolio %}
-            <li><a href="/#portfolio">Portfolio</a></li>
-            {% endif %} {% if sections.showContact %}
-            <li><a href="/#contact">Contact</a></li>
-            {% endif %}
-          </ul>
+        <div class="container navbar-container">
+          <div class="navbar-mobile-wrapper">
+            <div id="navbar-title" class="navbar-title"></div>
+            <ul class="nav-links">
+              {% if sections.showAbout %}
+              <li><a href="/#about">About</a></li>
+              {% endif %} {% if sections.showServices %}
+              <li><a href="/#services">Services</a></li>
+              {% endif %} {% if sections.showPortfolio %}
+              <li><a href="/#portfolio">Portfolio</a></li>
+              {% endif %} {% if sections.showContact %}
+              <li><a href="/#contact">Contact</a></li>
+              {% endif %}
+            </ul>
+          </div>
         </div>
       </nav>
 
@@ -246,6 +248,80 @@
         setTimeout(function () {
           document.querySelector(".preloader").classList.add("loaded")
         }, 500) // Short delay to ensure smooth transition
+      })
+
+      // Using IntersectionObserver instead of scroll events
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log(
+          "🔥 Inline script loaded - setting up hero name with IntersectionObserver"
+        )
+
+        // Create fixed title element that will show in navbar
+        const fixedTitle = document.createElement("div")
+        fixedTitle.textContent = "Ryan Gildea"
+        fixedTitle.style.position = "fixed"
+        fixedTitle.style.top = "15px"
+        fixedTitle.style.textAlign = "center"
+        fixedTitle.style.width = "100%"
+        fixedTitle.style.fontFamily = "'Lazer84', sans-serif"
+        fixedTitle.style.fontSize = "2.5rem"
+        fixedTitle.style.color = "#fff"
+        fixedTitle.style.textShadow = "0 0 3px #3498db"
+        fixedTitle.style.opacity = "0"
+        fixedTitle.style.transition = "opacity 0.3s ease"
+        fixedTitle.style.zIndex = "1001"
+        fixedTitle.style.pointerEvents = "none"
+        fixedTitle.id = "fixed-hero-name"
+        document.body.appendChild(fixedTitle)
+        console.log("✅ Created fixed hero name element")
+
+        // Create a sentinel element to observe
+        const sentinel = document.createElement("div")
+        sentinel.style.position = "absolute"
+        sentinel.style.top = "100px" // Same as our scroll threshold
+        sentinel.style.left = "0"
+        sentinel.style.width = "100%"
+        sentinel.style.height = "1px"
+        sentinel.style.visibility = "hidden"
+        sentinel.id = "scroll-sentinel"
+        document.body.appendChild(sentinel)
+        console.log("✅ Created sentinel element at 100px for observation")
+
+        // Set up the intersection observer
+        const observer = new IntersectionObserver(
+          function (entries) {
+            // When sentinel goes in or out of view
+            entries.forEach((entry) => {
+              console.log(
+                `🔎 Intersection: ${
+                  entry.isIntersecting ? "In view" : "Out of view"
+                }`
+              )
+
+              const navbar = document.querySelector(".navbar")
+
+              if (!entry.isIntersecting) {
+                // Sentinel is out of view (scrolled past it)
+                fixedTitle.style.opacity = "1"
+                if (navbar) navbar.classList.add("scrolled")
+                console.log("📌 Showing fixed title")
+              } else {
+                // Sentinel is in view (scrolled back to top)
+                fixedTitle.style.opacity = "0"
+                if (navbar) navbar.classList.remove("scrolled")
+                console.log("📌 Hiding fixed title")
+              }
+            })
+          },
+          {
+            threshold: 0,
+            rootMargin: "0px 0px 0px 0px",
+          }
+        )
+
+        // Start observing
+        observer.observe(sentinel)
+        console.log("✅ IntersectionObserver started watching sentinel")
       })
 
       if (window.netlifyIdentity) {

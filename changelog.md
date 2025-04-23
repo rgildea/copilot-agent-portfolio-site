@@ -2,6 +2,62 @@
 
 All notable changes to the portfolio site will be documented in this file.
 
+## April 22, 2025
+
+### Changed
+- Removed "RTG" logo from the navigation bar
+- Added navbar-title placeholder element for the animated hero text
+- Removed redundant base.njk file from _includes directory to avoid template confusion
+- Restructured mobile navbar with navbar-mobile-wrapper for better vertical alignment
+- Simplified JavaScript by removing unused hero-name-fixed classes and related code
+
+### Added
+- Implemented IntersectionObserver API to detect scroll position instead of scroll events
+- Created invisible sentinel element at scroll threshold position for reliable detection
+- Added fixed "Ryan Gildea" element that appears in navbar when scrolling past threshold
+- Added extensive console logging for debugging observation events
+- Added persistent navbar background on mobile for better readability
+
+### Fixed
+- Replaced unreliable scroll events with more modern IntersectionObserver
+- Simplified animation with direct DOM manipulation
+- Used absolute positioning for sentinel element to ensure consistent detection
+- Fixed navbar title appearance during scroll with opacity transitions
+- Fixed template confusion by consolidating to a single base.njk file
+- Fixed vertical alignment of navbar elements 
+- Improved mobile spacing in the navbar layout
+- Centered the animated logo on screen properly
+- Fixed excessive spacing between the page top and menu buttons on mobile
+- Fixed mobile header height issues with better CSS structure
+- Improved mobile menu appearance by placing it above the hero image
+- Added proper spacing to accommodate hero title above menu text on mobile
+- Fixed empty navbar-title taking up space when not visible using display:none
+- Cleaned up unused hero-name-fixed classes from CSS and JavaScript
+
+## April 21, 2025
+
+### Changed
+- Removed "RTG" logo from the navigation bar
+- Added navbar-title placeholder element for the animated hero text
+- Removed redundant base.njk file from _includes directory to avoid template confusion
+
+### Added
+- Implemented IntersectionObserver API to detect scroll position instead of scroll events
+- Created invisible sentinel element at scroll threshold position for reliable detection
+- Added fixed "Ryan Gildea" element that appears in navbar when scrolling past threshold
+- Added extensive console logging for debugging observation events
+
+### Fixed
+- Replaced unreliable scroll events with more modern IntersectionObserver
+- Simplified animation with direct DOM manipulation
+- Used absolute positioning for sentinel element to ensure consistent detection
+- Fixed navbar title appearance during scroll with opacity transitions
+- Fixed template confusion by consolidating to a single base.njk file
+- Fixed vertical alignment of navbar elements 
+- Improved mobile spacing in the navbar layout
+- Centered the animated logo on screen properly
+- Fixed excessive spacing between the page top and menu buttons on mobile
+
 ## April 21, 2025
 
 ### Fixed
