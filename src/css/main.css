@@ -174,24 +174,6 @@ a:hover {
 }
 
 /* Hero section with smooth crossfade for background images */
-
-/* Remove the old animation */
-/* @keyframes heroBackgroundFade {} - Removed */
-
-/* Hero section - Updated with positioning for the background elements */
-.hero {
-  height: 100vh;
-  color: var(--light-text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  overflow: hidden; /* Ensure backgrounds stay contained */
-}
-
-/* Hero styles - Updated with WebP support */
 .hero {
   height: 100vh;
   min-height: 600px;
@@ -199,20 +181,9 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-on-dark);
+  color: var(--light-text);
   overflow: hidden;
-}
-
-/* Default background for browsers without WebP support */
-.hero {
-  background-image: url("/images/hero-background.jpg");
-  background-size: cover;
-  background-position: center;
-}
-
-/* WebP version for browsers that support it */
-.webp .hero {
-  background-image: url("/images/hero-background.webp");
+  z-index: 1;
 }
 
 /* Background container */
@@ -236,7 +207,7 @@ a:hover {
   background-position: center center;
   background-repeat: no-repeat;
   opacity: 0;
-  transition: opacity 2s ease; /* Increased from 1s to 2s for smoother crossfade */
+  transition: opacity 2s ease;
 }
 
 /* Apply the overlay gradient to each background */
@@ -251,101 +222,65 @@ a:hover {
   z-index: 1;
 }
 
-/* Set specific background images */
-.hero-bg.bg-1 {
-  background-image: url("/images/hero-background.jpg");
-  animation: fade1 33s infinite;
-  opacity: 1; /* Start with first image visible */
-}
-
-.hero-bg.bg-2 {
-  background-image: url("/images/hero-background-2.jpg");
-  animation: fade2 33s infinite;
-}
-
-.hero-bg.bg-3 {
-  background-image: url("/images/hero-background-3.jpg");
-  animation: fade3 33s infinite;
-}
-
-/* Default backgrounds for browsers without WebP support */
+/* Set specific background images - consolidated */
 .bg-1 {
   background-image: url("/images/hero-background.jpg");
   opacity: 1;
+}
+.webp .bg-1 {
+  background-image: url("/images/hero-background.webp");
 }
 
 .bg-2 {
   background-image: url("/images/hero-background-2.jpg");
 }
-
-.bg-3 {
-  background-image: url("/images/hero-background-3.jpg");
-}
-
-/* WebP versions for browsers that support it */
-.webp .bg-1 {
-  background-image: url("/images/hero-background.webp");
-  opacity: 1;
-}
-
 .webp .bg-2 {
   background-image: url("/images/hero-background-2.webp");
 }
 
+.bg-3 {
+  background-image: url("/images/hero-background-3.jpg");
+}
 .webp .bg-3 {
   background-image: url("/images/hero-background-3.webp");
 }
 
 /* Keyframes for background fading with 10-second display time and 2-second crossfade */
 @keyframes fade1 {
-  0% {
-    opacity: 1;
-  }
+  0%,
   27% {
     opacity: 1;
   } /* Show for ~9 seconds (27% of 33s) */
-  33% {
-    opacity: 0;
-  } /* Crossfade for ~2 seconds (6% of 33s) */
+  33%,
   94% {
     opacity: 0;
-  }
+  } /* Crossfade for ~2 seconds (6% of 33s) */
   100% {
     opacity: 1;
   } /* Crossfade for ~2 seconds */
 }
 
 @keyframes fade2 {
-  0% {
-    opacity: 0;
-  }
+  0%,
   27% {
     opacity: 0;
   }
-  33% {
-    opacity: 1;
-  } /* Start showing after first image */
+  33%,
   60% {
     opacity: 1;
   } /* Show for ~9 seconds */
-  66% {
-    opacity: 0;
-  } /* Crossfade for ~2 seconds */
+  66%,
   100% {
     opacity: 0;
-  }
+  } /* Crossfade for ~2 seconds */
 }
 
 @keyframes fade3 {
-  0% {
-    opacity: 0;
-  }
+  0%,
   60% {
     opacity: 0;
   }
-  66% {
-    opacity: 1;
-  } /* Start showing after second image */
+  66%,
   94% {
     opacity: 1;
   } /* Show for ~9 seconds */
@@ -867,7 +802,7 @@ a:hover {
   box-shadow: 0 0 10px rgba(54, 233, 246, 0.2);
 }
 
-/* Media queries */
+/* Media queries - Consolidated */
 @media (max-width: 768px) {
   .navbar {
     padding: 0.5rem 0;
@@ -898,6 +833,10 @@ a:hover {
 
   .hero h2 {
     font-size: 1.5rem;
+  }
+
+  .portfolio-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
 }
 

@@ -4,6 +4,12 @@ All notable changes to the portfolio site.
 
 ## April 23, 2025
 
+- Removed unused styles across CSS files:
+  - Deleted the redundant `.logo` class from hero-font.css
+  - Consolidated duplicate hero background styles in main.css
+  - Simplified CSS animations with compressed keyframe syntax
+  - Removed duplicate WebP image styles with cleaner selectors
+  - Optimized media queries by merging duplicated rules
 - Fixed module format conflicts between Jest and Eleventy configurations
 - Renamed jest.config.js to jest.config.cjs for CommonJS compatibility
 - Improved date-filter test to properly mock Eleventy configuration
