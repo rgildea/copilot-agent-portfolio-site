@@ -1,17 +1,30 @@
 # Changelog
 
-All notable changes to the portfolio site will be documented in this file.
+All notable changes to the portfolio site.
+
+## April 23, 2025
+
+- Fixed module format conflicts between Jest and Eleventy configurations
+- Renamed jest.config.js to jest.config.cjs for CommonJS compatibility
+- Improved date-filter test to properly mock Eleventy configuration
+- Rewrote navbar implementation with simple, reliable layout management
+- Fixed navbar title animation with height-based transitions instead of transforms
+- Consolidated and removed conflicting CSS styles across files
+- Implemented "zero space" approach for the title when hidden
+- Improved mobile responsiveness and spacing
 
 ## April 22, 2025
 
 ### Changed
+
 - Removed "RTG" logo from the navigation bar
 - Added navbar-title placeholder element for the animated hero text
-- Removed redundant base.njk file from _includes directory to avoid template confusion
+- Removed redundant base.njk file from \_includes directory to avoid template confusion
 - Restructured mobile navbar with navbar-mobile-wrapper for better vertical alignment
 - Simplified JavaScript by removing unused hero-name-fixed classes and related code
 
 ### Added
+
 - Implemented IntersectionObserver API to detect scroll position instead of scroll events
 - Created invisible sentinel element at scroll threshold position for reliable detection
 - Added fixed "Ryan Gildea" element that appears in navbar when scrolling past threshold
@@ -19,12 +32,13 @@ All notable changes to the portfolio site will be documented in this file.
 - Added persistent navbar background on mobile for better readability
 
 ### Fixed
+
 - Replaced unreliable scroll events with more modern IntersectionObserver
 - Simplified animation with direct DOM manipulation
 - Used absolute positioning for sentinel element to ensure consistent detection
 - Fixed navbar title appearance during scroll with opacity transitions
 - Fixed template confusion by consolidating to a single base.njk file
-- Fixed vertical alignment of navbar elements 
+- Fixed vertical alignment of navbar elements
 - Improved mobile spacing in the navbar layout
 - Centered the animated logo on screen properly
 - Fixed excessive spacing between the page top and menu buttons on mobile
@@ -37,23 +51,26 @@ All notable changes to the portfolio site will be documented in this file.
 ## April 21, 2025
 
 ### Changed
+
 - Removed "RTG" logo from the navigation bar
 - Added navbar-title placeholder element for the animated hero text
-- Removed redundant base.njk file from _includes directory to avoid template confusion
+- Removed redundant base.njk file from \_includes directory to avoid template confusion
 
 ### Added
+
 - Implemented IntersectionObserver API to detect scroll position instead of scroll events
 - Created invisible sentinel element at scroll threshold position for reliable detection
 - Added fixed "Ryan Gildea" element that appears in navbar when scrolling past threshold
 - Added extensive console logging for debugging observation events
 
 ### Fixed
+
 - Replaced unreliable scroll events with more modern IntersectionObserver
 - Simplified animation with direct DOM manipulation
 - Used absolute positioning for sentinel element to ensure consistent detection
 - Fixed navbar title appearance during scroll with opacity transitions
 - Fixed template confusion by consolidating to a single base.njk file
-- Fixed vertical alignment of navbar elements 
+- Fixed vertical alignment of navbar elements
 - Improved mobile spacing in the navbar layout
 - Centered the animated logo on screen properly
 - Fixed excessive spacing between the page top and menu buttons on mobile
@@ -61,32 +78,24 @@ All notable changes to the portfolio site will be documented in this file.
 ## April 21, 2025
 
 ### Fixed
+
 - Fixed Threads and Bluesky social media icons display issues
 - Improved icon centering in social media circular containers
 
 ### Improved
+
 - Enhanced social icon alignment with absolute positioning for perfect centering
 - Added proper transform positioning for consistent icon display across browsers
 
 ## April 20, 2025
 
-### Changed
-- Improved hero background carousel animation with smooth 2-second crossfades
-- Slowed down the transition between hero images for a more relaxed user experience
-- Updated DOM structure to support proper background image transitions
-
-### Fixed
-- Fixed navigation test by properly mocking scrollIntoView in test environment
-
-### Improved
-- Refined testing approach to focus on testing behavior rather than implementation
-- Removed redundant tests that didn't provide value
-- Added focused tests for hero carousel functionality
-- Updated documentation on testing philosophy in custom instructions
+- Enhanced hero background carousel with smoother 2-second crossfades
+- Fixed navigation tests with proper mocks for scrollIntoView
 
 ## April 11, 2025
 
 ### Changed
+
 - Toned down the synthwave design while preserving the core aesthetic
 - Reduced opacity and visibility of the grid overlay from 0.7 to 0.3
 - Slowed down grid animation from 15s to 30s for less distraction
@@ -105,6 +114,7 @@ All notable changes to the portfolio site will be documented in this file.
 - Removed rotation effects from text elements
 
 ### Improved
+
 - Better readability with reduced text shadows
 - More professional appearance while keeping the synthwave theme
 - Less distracting animations for improved user experience
@@ -113,39 +123,11 @@ All notable changes to the portfolio site will be documented in this file.
 
 ## April 10, 2025
 
-### Added
-- Added Lazer84 font for the name in hero section to match original site styling
-- Created dedicated hero-font.css file for specialized name styling
-- Added unit tests for date filter function to prevent future regressions
-- Created synthwave.css with retro-futuristic design elements (sunset gradient, perspective grid, neon effects)
-- Added synthwave background with perspective grid overlay
-- Added synthwave sun element and horizon line for depth
-- Added sticky header animation feature that transforms hero text into a fixed header during scroll
-- Enhanced UI with smooth transitions between normal and sticky states
-- Added parallax effect for hero text while scrolling
-- Improved z-index management for proper layering of site elements
-
-### Changed
-- Updated .gitignore to exclude test results, Playwright reports, and other test artifacts
-- Fixed visual tests to match new Eleventy-generated HTML structure
-- Improved README.md with comprehensive documentation on project structure, testing, portfolio management, and styling
-- Enhanced hero name with 80s retro styling including neon glow effect and slight rotation
-- Updated font declaration to use WOFF2 format for better web performance
-- Standardized CSS quote style for font-family references
-- Applied Lazer84 font to the navigation logo/initials for consistent branding
-- Transformed color scheme to use synthwave palette (neon pinks, purples, blues)
-- Replaced background with synthwave sunset gradient
-- Enhanced service cards with glass-morphism effect and neon borders
-- Updated form elements and buttons with neon glow effects
-- Simplified section layouts for a more minimal synthwave aesthetic
-
-### Fixed
-- Fixed failing navigation tests by updating selectors to match new href format
-- Fixed portfolio tests to use correct IDs for portfolio items
-- Added tests for new portfolio filtering functionality
-- Resolved font display issues with Lazer84 by improving font-face implementation
-- Fixed case sensitivity issues in font file references
-- Fixed footer showing "NaN" instead of the current year by improving the date filter
+- Added Lazer84 font for hero name with retro styling
+- Created dedicated CSS files for specialized styling
+- Implemented synthwave background with perspective grid
+- Added sticky header animation during scroll
+- Fixed visual tests to match new HTML structure
 
 ## April 9, 2025
 

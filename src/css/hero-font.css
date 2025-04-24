@@ -7,10 +7,8 @@
   letter-spacing: 2px;
   margin-bottom: 1.5rem;
   line-height: 1.2;
-  /* transform: rotate(-1deg); Reduced rotation */
   display: inline-block;
   transition: transform 0.3s ease;
-  /* Note: transition properties are now handled in main.css */
 }
 
 /* Lazer84 styling for the logo in the navbar - Simplified */
@@ -22,22 +20,4 @@
   letter-spacing: 1px;
   display: inline-block;
   line-height: 1;
-}
-
-/* Styling for the navbar title that appears during scroll */
-.navbar-title {
-  font-family: "Lazer84", sans-serif;
-  color: #fff;
-  text-shadow: 0 0 3px #3498db;
-  letter-spacing: 1px;
-  font-size: 0;
-  line-height: 1;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-/* When the navbar title is active (visible during scroll) */
-.navbar-title.active {
-  opacity: 1;
-  font-size: 2.5rem;
 }
