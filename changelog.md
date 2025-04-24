@@ -2,6 +2,11 @@
 
 All notable changes to the portfolio site.
 
+## April 24, 2025
+
+- Fixed hero content alignment issue by adding text-align: center to ensure all elements are properly centered
+- Improved hero section's visual consistency across different screen sizes
+
 ## April 23, 2025
 
 - Removed unused styles across CSS files:
