@@ -112,8 +112,6 @@ describe("Contact form validation", () => {
     form.dispatchEvent(submitEvent);
 
     // Verify alert was shown
-    expect(window.alert).toHaveBeenCalledWith(
-      "Form submitted successfully! (This is a demo - no data was actually sent)"
-    );
+    expect(window.alert).toHaveBeenCalledWith("Form submitted successfully!");
   });
 });

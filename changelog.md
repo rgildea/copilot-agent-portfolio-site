@@ -1,11 +1,58 @@
 # Changelog
 
-All notable changes to the portfolio site.
+## [April 28, 2025]
+
+### Fixed
+- Navigation links are now always clickable, even when the page is at the top position
+- Added proper pointer-events handling to ensure interactive elements work correctly
+- Fixed z-index issues with navbar elements
+- Added subtle highlighting to navigation links when at top of page for improved usability
+
+## April 27, 2025
+
+- Fixed issue with non-clickable navigation links:
+  - Increased z-index values for navbar (1001) and nav links (1002, 1003) to ensure they're above all other elements
+  - Added explicit position: relative to establish stacking context for navigation elements
+  - Added padding to nav links to increase clickable area
+  - Ensured all synthwave overlay elements have pointer-events: none to prevent them from blocking clicks
+  - Lowered z-index of decorative elements to prevent interaction conflicts
+
+## April 25, 2025
+
+- Refined breakpoint system with updated variables:
+  - Added new `--breakpoint-xxs` (360px) for extra small mobile devices
+  - Updated media query comments to accurately describe breakpoint ranges
+  - Ensured all media queries use CSS variables for consistent breakpoints
+  - Reclassified breakpoint comments with accurate size descriptions
+  - Fixed inconsistent media query implementations
+
+- Refactored CSS media queries to use defined breakpoint variables
+- Substituted hardcoded breakpoint values with CSS variables for improved maintainability
+- Implemented consistent naming convention for responsive breakpoints
 
 ## April 24, 2025
 
+- Optimized Spotify player to maximize viewport utilization:
+  - Removed fixed height in favor of viewport-relative sizing (60vh base height)
+  - Created responsive viewport-based sizing across all breakpoints
+  - Added max-height constraint to prevent excessive sizing on large screens
+  - Improved player display on all device sizes from desktop to mobile
+  - Ensured consistent spacing and proportions across all viewports
+- Improved responsive design across all devices:
+  - Made Spotify player height dynamically responsive based on screen size:
+    - Desktop: 352px height for full playlist visibility
+    - Small desktop/large tablet (992px): 300px height
+    - Tablet/large phones (768px): 250px height
+    - Small phones (480px): 180px height
+    - Extra small phones (360px): 152px height
+  - Added proper responsive font sizing using clamp() for better text scaling
+  - Fixed spacing between navbar and hero content on all screen sizes
+  - Set fixed position for hero backgrounds to prevent display issues
+  - Added appropriate top padding to the hero section for consistent spacing
+  - Fixed issue where hero content was underlapping the menu on desktop
+  - Added extra breakpoint for very small devices (360px and below)
+  - Improved vertical spacing and layout balance on mobile devices
 - Fixed hero content alignment issue by adding text-align: center to ensure all elements are properly centered
-- Improved hero section's visual consistency across different screen sizes
 
 ## April 23, 2025
 

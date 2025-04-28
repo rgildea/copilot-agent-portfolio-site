@@ -37,4 +37,4 @@ Rules:
 
 Rules:
 
-- Always try to build and run the app after you are done with any code changes.
+- run the dev server after making changes using the command `npm run dev:cms`, only if only it's not running on port 8080 already
