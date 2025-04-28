@@ -15,7 +15,7 @@
   min-height: 100vh;
 }
 
-/* Grid overlay - Reduced visibility */
+/* Grid overlay - Reduced visibility and explicitly disable pointer events */
 .grid-overlay {
   position: fixed;
   top: 0;
@@ -33,7 +33,7 @@
   transform-origin: center bottom;
   z-index: 2;
   opacity: 0.3;
-  pointer-events: none;
+  pointer-events: none; /* Ensure this doesn't capture clicks */
   animation: gridMove 30s linear infinite; /* Slowed down animation */
 }
 
@@ -62,9 +62,9 @@
     transparent 70%
   );
   border-radius: 50%;
-  z-index: 0;
+  z-index: 0; /* Keep z-index low */
   opacity: 0.5;
-  pointer-events: none;
+  pointer-events: none; /* Ensure this doesn't capture clicks */
 }
 
 /* Horizon line - Reduced glow */
@@ -76,14 +76,26 @@
   height: 1px;
   background-color: var(--accent-color);
   box-shadow: 0 0 5px 1px var(--accent-color);
-  z-index: 0;
-  pointer-events: none;
+  z-index: 0; /* Keep z-index low */
+  pointer-events: none; /* Ensure this doesn't capture clicks */
+}
+
+/* Synthwave wrapper - Ensure it doesn't interfere with clicks */
+.synthwave-wrapper {
+  pointer-events: none; /* Ensure none of the children capture clicks */
+}
+
+.synthwave-wrapper * {
+  pointer-events: none; /* Ensure all children also don't capture clicks */
 }
 
 /* Neon text effect - Reduced glow intensity */
 .neon-text {
   color: #fff;
   text-shadow: 0 0 2px #fff, 0 0 5px var(--secondary-color);
+  pointer-events: auto; /* Text should be clickable if it's in a button or link */
+  position: relative; /* Establish stacking context */
+  z-index: auto; /* Don't override parent z-index */
 }
 
 /* Neon borders - Simplified */
@@ -91,6 +103,7 @@
   border: 1px solid var(--secondary-color);
   box-shadow: 0 0 3px var(--secondary-color);
   border-radius: 4px;
+  position: relative; /* Establish stacking context */
 }
 
 /* Synthwave card styling - Reduced effects */
@@ -101,6 +114,7 @@
   border-radius: 6px;
   box-shadow: 0 0 5px rgba(254, 58, 158, 0.2);
   transition: all 0.3s ease;
+  position: relative; /* Establish stacking context */
 }
 
 .synthwave-card:hover {

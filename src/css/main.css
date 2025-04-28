@@ -30,6 +30,13 @@
   --neon-purple: #a372c4;
   --retro-orange: #e29e6d;
   --grid-color: rgba(54, 233, 246, 0.3);
+
+  /* Breakpoints */
+  --breakpoint-xxs: 360px; /* Extra extra small devices (small phones) */
+  --breakpoint-xs: 480px; /* Extra small devices (phones) */
+  --breakpoint-sm: 768px; /* Small devices (tablets) */
+  --breakpoint-md: 992px; /* Medium devices (desktops) */
+  --breakpoint-lg: 1200px; /* Large devices (large desktops) */
 }
 
 /* Custom fonts */
@@ -121,7 +128,12 @@ a:hover {
 
 /* Navigation */
 .navbar {
-  background-color: transparent;
+  background-color: rgba(
+    6,
+    4,
+    29,
+    0.4
+  ); /* Semi-transparent background always present */
   position: fixed;
   width: 100%;
   top: 0;
@@ -135,10 +147,23 @@ a:hover {
   box-shadow: var(--shadow);
 }
 
+.navbar.top-position {
+  background-color: rgba(6, 4, 29, 0.3); /* Semi-transparent but visible background */
+}
+
+.navbar.top-position .nav-links a {
+  color: var(--light-text);
+  cursor: pointer !important;
+  /* Add a subtle highlight to make it obvious the links are clickable */
+  text-shadow: 0 0 2px var(--accent-color);
+}
+
 .navbar-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  z-index: 1001; /* Ensure inner content is clickable */
 }
 
 #navbar-title {
@@ -167,16 +192,39 @@ a:hover {
   margin: 0;
   padding: 0;
   justify-content: center;
+  position: relative; /* Establish stacking context */
+  z-index: 1002; /* Ensure navigation items are above all other elements */
 }
 
 .nav-links li {
   margin: 0 1rem;
+  position: relative; /* Establish stacking context */
 }
 
 .nav-links a {
   color: var(--light-text);
   font-weight: 600;
   font-size: 1.1rem;
+  position: relative; /* Establish stacking context */
+  z-index: 1003; /* Higher than its parent */
+  display: inline-block; /* Changed from block to inline-block */
+  padding: 8px; /* Increased padding for better click target */
+  cursor: pointer; /* Ensure pointer cursor */
+  text-decoration: none; /* Ensure no underline */
+  user-select: none; /* Prevent text selection */
+  -webkit-user-select: none; /* For Safari */
+  -moz-user-select: none; /* For Firefox */
+  -ms-user-select: none; /* For IE/Edge */
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Place behind text but captures clicks */
 }
 
 .nav-links a:hover {
@@ -194,11 +242,12 @@ a:hover {
   color: var(--light-text);
   overflow: hidden;
   z-index: 1;
+  padding-top: 60px; /* Add consistent padding for navbar */
 }
 
 /* Background container */
 .hero-backgrounds {
-  position: absolute;
+  position: fixed; /* Fixed position so backgrounds don't scroll */
   top: 0;
   left: 0;
   width: 100%;
@@ -230,19 +279,6 @@ a:hover {
   height: 100%;
   background: var(--overlay-dark);
   z-index: 1;
-}
-
-/* Special styling for the hero name with Lazer84 font - Toned down */
-.hero h1 {
-  font-family: "Lazer84", sans-serif;
-  font-size: 4rem;
-  color: #fff;
-  text-shadow: 0 0 5px #3498db, 0 0 10px #3498db;
-  letter-spacing: 2px;
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  display: inline-block;
-  transition: transform 0.3s ease;
 }
 
 /* Set specific background images - consolidated */
@@ -350,19 +386,18 @@ a:hover {
 }
 
 .hero-content {
-  padding: 2rem;
   background-color: rgba(11, 11, 41, 0.4);
   backdrop-filter: blur(7px);
   border-radius: 15px;
   width: 90%;
-  max-width: 1200px;
+  max-width: 1000px; /* Reduced max-width for better proportions */
   border: 1px solid var(--accent-color);
   box-shadow: 0 0 10px rgba(54, 233, 246, 0.2);
   z-index: 2;
-  text-align: center; /* Added to center all text content */
+  text-align: center; /* Center all text content */
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-sm)) {
   .hero-content {
     width: 95%;
     background-color: transparent;
@@ -370,18 +405,33 @@ a:hover {
     border: none;
     box-shadow: none;
   }
+
+  .spotify-direct-embed iframe {
+    height: 50vh;
+  }
 }
 
-.hero h2 {
-  font-size: 2rem;
+.hero h1 {
+  font-family: "Lazer84", sans-serif;
+  font-size: clamp(2.5rem, 8vw, 4rem); /* Responsive font size using clamp */
+  color: #fff;
+  text-shadow: 0 0 5px #3498db, 0 0 10px #3498db;
+  letter-spacing: 2px;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  display: inline-block;
+}
+
+.hero h4 {
+  font-size: clamp(1rem, 3vw, 1.5rem); /* Responsive font size using clamp */
   font-weight: 400;
   margin-bottom: 2rem;
   text-shadow: 0 0 5px var(--accent-color);
 }
 
 .hero p {
-  font-size: 1.2rem;
-  margin-bottom: 3rem;
+  font-size: clamp(1rem, 2vw, 1.2rem); /* Responsive font size using clamp */
+  margin-bottom: 2.5rem;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
@@ -390,15 +440,36 @@ a:hover {
 
 .spotify-direct-embed {
   margin-top: 2rem;
-  max-width: 800px;
+  max-width: 900px;
   margin-left: auto;
   margin-right: auto;
   width: 90%;
+  height: auto;
+  position: relative;
 }
 
 .spotify-direct-embed iframe {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
+  height: 60vh; /* Base height using viewport height */
+  max-height: 800px;
+  width: 100%;
+}
+
+.hero h2 {
+  font-size: clamp(1rem, 3vw, 2rem); /* Responsive font size using clamp */
+  font-weight: 400;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 5px var(--accent-color);
+}
+
+.hero p {
+  font-size: clamp(1rem, 2vw, 1.2rem); /* Responsive font size using clamp */
+  margin-bottom: 2.5rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: none;
 }
 
 .cta-button {
@@ -826,8 +897,41 @@ a:hover {
   box-shadow: 0 0 10px rgba(54, 233, 246, 0.2);
 }
 
-/* Media queries - Consolidated */
-@media (max-width: 768px) {
+/* Media queries - Comprehensive responsive breakpoints */
+
+/* Large tablets and small desktops - 992px and below */
+@media (max-width: var(--breakpoint-md)) {
+  .hero-content {
+    width: 90%;
+    padding: 2rem;
+    margin-top: 1.5rem;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+  }
+
+  .hero h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .spotify-direct-embed {
+    width: 95%;
+    max-width: 700px;
+  }
+
+  .spotify-direct-embed iframe {
+    height: 55vh;
+  }
+
+  .cta-button {
+    padding: 0.9rem 2.2rem;
+  }
+}
+
+/* Tablets and large phones - 768px and below */
+@media (max-width: var(--breakpoint-sm)) {
   .navbar {
     padding: 0.5rem 0;
     background-color: rgba(
@@ -840,41 +944,174 @@ a:hover {
 
   .scrolled #navbar-title {
     margin-bottom: 0.3rem; /* Less margin on mobile */
+    font-size: 2rem; /* Smaller title in navbar when scrolled */
   }
 
   .hero {
-    padding-top: 800px; /* Space for the navbar */
+    padding-top: 60px; /* Reduced padding for mobile */
+  }
+
+  .hero-content {
+    padding: 1.5rem;
+    width: 95%;
+    margin-top: 1rem;
+    background-color: rgba(
+      11,
+      11,
+      41,
+      0.5
+    ); /* Slightly more visible background */
+    backdrop-filter: blur(5px);
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .spotify-direct-embed {
+    margin-top: 1.5rem;
+    width: 100%;
+  }
+
+  .spotify-direct-embed iframe {
+    height: 50vh;
+  }
+
+  .cta-button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
   }
 
   .about-content,
   .contact-content {
     grid-template-columns: 1fr;
-  }
-
-  .hero h1 {
-    font-size: 3rem;
-  }
-
-  .hero h2 {
-    font-size: 1.5rem;
+    gap: 2rem;
   }
 
   .portfolio-gallery {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
+
+  .section-title {
+    font-size: 2.2rem;
+  }
+
+  .spotify-iframe {
+    height: 500px !important;
+  }
 }
 
-@media (max-width: 480px) {
+/* Regular phones - 480px and below */
+@media (max-width: var(--breakpoint-xs)) {
+  .hero {
+    padding-top: 50px; /* Further reduced padding for small screens */
+  }
+
+  .hero-content {
+    padding: 1.2rem;
+    width: 95%;
+    margin-top: 0.5rem;
+  }
+
   .hero h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    text-shadow: 0 0 4px #3498db; /* Stronger shadow for legibility */
+    margin-bottom: 0.5rem;
+  }
+
+  .hero h2 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .spotify-direct-embed {
+    margin-top: 1rem;
+  }
+
+  .spotify-direct-embed iframe {
+    height: 45vh;
+  }
+
+  .cta-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
   }
 
   .section-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
   }
 
   .service-cards,
   .portfolio-gallery {
     grid-template-columns: 1fr;
+  }
+
+  .nav-links li {
+    margin: 0 0.5rem; /* Tighter navigation spacing */
+  }
+
+  .nav-links a {
+    font-size: 0.95rem; /* Slightly smaller navigation text */
+  }
+
+  .spotify-iframe {
+    height: 360px !important;
+  }
+}
+
+/* Extra small phones - 360px and below */
+@media (max-width: var(--breakpoint-xxs)) {
+  .hero-content {
+    padding: 1rem;
+    width: 98%;
+    margin-top: 0.3rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero h2 {
+    font-size: 1rem;
+  }
+
+  .spotify-direct-embed iframe {
+    height: 40vh;
+  }
+
+  .cta-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+  }
+
+  .nav-links {
+    flex-wrap: wrap; /* Allow nav links to wrap on tiny screens */
+    justify-content: center;
+  }
+
+  .nav-links li {
+    margin: 0.3rem 0.4rem;
+  }
+
+  .spotify-iframe {
+    height: 304px !important;
   }
 }

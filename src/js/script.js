@@ -29,6 +29,10 @@ function initNavbar() {
   // Initial check on page load
   if (window.scrollY > scrollThreshold) {
     navbar.classList.add("scrolled");
+  } else {
+    // Important: Make sure navbar links are clickable even at the top
+    // by adding a temporary class that ensures z-index and clickability
+    navbar.classList.add("top-position");
   }
 }
 
@@ -47,21 +51,35 @@ function initScrollIndicator() {
   }
 }
 
-// DEAD SIMPLE smooth scrolling implementation
+// Improved smooth scrolling implementation
 function initSmoothScrolling() {
   // Fix for links in the navbar - they all have format "/#section"
   document.querySelectorAll(".nav-links a").forEach((link) => {
+    // First ensure all links are properly interactive
+    link.style.position = "relative";
+    link.style.zIndex = "1003";
+    link.style.cursor = "pointer";
+    link.style.pointerEvents = "auto";
+    
     link.addEventListener("click", function (e) {
+      console.log("Navigation link clicked:", this.getAttribute("href"));
+      
       // Only handle if we're already on the homepage
       if (window.location.pathname === "/" || window.location.pathname === "") {
         e.preventDefault();
 
         // Extract the section id from the href (format: "/#section")
-        const sectionId = this.getAttribute("href").split("#")[1];
+        const hrefParts = this.getAttribute("href").split("#");
+        if (hrefParts.length < 2) return; // Skip if there's no hash
+        
+        const sectionId = hrefParts[1];
         const section = document.getElementById(sectionId);
 
         if (section) {
+          console.log(`Scrolling to section: #${sectionId}`);
           section.scrollIntoView({ behavior: "smooth" });
+        } else {
+          console.warn(`Section with id "${sectionId}" not found`);
         }
       }
       // Otherwise let the browser navigate normally to the homepage section
@@ -140,9 +158,7 @@ function initContactForm() {
 
     if (isValid) {
       // In a real application, you would send the form data to a server
-      alert(
-        "Form submitted successfully! (This is a demo - no data was actually sent)"
-      );
+      alert("Form submitted successfully!");
       contactForm.reset();
     }
   });

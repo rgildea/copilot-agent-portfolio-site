@@ -55,10 +55,26 @@
         z-index: 10;
       }
 
-      /* Navbar critical styles */
+      /* Navbar critical styles - Ensure it's above everything and clickable */
       .navbar {
-        background: rgba(0, 0, 0, 0.7);
+        /* Add semi-transparent background even at the top of page */
+        background: rgba(0, 0, 0, 0.2);
         padding: 1rem 0;
+        position: fixed; /* Always fixed position */
+        width: 100%;
+        top: 0;
+        z-index: 1001; /* Higher than any other element */
+      }
+
+      .nav-links {
+        pointer-events: auto; /* Explicitly enable pointer events */
+      }
+
+      .nav-links a {
+        position: relative; /* Ensure position context */
+        z-index: 1002; /* Even higher than navbar */
+        cursor: pointer; /* Explicitly set cursor to pointer */
+        user-select: none; /* Prevent text selection */
       }
 
       .container {
