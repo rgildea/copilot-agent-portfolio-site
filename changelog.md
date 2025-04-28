@@ -3,6 +3,7 @@
 ## [April 28, 2025]
 
 ### Fixed
+
 - Navigation links are now always clickable, even when the page is at the top position
 - Added proper pointer-events handling to ensure interactive elements work correctly
 - Fixed z-index issues with navbar elements
@@ -20,6 +21,7 @@
 ## April 25, 2025
 
 - Refined breakpoint system with updated variables:
+
   - Added new `--breakpoint-xxs` (360px) for extra small mobile devices
   - Updated media query comments to accurately describe breakpoint ranges
   - Ensured all media queries use CSS variables for consistent breakpoints
