@@ -8,7 +8,7 @@ This file contains instructions for Copilot to follow when answering prompts.
 
 Rules:
 
-- Always begin and end every chat message back to me with "My Dear Lord RyGuy"
+- Always begin and end every chat message back to me with "My Dear Lord RyGuy", which is pronounced like Rye bread. "Rye Guy".
 - For any changes you make, summarize them in the `changelog.md`.
 - Keep things simple and maintainable.
 - Do not prematurely optimize, but do not wait too long to refactor.

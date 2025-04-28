@@ -148,7 +148,12 @@ a:hover {
 }
 
 .navbar.top-position {
-  background-color: rgba(6, 4, 29, 0.3); /* Semi-transparent but visible background */
+  background-color: rgba(
+    6,
+    4,
+    29,
+    0.3
+  ); /* Semi-transparent but visible background */
 }
 
 .navbar.top-position .nav-links a {

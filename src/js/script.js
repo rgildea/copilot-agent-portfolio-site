@@ -60,10 +60,10 @@ function initSmoothScrolling() {
     link.style.zIndex = "1003";
     link.style.cursor = "pointer";
     link.style.pointerEvents = "auto";
-    
+
     link.addEventListener("click", function (e) {
       console.log("Navigation link clicked:", this.getAttribute("href"));
-      
+
       // Only handle if we're already on the homepage
       if (window.location.pathname === "/" || window.location.pathname === "") {
         e.preventDefault();
@@ -71,7 +71,7 @@ function initSmoothScrolling() {
         // Extract the section id from the href (format: "/#section")
         const hrefParts = this.getAttribute("href").split("#");
         if (hrefParts.length < 2) return; // Skip if there's no hash
-        
+
         const sectionId = hrefParts[1];
         const section = document.getElementById(sectionId);
 
