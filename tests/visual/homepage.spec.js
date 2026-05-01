@@ -1,5 +1,5 @@
 // @ts-check
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("Homepage visual tests", () => {
   test("should display the hero section correctly", async ({ page }) => {
