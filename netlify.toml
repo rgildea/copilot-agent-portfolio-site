@@ -7,11 +7,6 @@
   to = "/admin/index.html"
   status = 200
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 404
-
 # Cache static assets for better performance
 [[headers]]
   for = "/images/*"
