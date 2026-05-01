@@ -1,0 +1,167 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+import { marked } from "marked";
+import DOMPurify from "isomorphic-dompurify";
+
+import about from "../data/about.json";
+import contact from "../data/contact.json";
+
+const portfolioItems = (await getCollection("portfolio")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
+  ALLOWED_TAGS: ["p", "strong", "em", "a", "ul", "ol", "li", "br", "h1", "h2", "h3", "h4", "h5", "h6"],
+  ALLOWED_ATTR: ["href", "target", "rel"],
+});
+---
+
+<Base title="Ryan Gildea | Audio Engineer & Producer">
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-backgrounds">
+      <div class="hero-bg bg-1"></div>
+      <div class="hero-bg bg-2"></div>
+      <div class="hero-bg bg-3"></div>
+    </div>
+    <div class="hero-content">
+      <h1 id="hero-name" class="hero-title">Ryan Gildea</h1>
+      <h4>Music Production | Mixing | Mastering</h4>
+      <a href="#contact" class="cta-button">Hire Me</a>
+      <div class="spotify-direct-embed">
+        <iframe
+          style="border-radius: 12px"
+          src="https://open.spotify.com/embed/playlist/3kybqFlT51pOHXhIsLoSOz?utm_source=generator&theme=0"
+          width="100%"
+          class="spotify-iframe"
+          frameborder="0"
+          allowfullscreen
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
+    <a href="#about" class="scroll-indicator" aria-label="Scroll to About section">
+      <div class="scroll-text">Scroll for more</div>
+      <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
+    </a>
+  </header>
+
+  <main>
+    <!-- About -->
+    <section id="about" class="about-section">
+      <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+          <div class="about-text" set:html={aboutBioHtml} />
+          <div class="skills">
+            <h3>Skills</h3>
+            <ul class="skill-list">
+              {about.skills.map((skill) => <li>{skill}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio" class="portfolio-section">
+      <div class="container">
+        <h2 class="section-title">Featured Work</h2>
+
+        <div class="portfolio-filter">
+          <button class="filter-btn active" data-filter="all">All Projects</button>
+          <button class="filter-btn" data-filter="client">Client Work</button>
+          <button class="filter-btn" data-filter="personal">Personal Projects</button>
+        </div>
+
+        <div class="portfolio-gallery">
+          {portfolioItems.map((item) => (
+            <div
+              class={`portfolio-item ${item.data.client === "Personal Project" ? "personal-project" : "client-project"}`}
+              id={item.slug}
+            >
+              <a href={item.data.url} target="_blank" rel="noopener noreferrer" class="portfolio-link">
+                <picture>
+                  {/\.(png|jpe?g)$/i.test(item.data.image) && (
+                    <source
+                      srcset={item.data.image
+                        .replace(/\.png$/i, ".webp")
+                        .replace(/\.jpe?g$/i, ".webp")}
+                      type="image/webp"
+                    />
+                  )}
+                  <img
+                    src={item.data.image}
+                    alt={item.data.title}
+                    class="portfolio-image"
+                    loading="lazy"
+                    width="350"
+                    height="250"
+                  />
+                </picture>
+                <div class="portfolio-info">
+                  <h3>{item.data.title}</h3>
+                  <p>{item.data.role}</p>
+                  {item.data.client === "Personal Project" && (
+                    <span class="project-badge personal">Personal Project</span>
+                  )}
+                </div>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact-section">
+      <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-content">
+          <div class="contact-info">
+            <p><i class="fas fa-envelope"></i> {contact.email}</p>
+            <p><i class="fas fa-phone"></i> {contact.phone}</p>
+            <p><i class="fas fa-map-marker-alt"></i> {contact.location}</p>
+            <div class="social-links">
+              {contact.socialLinks.map((social) => (
+                <a href={social.url} target="_blank" rel="noopener noreferrer" class="social-link" aria-label={social.platform}>
+                  <i class={`fab ${social.icon}`}></i>
+                </a>
+              ))}
+            </div>
+          </div>
+          <form
+            class="contact-form"
+            name="contact"
+            method="POST"
+            netlify-honeypot="bot-field"
+            data-netlify="true"
+          >
+            <input type="hidden" name="form-name" value="contact" />
+            <p style="display: none">
+              <label for="bot-field">Don't fill this out: <input id="bot-field" name="bot-field" /></label>
+            </p>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" name="subject" />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="submit-button">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>

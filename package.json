@@ -1,49 +1,21 @@
 {
   "name": "copilot-agent-portfolio-site",
-  "version": "1.0.0",
-  "description": "A professional portfolio website showcasing my audio engineering, mixing, and production work.",
-  "main": "script.js",
+  "version": "2.0.0",
+  "description": "Ryan Gildea portfolio — audio engineering, mixing, and production.",
   "type": "module",
   "scripts": {
-    "test": "jest",
-    "test:unit": "jest",
-    "test:visual": "playwright test",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "optimize:images": "node scripts/optimize-images.js",
-    "optimize:js": "node scripts/minify-js.js",
-    "optimize:css": "node scripts/minify-css.js",
-    "optimize": "npm run optimize:images && npm run optimize:js && npm run optimize:css",
-    "lighthouse": "node scripts/lighthouse.js",
-    "create-images": "node scripts/create-missing-images.js",
-    "build": "npm run create-images && npm run optimize && eleventy --config=.eleventy.cjs",
-    "serve": "eleventy --config=.eleventy.cjs --serve",
-    "dev": "eleventy --config=.eleventy.cjs --serve",
-    "cms": "netlify-cms-proxy-server",
-    "dev:cms": "npx concurrently \"npm run dev\" \"npm run cms\""
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@11ty/eleventy": "^3.0.0",
-    "@lhci/cli": "^0.14.0",
-    "@playwright/test": "^1.51.1",
-    "axios": "^1.8.4",
-    "clean-css": "^5.3.3",
-    "concurrently": "^9.1.2",
-    "form-data": "^4.0.2",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "lighthouse": "^12.5.1",
-    "markdown-it": "^14.1.0",
-    "netlify-cms-app": "^2.15.72",
-    "netlify-cms-proxy-server": "^1.3.24",
-    "playwright": "^1.51.1",
-    "puppeteer": "^24.6.1",
-    "terser": "^5.39.0"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "playwright test",
+    "test:visual": "playwright test"
   },
   "dependencies": {
-    "sharp": "^0.34.1"
+    "astro": "^4.16.0",
+    "isomorphic-dompurify": "^3.11.0",
+    "marked": "^13.0.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1"
   }
 }
