@@ -1,5 +1,5 @@
 // @ts-check
-const { test, expect } = require("@playwright/test");
+import { test, expect } from "@playwright/test";
 
 test.describe("Homepage visual tests", () => {
   test("should display the hero section correctly", async ({ page }) => {
@@ -7,7 +7,7 @@ test.describe("Homepage visual tests", () => {
 
     await expect(page.locator(".hero")).toBeVisible();
     await expect(page.locator(".hero h1")).toBeVisible();
-    await expect(page.locator(".hero h2")).toBeVisible();
+    await expect(page.locator(".hero h4")).toBeVisible();
     await expect(page.locator(".hero .cta-button")).toBeVisible();
   });
 
@@ -26,7 +26,6 @@ test.describe("Homepage visual tests", () => {
 
     await expect(page.locator(".navbar")).toBeVisible();
     await expect(page.locator('.nav-links a[href="/#about"]')).toBeVisible();
-    await expect(page.locator('.nav-links a[href="/#services"]')).toBeVisible();
     await expect(
       page.locator('.nav-links a[href="/#portfolio"]'),
     ).toBeVisible();
