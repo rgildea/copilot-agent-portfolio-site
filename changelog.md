@@ -8,6 +8,7 @@
 - `playwright.config.js`: Added quick mode (`PW_QUICK=1`) to run only Chromium with one worker and line reporter for fast local debug loops.
 - `playwright.config.js`: Added explicit test and web server timeouts with piped server logs to make startup hangs easier to diagnose.
 - `package.json`: Added `test:visual:quick` and `test:visual:debug` scripts for faster local verification and debugging.
+- `package.json`: Made `test:visual` default to quick mode and added `test:visual:full` for full cross-browser matrix runs.
 
 ### Changed
 
