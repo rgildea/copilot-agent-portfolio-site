@@ -118,18 +118,6 @@ const { title = "Ryan Gildea | Audio Engineer & Producer" } = Astro.props;
           document.querySelector(".preloader").classList.add("loaded");
         }, 500);
       });
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const navbar = document.querySelector(".navbar");
-        const sentinel = document.createElement("div");
-        sentinel.style.cssText = "position:absolute;top:100px;left:0;width:100%;height:1px;visibility:hidden;";
-        document.body.appendChild(sentinel);
-        new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            navbar.classList.toggle("scrolled", !e.isIntersecting);
-          });
-        }, { threshold: 0 }).observe(sentinel);
-      });
     </script>
   </body>
 </html>

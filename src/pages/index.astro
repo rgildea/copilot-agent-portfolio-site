@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
 import { marked } from "marked";
+import DOMPurify from "isomorphic-dompurify";
 
 import about from "../data/about.json";
 import contact from "../data/contact.json";
@@ -9,7 +10,10 @@ import contact from "../data/contact.json";
 const portfolioItems = (await getCollection("portfolio")).sort(
   (a, b) => a.data.order - b.data.order
 );
-const aboutBioHtml = marked.parse(about.bio);
+const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
+  ALLOWED_TAGS: ["p", "strong", "em", "a", "ul", "ol", "li", "br", "h1", "h2", "h3", "h4", "h5", "h6"],
+  ALLOWED_ATTR: ["href", "target", "rel"],
+});
 ---
 
 <Base title="Ryan Gildea | Audio Engineer & Producer">
@@ -37,10 +41,10 @@ const aboutBioHtml = marked.parse(about.bio);
         ></iframe>
       </div>
     </div>
-    <div class="scroll-indicator">
+    <a href="#about" class="scroll-indicator" aria-label="Scroll to About section">
       <div class="scroll-text">Scroll for more</div>
       <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
-    </div>
+    </a>
   </header>
 
   <main>
@@ -79,13 +83,14 @@ const aboutBioHtml = marked.parse(about.bio);
             >
               <a href={item.data.url} target="_blank" rel="noopener noreferrer" class="portfolio-link">
                 <picture>
-                  <source
-                    srcset={item.data.image
-                      .replace(".png", ".webp")
-                      .replace(".jpg", ".webp")
-                      .replace(".jpeg", ".webp")}
-                    type="image/webp"
-                  />
+                  {/\.(png|jpe?g)$/i.test(item.data.image) && (
+                    <source
+                      srcset={item.data.image
+                        .replace(/\.png$/i, ".webp")
+                        .replace(/\.jpe?g$/i, ".webp")}
+                      type="image/webp"
+                    />
+                  )}
                   <img
                     src={item.data.image}
                     alt={item.data.title}
@@ -120,7 +125,7 @@ const aboutBioHtml = marked.parse(about.bio);
             <p><i class="fas fa-map-marker-alt"></i> {contact.location}</p>
             <div class="social-links">
               {contact.socialLinks.map((social) => (
-                <a href={social.url} target="_blank" rel="noopener noreferrer" class="social-link">
+                <a href={social.url} target="_blank" rel="noopener noreferrer" class="social-link" aria-label={social.platform}>
                   <i class={`fab ${social.icon}`}></i>
                 </a>
               ))}

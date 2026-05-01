@@ -1,6 +1,6 @@
 ---
 title: EONS PAST
-role: Editing, Mixing, Additional Produciton
+role: Editing, Mixing, Additional Production
 image: /images/portfolio/eons-past.png
 url: https://open.spotify.com/album/07wo7B2fitCCDfMi1ONB7G?si=VYZ2CKPiRLGN-aAYaAPURg
 client: Eons Past

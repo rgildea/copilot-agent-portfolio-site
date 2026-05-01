@@ -1,15 +1,11 @@
 // Portfolio site JavaScript functionality
 document.addEventListener("DOMContentLoaded", function () {
   // Initialize all main components
-  console.log("DOM loaded - initializing components");
   initNavbar();
   initSmoothScrolling();
   initContactForm();
   initPortfolioFilter();
-  initScrollIndicator();
   initGridOverlay();
-
-  console.log("Portfolio site loaded successfully!");
 });
 
 // Navigation scroll effect - simplified without hero-name-fixed classes
@@ -17,39 +13,21 @@ function initNavbar() {
   const navbar = document.querySelector(".navbar");
   const scrollThreshold = 100;
 
-  // Basic scroll handler that adds/removes scrolled class
-  window.addEventListener("scroll", function () {
+  function updateNavbar() {
     if (window.scrollY > scrollThreshold) {
       navbar.classList.add("scrolled");
+      navbar.classList.remove("top-position");
     } else {
       navbar.classList.remove("scrolled");
+      navbar.classList.add("top-position");
     }
-  });
-
-  // Initial check on page load
-  if (window.scrollY > scrollThreshold) {
-    navbar.classList.add("scrolled");
-  } else {
-    // Important: Make sure navbar links are clickable even at the top
-    // by adding a temporary class that ensures z-index and clickability
-    navbar.classList.add("top-position");
   }
+
+  window.addEventListener("scroll", updateNavbar);
+  updateNavbar();
 }
 
-// Scroll indicator functionality
-function initScrollIndicator() {
-  const scrollIndicator = document.querySelector(".scroll-indicator");
-
-  if (scrollIndicator) {
-    console.log("✅ Scroll indicator found, setting up click handler");
-    scrollIndicator.addEventListener("click", function () {
-      const aboutSection = document.querySelector("#about");
-      if (aboutSection) {
-        aboutSection.scrollIntoView({ behavior: "smooth" });
-      }
-    });
-  }
-}
+// Scroll indicator functionality is handled natively via the <a href="#about"> element
 
 // Improved smooth scrolling implementation
 function initSmoothScrolling() {
@@ -62,8 +40,6 @@ function initSmoothScrolling() {
     link.style.pointerEvents = "auto";
 
     link.addEventListener("click", function (e) {
-      console.log("Navigation link clicked:", this.getAttribute("href"));
-
       // Only handle if we're already on the homepage
       if (window.location.pathname === "/" || window.location.pathname === "") {
         e.preventDefault();
@@ -76,10 +52,7 @@ function initSmoothScrolling() {
         const section = document.getElementById(sectionId);
 
         if (section) {
-          console.log(`Scrolling to section: #${sectionId}`);
           section.scrollIntoView({ behavior: "smooth" });
-        } else {
-          console.warn(`Section with id "${sectionId}" not found`);
         }
       }
       // Otherwise let the browser navigate normally to the homepage section

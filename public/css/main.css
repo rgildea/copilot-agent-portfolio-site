@@ -156,6 +156,11 @@ a:hover {
   ); /* Semi-transparent but visible background */
 }
 
+.navbar.scrolled.top-position {
+  background-color: var(--dark-bg);
+  box-shadow: var(--shadow);
+}
+
 .navbar.top-position .nav-links a {
   color: var(--light-text);
   cursor: pointer !important;
