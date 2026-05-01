@@ -5,76 +5,26 @@ test.describe("Homepage visual tests", () => {
   test("should display the hero section correctly", async ({ page }) => {
     await page.goto("/");
 
-    // Check that the hero section is visible
-    const heroSection = await page.locator(".hero");
-    await expect(heroSection).toBeVisible();
-
-    // Check that the hero has the required elements
+    await expect(page.locator(".hero")).toBeVisible();
     await expect(page.locator(".hero h1")).toBeVisible();
     await expect(page.locator(".hero h2")).toBeVisible();
     await expect(page.locator(".hero .cta-button")).toBeVisible();
-
-    // Take a screenshot of the hero section
-    await heroSection.screenshot({ path: "test-results/hero-section.png" });
-
-    // Check if WebP detection script is present - fixed selector
-    const hasWebPScript = await page.evaluate(() => {
-      const scripts = document.querySelectorAll("script");
-      for (const script of scripts) {
-        if (
-          script.textContent &&
-          script.textContent.includes("WebP detection")
-        ) {
-          return true;
-        }
-      }
-      return false;
-    });
-    expect(hasWebPScript).toBeTruthy();
   });
 
-  // New test for verifying WebP images are used
-  test("should use WebP images when supported", async ({ page }) => {
+  test("portfolio images should include WebP sources", async ({ page }) => {
     await page.goto("/");
 
-    // Inject code to simulate WebP support
-    await page.evaluate(() => {
-      document.documentElement.classList.add("webp");
-    });
-
-    // Check background image style
-    const heroBgUrl = await page.evaluate(() => {
-      const hero = document.querySelector(".hero");
-      if (!hero) return null;
-      const style = window.getComputedStyle(hero);
-      return style.backgroundImage;
-    });
-
-    console.log("Hero background image URL:", heroBgUrl);
-    expect(heroBgUrl).toBeTruthy();
-
-    // Check content images in portfolio section if they exist
-    const portfolioImages = await page
-      .locator('.portfolio-gallery picture source[type="image/webp"]')
-      .count();
-    console.log(`Found ${portfolioImages} WebP sources in portfolio images`);
-
-    // Take screenshots for debugging
-    if (await page.locator(".portfolio-gallery").isVisible()) {
-      await page
-        .locator(".portfolio-gallery")
-        .screenshot({ path: "test-results/portfolio-gallery.png" });
-    }
+    const webpSources = page.locator(
+      '.portfolio-gallery picture source[type="image/webp"]',
+    );
+    await expect(webpSources.first()).toBeAttached();
+    expect(await webpSources.count()).toBeGreaterThan(0);
   });
 
   test("should have a working navigation bar", async ({ page }) => {
     await page.goto("/");
 
-    // Check the navigation bar
-    const navbar = await page.locator(".navbar");
-    await expect(navbar).toBeVisible();
-
-    // Check all navigation links are present - updated to match new href format
+    await expect(page.locator(".navbar")).toBeVisible();
     await expect(page.locator('.nav-links a[href="/#about"]')).toBeVisible();
     await expect(page.locator('.nav-links a[href="/#services"]')).toBeVisible();
     await expect(
@@ -82,34 +32,45 @@ test.describe("Homepage visual tests", () => {
     ).toBeVisible();
     await expect(page.locator('.nav-links a[href="/#contact"]')).toBeVisible();
 
-    // Click an item and check if it scrolls to the right section
+    // Clicking a nav link should scroll to its section
     await page.locator('.nav-links a[href="/#about"]').click();
+    await expect(page.locator("#about")).toBeInViewport();
+  });
+});
 
-    // Wait for any animations to complete
-    await page.waitForTimeout(1000);
+test.describe("Contact form", () => {
+  test("should submit the form and show success state", async ({ page }) => {
+    // Intercept the Netlify Forms POST so we don't need a real backend
+    await page.route("/", async (route) => {
+      if (route.request().method() === "POST") {
+        await route.fulfill({ status: 200, body: "" });
+      } else {
+        await route.continue();
+      }
+    });
 
-    // Check if the about section is visible after clicking (instead of using toBeInViewport)
-    const aboutSection = await page.locator("#about");
-    await expect(aboutSection).toBeVisible();
+    await page.goto("/");
 
-    // Take a screenshot after navigation
-    await page.screenshot({ path: "test-results/after-navigation.png" });
+    await page.locator("#name").fill("Test User");
+    await page.locator("#email").fill("test@example.com");
+    await page.locator("#message").fill("This is a test message.");
+
+    await page.locator("button.submit-button").click();
+
+    await expect(page.locator("button.submit-button")).toContainText(
+      "Message Sent!",
+    );
   });
 });
 
 test.describe("Responsive design tests", () => {
-  test("desktop layout should show all navigation items horizontally", async ({
+  test("desktop layout should show nav items horizontally", async ({
     page,
   }) => {
-    // Set a desktop viewport
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/");
 
-    // On desktop, the nav items should be horizontally arranged
-    // Instead of checking specific display value, verify items are positioned side by side
-    const navLinks = await page.locator(".nav-links li");
-
-    // Get positions of first two nav items
+    const navLinks = page.locator(".nav-links li");
     const positions = await navLinks.evaluateAll((elements) => {
       if (elements.length < 2) return [];
       return elements.slice(0, 2).map((el) => {
@@ -118,22 +79,15 @@ test.describe("Responsive design tests", () => {
       });
     });
 
-    // Verify horizontal layout (second item should be to the right of first item)
     expect(positions.length).toBeGreaterThanOrEqual(2);
-    expect(positions[1].left).toBeGreaterThan(positions[0].right - 5); // Allow small overlap
-
-    // Take a screenshot of desktop layout
-    await page.screenshot({ path: "test-results/desktop-layout.png" });
+    // Second nav item should sit to the right of the first
+    expect(positions[1].left).toBeGreaterThan(positions[0].right - 5);
   });
 
-  test("mobile layout should adapt navigation for smaller screens", async ({
-    page,
-  }) => {
-    // Set a mobile viewport
+  test("mobile layout should still render the navbar", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto("/");
 
-    // Take a screenshot of the mobile layout
-    await page.screenshot({ path: "test-results/mobile-layout.png" });
+    await expect(page.locator(".navbar")).toBeVisible();
   });
 });

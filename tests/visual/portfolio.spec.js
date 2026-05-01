@@ -2,110 +2,37 @@
 const { test, expect } = require("@playwright/test");
 
 test.describe("Portfolio section tests", () => {
-  test("should display portfolio section with filtering", async ({ page }) => {
+  test("should display portfolio section with items and filter buttons", async ({
+    page,
+  }) => {
     await page.goto("/");
 
-    // Navigate to the portfolio section to ensure it's in view
-    await page.evaluate(() => {
-      document.querySelector("#portfolio")?.scrollIntoView();
-    });
-    await page.waitForTimeout(500);
-
-    // Check that the portfolio section is visible
-    const portfolioSection = await page.locator(".portfolio-section");
-    await expect(portfolioSection).toBeVisible();
-
-    // Check for filter functionality (key feature)
+    await expect(page.locator(".portfolio-section")).toBeVisible();
     await expect(page.locator(".portfolio-filter")).toBeVisible();
     await expect(
       page.locator('button.filter-btn[data-filter="all"]'),
     ).toBeVisible();
 
-    // Verify that portfolio items are present (sufficient validation)
-    const portfolioItems = await page.locator(".portfolio-item");
-    const count = await portfolioItems.count();
-    expect(count).toBeGreaterThanOrEqual(5); // At least 5 portfolio items should be present
-
-    // Take a screenshot of the portfolio section
-    await portfolioSection.screenshot({
-      path: "test-results/portfolio-section.png",
-    });
+    const count = await page.locator(".portfolio-item").count();
+    expect(count).toBeGreaterThanOrEqual(5);
   });
 
   test("portfolio items should show info on hover", async ({ page }) => {
     await page.goto("/");
 
-    // Navigate to portfolio section
-    await page.evaluate(() => {
-      document.querySelector("#portfolio")?.scrollIntoView();
-    });
-    await page.waitForTimeout(500);
-
-    // Wait for the portfolio item to be visible
     await expect(page.locator("#occo")).toBeVisible();
-
-    // Hover over a portfolio item
     await page.hover("#occo");
 
-    // Wait for hover effect to complete
-    await page.waitForTimeout(500);
-
-    // Take a screenshot of the hovered state
-    await page
-      .locator("#occo")
-      .screenshot({ path: "test-results/portfolio-hover.png" });
-
-    // Verify the info has the right content
     await expect(page.locator("#occo .portfolio-info h3")).toContainText(
       "OCCO",
     );
   });
 
-  test("portfolio section should be responsive", async ({ page }) => {
-    // Test on mobile screen size
-    await page.setViewportSize({ width: 375, height: 667 });
+  test("portfolio filter buttons should correctly filter items", async ({
+    page,
+  }) => {
     await page.goto("/");
 
-    // Navigate to portfolio section
-    await page.evaluate(() => {
-      document.querySelector("#portfolio")?.scrollIntoView();
-    });
-    await page.waitForTimeout(500);
-
-    // Check portfolio section layout on mobile
-    const portfolioSection = await page.locator(".portfolio-section");
-    await expect(portfolioSection).toBeVisible();
-
-    // Take a screenshot of mobile portfolio layout
-    await portfolioSection.screenshot({
-      path: "test-results/portfolio-mobile.png",
-    });
-
-    // Check portfolio items layout on mobile
-    const portfolioItems = page.locator(".portfolio-item");
-    const firstItem = portfolioItems.first();
-    const secondItem = portfolioItems.nth(1);
-
-    // Get the dimensions to verify responsive behavior
-    const firstBounds = await firstItem.boundingBox();
-    const secondBounds = await secondItem.boundingBox();
-
-    // In mobile view, items should be relatively narrow to fit the screen
-    if (firstBounds) {
-      expect(firstBounds.width).toBeLessThanOrEqual(375); // Should fit in mobile viewport
-    }
-  });
-
-  test("portfolio filter buttons should work", async ({ page }) => {
-    await page.goto("/");
-
-    // Navigate to portfolio section
-    await page.evaluate(() => {
-      document.querySelector("#portfolio")?.scrollIntoView();
-    });
-    await page.waitForTimeout(500);
-
-    // Check that filter buttons are present
     const allButton = page.locator('button.filter-btn[data-filter="all"]');
     const clientButton = page.locator(
       'button.filter-btn[data-filter="client"]',
@@ -118,21 +45,56 @@ test.describe("Portfolio section tests", () => {
     await expect(clientButton).toBeVisible();
     await expect(personalButton).toBeVisible();
 
-    // Click client filter and verify that items are filtered
+    // Filter: client — only client-project items should be visible
     await clientButton.click();
-    await page.waitForTimeout(500);
+    await expect(
+      page.locator(".portfolio-item.client-project").first(),
+    ).toBeVisible();
+    const personalCount = await page
+      .locator(".portfolio-item.personal-project")
+      .count();
+    if (personalCount > 0) {
+      await expect(
+        page.locator(".portfolio-item.personal-project").first(),
+      ).toBeHidden();
+    }
 
-    // Verify filtering actually happened - count visible items before and after
-    const initialCount = await page.locator(".portfolio-item:visible").count();
-
-    // Click personal filter
+    // Filter: personal — only personal-project items should be visible
     await personalButton.click();
-    await page.waitForTimeout(500);
+    await expect(
+      page.locator(".portfolio-item.personal-project").first(),
+    ).toBeVisible();
+    const clientCount = await page
+      .locator(".portfolio-item.client-project")
+      .count();
+    if (clientCount > 0) {
+      await expect(
+        page.locator(".portfolio-item.client-project").first(),
+      ).toBeHidden();
+    }
 
-    // Verify the count changed (proves filtering works)
-    const filteredCount = await page.locator(".portfolio-item:visible").count();
+    // Filter: all — all items should be visible again
+    await allButton.click();
+    await expect(
+      page.locator(".portfolio-item.client-project").first(),
+    ).toBeVisible();
+    await expect(
+      page.locator(".portfolio-item.personal-project").first(),
+    ).toBeVisible();
+  });
 
-    // Check if filtering changed the visible items (should be different counts unless all items are personal)
-    expect(filteredCount).not.toBeNull();
+  test("portfolio section should be responsive on mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto("/");
+
+    await expect(page.locator(".portfolio-section")).toBeVisible();
+
+    const firstBounds = await page
+      .locator(".portfolio-item")
+      .first()
+      .boundingBox();
+    if (firstBounds) {
+      expect(firstBounds.width).toBeLessThanOrEqual(375);
+    }
   });
 });
