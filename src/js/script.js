@@ -157,9 +157,26 @@ function initContactForm() {
     }
 
     if (isValid) {
-      // In a real application, you would send the form data to a server
-      alert("Form submitted successfully!");
-      contactForm.reset();
+      const formData = new FormData(contactForm);
+
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString(),
+      })
+        .then(() => {
+          const submitBtn = contactForm.querySelector(".submit-button");
+          submitBtn.textContent = "Message Sent!";
+          submitBtn.disabled = true;
+          contactForm.reset();
+          setTimeout(() => {
+            submitBtn.textContent = "Send Message";
+            submitBtn.disabled = false;
+          }, 4000);
+        })
+        .catch(() => {
+          alert("Something went wrong. Please try again or email directly.");
+        });
     }
   });
 }
@@ -195,7 +212,7 @@ function showError(inputId, message) {
         error.remove();
       }
     },
-    { once: true }
+    { once: true },
   );
 }
 
