@@ -1,8 +1,7 @@
 [build]
-  publish = "_site"
+  publish = "dist"
   command = "npm run build"
 
-# Redirects and headers
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"
