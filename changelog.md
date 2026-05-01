@@ -5,6 +5,9 @@
 ### Changed
 
 - `src/admin/config.yml`: Switched CMS backend from `git-gateway` to `github` with Netlify OAuth (`base_url`, `auth_endpoint`). Reformatted YAML fields for consistency.
+- `playwright.config.js`: Added quick mode (`PW_QUICK=1`) to run only Chromium with one worker and line reporter for fast local debug loops.
+- `playwright.config.js`: Added explicit test and web server timeouts with piped server logs to make startup hangs easier to diagnose.
+- `package.json`: Added `test:visual:quick` and `test:visual:debug` scripts for faster local verification and debugging.
 
 ### Changed
 
