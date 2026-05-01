@@ -59,7 +59,7 @@ async function createMissingImages() {
               <text x="50%" y="58%" font-family="Arial" font-size="24" fill="#52c1d1" text-anchor="middle">
                 Placeholder Image
               </text>
-            </svg>`
+            </svg>`,
               ),
               top: 0,
               left: 0,
@@ -77,7 +77,7 @@ async function createMissingImages() {
       } catch (error) {
         console.error(
           `Error creating placeholder for ${imageName}:`,
-          error.message
+          error.message,
         );
       }
     } else {
@@ -94,7 +94,7 @@ async function createMissingImages() {
         } catch (error) {
           console.error(
             `Error creating WebP version for ${imageName}:`,
-            error.message
+            error.message,
           );
         }
       } else {

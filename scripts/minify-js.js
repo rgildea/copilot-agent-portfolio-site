@@ -79,7 +79,7 @@ async function minifyJavaScriptFiles() {
 
         if (!result.code) {
           console.error(
-            `❌ Error: No code was returned when minifying ${file}`
+            `❌ Error: No code was returned when minifying ${file}`,
           );
           // Copy the original as a fallback
           fs.copyFileSync(inputPath, outputPath);
@@ -99,7 +99,7 @@ async function minifyJavaScriptFiles() {
         console.log(`   Original size: ${formatBytes(originalSize)}`);
         console.log(`   Minified size: ${formatBytes(minifiedSize)}`);
         console.log(
-          `   Saved: ${formatBytes(savedBytes)} (${savedPercentage}%)`
+          `   Saved: ${formatBytes(savedBytes)} (${savedPercentage}%)`,
         );
       } catch (error) {
         console.error(`❌ Error processing ${file}:`, error);

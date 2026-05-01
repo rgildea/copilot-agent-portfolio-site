@@ -4,6 +4,10 @@
 
 ### Changed
 
+- `src/admin/config.yml`: Switched CMS backend from `git-gateway` to `github` with Netlify OAuth (`base_url`, `auth_endpoint`). Reformatted YAML fields for consistency.
+
+### Changed
+
 - Rewrote the site from Eleventy to Astro for a simpler, lighter static build pipeline.
 - Migrated content to Astro content collections under `src/content/`.
 - Migrated static assets to `public/` and updated Netlify output to `dist`.

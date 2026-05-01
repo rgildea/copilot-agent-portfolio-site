@@ -32,7 +32,12 @@ Create a static HTML file in `public/` (e.g. `public/__forms.html`) containing a
 <!DOCTYPE html>
 <html>
   <body>
-    <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <form
+      name="contact"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      hidden
+    >
       <input type="hidden" name="form-name" value="contact" />
       <input type="text" name="name" />
       <input type="email" name="email" />
@@ -44,6 +49,7 @@ Create a static HTML file in `public/` (e.g. `public/__forms.html`) containing a
 ```
 
 **Rules:**
+
 - The form `name` must exactly match the `form-name` value used in your component's fetch call
 - Include every field your component submits — Netlify validates field names against the registered form
 - Without this file, Netlify cannot detect the form and submissions will silently fail
@@ -97,7 +103,12 @@ function ContactForm() {
   };
 
   return (
-    <form name="contact" method="POST" data-netlify="true" onSubmit={handleSubmit}>
+    <form
+      name="contact"
+      method="POST"
+      data-netlify="true"
+      onSubmit={handleSubmit}
+    >
       <input type="hidden" name="form-name" value="contact" />
       <input type="text" name="name" placeholder="Name" />
       <input type="email" name="email" placeholder="Email" />
@@ -117,7 +128,12 @@ function ContactForm() {
 Netlify uses Akismet automatically. Add a honeypot field for extra protection:
 
 ```html
-<form name="contact" method="POST" netlify-honeypot="bot-field" data-netlify="true">
+<form
+  name="contact"
+  method="POST"
+  netlify-honeypot="bot-field"
+  data-netlify="true"
+>
   <p style="display:none">
     <label>Don't fill this out: <input name="bot-field" /></label>
   </p>
@@ -164,9 +180,9 @@ Authorization: Bearer <PERSONAL_ACCESS_TOKEN>
 
 Key endpoints:
 
-| Action | Method | Path |
-|---|---|---|
-| List forms | GET | `/api/v1/sites/{site_id}/forms` |
-| Get submissions | GET | `/api/v1/forms/{form_id}/submissions` |
-| Get spam | GET | `/api/v1/forms/{form_id}/submissions?state=spam` |
-| Delete submission | DELETE | `/api/v1/submissions/{id}` |
+| Action            | Method | Path                                             |
+| ----------------- | ------ | ------------------------------------------------ |
+| List forms        | GET    | `/api/v1/sites/{site_id}/forms`                  |
+| Get submissions   | GET    | `/api/v1/forms/{form_id}/submissions`            |
+| Get spam          | GET    | `/api/v1/forms/{form_id}/submissions?state=spam` |
+| Delete submission | DELETE | `/api/v1/submissions/{id}`                       |

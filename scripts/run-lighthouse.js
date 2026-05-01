@@ -30,7 +30,7 @@ const getFormattedDate = () => {
   const date = new Date();
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
     2,
-    "0"
+    "0",
   )}-${String(date.getDate()).padStart(2, "0")}`;
 };
 
@@ -40,7 +40,7 @@ const getFormattedDate = () => {
 function isSiteRunningLocally() {
   try {
     const result = execSync(
-      `curl -s -o /dev/null -w "%{http_code}" http://localhost:${PORT}`
+      `curl -s -o /dev/null -w "%{http_code}" http://localhost:${PORT}`,
     );
     return result.toString().trim() === "200";
   } catch (error) {
@@ -135,14 +135,14 @@ async function main() {
     // Run mobile test
     const mobileReportPath = path.join(
       REPORTS_DIR,
-      `lighthouse-mobile-${dateStr}.html`
+      `lighthouse-mobile-${dateStr}.html`,
     );
     await runLighthouseCommand(testUrl, mobileReportPath, "mobile");
 
     // Run desktop test
     const desktopReportPath = path.join(
       REPORTS_DIR,
-      `lighthouse-desktop-${dateStr}.html`
+      `lighthouse-desktop-${dateStr}.html`,
     );
     await runLighthouseCommand(testUrl, desktopReportPath, "desktop");
 

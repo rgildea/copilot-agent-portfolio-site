@@ -21,7 +21,7 @@ const getFormattedDate = () => {
   const date = new Date();
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
     2,
-    "0"
+    "0",
   )}-${String(date.getDate()).padStart(2, "0")}`;
 };
 
@@ -30,7 +30,7 @@ function isLocalServerRunning() {
   try {
     const result = execSync(
       'curl -s -o /dev/null -w "%{http_code}" http://localhost:8080',
-      { stdio: "pipe" }
+      { stdio: "pipe" },
     );
     return result.toString().trim() === "200";
   } catch (error) {
@@ -55,7 +55,7 @@ function runLighthouse() {
         `--output-path=${mobileOutput} ` +
         `--only-categories=performance,accessibility,best-practices,seo ` +
         `--no-enable-error-reporting`,
-      { stdio: "inherit" }
+      { stdio: "inherit" },
     );
 
     // Desktop test
@@ -67,7 +67,7 @@ function runLighthouse() {
         `--output-path=${desktopOutput} ` +
         `--only-categories=performance,accessibility,best-practices,seo ` +
         `--no-enable-error-reporting`,
-      { stdio: "inherit" }
+      { stdio: "inherit" },
     );
 
     console.log(`\nLighthouse tests completed!`);

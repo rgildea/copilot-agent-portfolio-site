@@ -78,7 +78,7 @@ test.describe("Homepage visual tests", () => {
     await expect(page.locator('.nav-links a[href="/#about"]')).toBeVisible();
     await expect(page.locator('.nav-links a[href="/#services"]')).toBeVisible();
     await expect(
-      page.locator('.nav-links a[href="/#portfolio"]')
+      page.locator('.nav-links a[href="/#portfolio"]'),
     ).toBeVisible();
     await expect(page.locator('.nav-links a[href="/#contact"]')).toBeVisible();
 

@@ -18,7 +18,7 @@ test.describe("Portfolio section tests", () => {
     // Check for filter functionality (key feature)
     await expect(page.locator(".portfolio-filter")).toBeVisible();
     await expect(
-      page.locator('button.filter-btn[data-filter="all"]')
+      page.locator('button.filter-btn[data-filter="all"]'),
     ).toBeVisible();
 
     // Verify that portfolio items are present (sufficient validation)
@@ -57,7 +57,7 @@ test.describe("Portfolio section tests", () => {
 
     // Verify the info has the right content
     await expect(page.locator("#occo .portfolio-info h3")).toContainText(
-      "OCCO"
+      "OCCO",
     );
   });
 
@@ -108,10 +108,10 @@ test.describe("Portfolio section tests", () => {
     // Check that filter buttons are present
     const allButton = page.locator('button.filter-btn[data-filter="all"]');
     const clientButton = page.locator(
-      'button.filter-btn[data-filter="client"]'
+      'button.filter-btn[data-filter="client"]',
     );
     const personalButton = page.locator(
-      'button.filter-btn[data-filter="personal"]'
+      'button.filter-btn[data-filter="personal"]',
     );
 
     await expect(allButton).toBeVisible();

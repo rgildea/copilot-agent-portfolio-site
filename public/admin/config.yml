@@ -19,7 +19,12 @@ collections:
       - { label: "URL", name: "url", widget: "string", hint: "External link" }
       - { label: "Client", name: "client", widget: "string", required: false }
       - { label: "Description", name: "description", widget: "markdown" }
-      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - {
+          label: "Featured",
+          name: "featured",
+          widget: "boolean",
+          default: false,
+        }
       - { label: "Order", name: "order", widget: "number", default: 10 }
 
   - name: "services"
@@ -29,7 +34,12 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Icon", name: "icon", widget: "string", hint: "Font Awesome icon class (e.g. fa-music)" }
+      - {
+          label: "Icon",
+          name: "icon",
+          widget: "string",
+          hint: "Font Awesome icon class (e.g. fa-music)",
+        }
       - { label: "Description", name: "description", widget: "text" }
       - { label: "Order", name: "order", widget: "number", default: 10 }
 
@@ -59,4 +69,9 @@ collections:
             fields:
               - { label: "Platform", name: "platform", widget: "string" }
               - { label: "URL", name: "url", widget: "string" }
-              - { label: "Icon", name: "icon", widget: "string", hint: "Font Awesome class (e.g. fa-linkedin)" }
+              - {
+                  label: "Icon",
+                  name: "icon",
+                  widget: "string",
+                  hint: "Font Awesome class (e.g. fa-linkedin)",
+                }

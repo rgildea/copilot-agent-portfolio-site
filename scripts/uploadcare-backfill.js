@@ -29,7 +29,7 @@ async function uploadFile(filePath) {
       formData,
       {
         headers: formData.getHeaders(),
-      }
+      },
     );
 
     console.log(`✅ Uploaded ${fileName} - File ID: ${response.data.file}`);
@@ -80,7 +80,7 @@ async function uploadAllImages() {
   // Write results to a JSON file for reference
   fs.writeFileSync(
     "uploadcare-results.json",
-    JSON.stringify(uploadResults, null, 2)
+    JSON.stringify(uploadResults, null, 2),
   );
   console.log(`\nUpload complete! Uploaded ${uploadResults.length} images.`);
   console.log(`Results saved to uploadcare-results.json`);

@@ -55,7 +55,7 @@ function minifyCssFiles() {
       if (result.errors.length > 0) {
         console.error(
           `❌ Errors occurred while minifying ${file}:`,
-          result.errors
+          result.errors,
         );
         // On error, copy the original file to ensure we have a working version
         fs.copyFileSync(inputPath, outputPath);
@@ -80,7 +80,7 @@ function minifyCssFiles() {
       console.log(
         `✅ Minified ${file} - saved ${savedPercentage}% (${
           originalSize - minifiedSize
-        } bytes)`
+        } bytes)`,
       );
     } catch (error) {
       console.error(`❌ Error processing ${file}:`, error);
