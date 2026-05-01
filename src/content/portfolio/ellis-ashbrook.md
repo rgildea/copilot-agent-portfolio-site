@@ -9,5 +9,5 @@ description: I co-founded this progressive alt-rock band with high school
   2019 began to collaborate again. Since COVID hit, we have been working on a
   new recording project virtually.
 featured: true
-order: 10
+order: 9
 ---

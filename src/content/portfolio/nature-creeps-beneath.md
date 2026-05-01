@@ -7,5 +7,5 @@ client: Personal Project
 description: A solo ambient project exploring dark and atmospheric soundscapes.
   I handle all aspects of production from composition to final mastering.
 featured: true
-order: 7
+order: 8
 ---

@@ -9,5 +9,5 @@ description: In May 2026 I released my first music as a solo artist. I wrote,
   "Broken-Hearted". I'm planning on releasing more music in a variety of genres,
   so stay tuned for more!
 featured: true
-order: 10
+order: 1
 ---

@@ -7,5 +7,5 @@ client: Personal Project
 description: My personal project exploring ambient post-rock with electronic
   elements. I handle all guitar work, synths, and mixing.
 featured: true
-order: 6
+order: 7
 ---
