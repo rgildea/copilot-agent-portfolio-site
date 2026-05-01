@@ -7,6 +7,7 @@
 - Contact form now actually submits to Netlify Forms via `fetch` POST instead of just showing an alert
 - Button changes to "Message Sent!" and disables briefly on success, then resets after 4 seconds
 - Added error fallback message if the network request fails
+- Added Netlify honeypot field (`bot-field`) to reduce spam form submissions
 
 ## [April 28, 2025]
 

@@ -75,9 +75,15 @@ title: Ryan Gildea | Audio Engineer & Producer
           class="contact-form"
           name="contact"
           method="POST"
+          netlify-honeypot="bot-field"
           data-netlify="true"
         >
           <input type="hidden" name="form-name" value="contact" />
+          <p style="display: none">
+            <label for="bot-field"
+              >Don't fill this out: <input id="bot-field" name="bot-field"
+            /></label>
+          </p>
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" required />
