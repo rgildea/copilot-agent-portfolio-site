@@ -29,6 +29,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Lighthouse reports
+lighthouse-reports/
+
 # Test results and reports
 test-results/
 playwright-report/
