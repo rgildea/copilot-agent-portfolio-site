@@ -31,6 +31,18 @@ function initNavbar() {
 
 // Improved smooth scrolling implementation
 function initSmoothScrolling() {
+  // Scroll indicator — prevent instant anchor jump, use smooth scroll instead
+  const scrollIndicator = document.querySelector(".scroll-indicator");
+  if (scrollIndicator) {
+    scrollIndicator.addEventListener("click", function (e) {
+      e.preventDefault();
+      const hrefParts = this.getAttribute("href").split("#");
+      if (hrefParts.length < 2) return;
+      const section = document.getElementById(hrefParts[1]);
+      if (section) section.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
   // Fix for links in the navbar - they all have format "/#section"
   document.querySelectorAll(".nav-links a").forEach((link) => {
     // First ensure all links are properly interactive
