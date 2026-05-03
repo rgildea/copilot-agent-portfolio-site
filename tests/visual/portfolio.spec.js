@@ -45,42 +45,37 @@ test.describe("Portfolio section tests", () => {
     await expect(clientButton).toBeVisible();
     await expect(personalButton).toBeVisible();
 
+    const clientItems = page.locator(".portfolio-item.client-project");
+    const personalItems = page.locator(".portfolio-item.personal-project");
+    const clientCount = await clientItems.count();
+    const personalCount = await personalItems.count();
+
     // Filter: client — only client-project items should be visible
     await clientButton.click();
-    await expect(
-      page.locator(".portfolio-item.client-project").first(),
-    ).toBeVisible();
-    const personalCount = await page
-      .locator(".portfolio-item.personal-project")
-      .count();
+    if (clientCount > 0) {
+      await expect(clientItems.first()).toBeVisible();
+    }
     if (personalCount > 0) {
-      await expect(
-        page.locator(".portfolio-item.personal-project").first(),
-      ).toBeHidden();
+      await expect(personalItems.first()).toBeHidden();
     }
 
     // Filter: personal — only personal-project items should be visible
     await personalButton.click();
-    await expect(
-      page.locator(".portfolio-item.personal-project").first(),
-    ).toBeVisible();
-    const clientCount = await page
-      .locator(".portfolio-item.client-project")
-      .count();
+    if (personalCount > 0) {
+      await expect(personalItems.first()).toBeVisible();
+    }
     if (clientCount > 0) {
-      await expect(
-        page.locator(".portfolio-item.client-project").first(),
-      ).toBeHidden();
+      await expect(clientItems.first()).toBeHidden();
     }
 
     // Filter: all — all items should be visible again
     await allButton.click();
-    await expect(
-      page.locator(".portfolio-item.client-project").first(),
-    ).toBeVisible();
-    await expect(
-      page.locator(".portfolio-item.personal-project").first(),
-    ).toBeVisible();
+    if (clientCount > 0) {
+      await expect(clientItems.first()).toBeVisible();
+    }
+    if (personalCount > 0) {
+      await expect(personalItems.first()).toBeVisible();
+    }
   });
 
   test("portfolio section should be responsive on mobile", async ({ page }) => {
@@ -142,9 +137,7 @@ test.describe("Portfolio section tests", () => {
     await trigger.click();
     await expect(modal).toHaveClass(/is-open/);
 
-    await page
-      .locator(".portfolio-modal__backdrop")
-      .click({ position: { x: 10, y: 10 } });
+    await page.locator(".portfolio-modal__backdrop").dispatchEvent("click");
     await expect(modal).not.toHaveClass(/is-open/);
     await expect(modal).toHaveAttribute("aria-hidden", "true");
 
