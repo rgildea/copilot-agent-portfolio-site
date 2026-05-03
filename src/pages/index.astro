@@ -77,11 +77,20 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
 
         <div class="portfolio-gallery">
           {portfolioItems.map((item) => (
-            <div
+            <article
               class={`portfolio-item ${item.data.client === "Personal Project" ? "personal-project" : "client-project"}`}
               id={item.slug}
             >
-              <a href={item.data.url} target="_blank" rel="noopener noreferrer" class="portfolio-link">
+              <button
+                type="button"
+                class="portfolio-trigger"
+                data-title={item.data.title}
+                data-role={item.data.role}
+                data-client={item.data.client || "Client"}
+                data-description={item.data.description}
+                data-image={item.data.image}
+                data-url={item.data.url}
+              >
                 <picture>
                   {/\.(png|jpe?g)$/i.test(item.data.image) && (
                     <source
@@ -107,9 +116,42 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                     <span class="project-badge personal">Personal Project</span>
                   )}
                 </div>
+              </button>
+            </article>
+          ))}
+        </div>
+
+        <div class="portfolio-modal" id="portfolio-modal" aria-hidden="true">
+          <div class="portfolio-modal__backdrop" data-modal-close></div>
+          <div
+            class="portfolio-modal__dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="portfolio-modal-title"
+            tabindex="-1"
+          >
+            <button type="button" class="portfolio-modal__close" data-modal-close aria-label="Close project details">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="portfolio-modal__media-wrap">
+              <img src="" alt="" class="portfolio-modal__image" id="portfolio-modal-image" />
+            </div>
+            <div class="portfolio-modal__content">
+              <p class="portfolio-modal__label" id="portfolio-modal-client"></p>
+              <h3 id="portfolio-modal-title"></h3>
+              <p class="portfolio-modal__role" id="portfolio-modal-role"></p>
+              <p class="portfolio-modal__description" id="portfolio-modal-description"></p>
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="cta-button portfolio-modal__link"
+                id="portfolio-modal-link"
+              >
+                Visit Project
               </a>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

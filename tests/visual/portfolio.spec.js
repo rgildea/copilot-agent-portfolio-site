@@ -97,4 +97,62 @@ test.describe("Portfolio section tests", () => {
       expect(firstBounds.width).toBeLessThanOrEqual(375);
     }
   });
+
+  test("portfolio card click should open modal with full project details", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const trigger = page.locator("#occo .portfolio-trigger");
+    await expect(trigger).toBeVisible();
+    await trigger.click();
+
+    const modal = page.locator("#portfolio-modal");
+    await expect(modal).toHaveClass(/is-open/);
+    await expect(modal).toHaveAttribute("aria-hidden", "false");
+
+    await expect(page.locator("#portfolio-modal-title")).toContainText("OCCO");
+    await expect(page.locator("#portfolio-modal-role")).not.toHaveText("");
+    await expect(page.locator("#portfolio-modal-client")).not.toHaveText("");
+
+    const description = page.locator("#portfolio-modal-description");
+    await expect(description).not.toHaveText("");
+
+    const projectLink = page.locator("#portfolio-modal-link");
+    await expect(projectLink).toHaveAttribute("href", /https?:\/\//);
+    await expect(projectLink).toHaveAttribute("target", "_blank");
+    await expect(projectLink).toHaveAttribute("rel", /noopener/);
+  });
+
+  test("portfolio modal should close via close button, backdrop, and Escape", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const trigger = page.locator("#occo .portfolio-trigger");
+    const modal = page.locator("#portfolio-modal");
+
+    await trigger.click();
+    await expect(modal).toHaveClass(/is-open/);
+
+    await page.locator(".portfolio-modal__close").click();
+    await expect(modal).not.toHaveClass(/is-open/);
+    await expect(modal).toHaveAttribute("aria-hidden", "true");
+
+    await trigger.click();
+    await expect(modal).toHaveClass(/is-open/);
+
+    await page
+      .locator(".portfolio-modal__backdrop")
+      .click({ position: { x: 10, y: 10 } });
+    await expect(modal).not.toHaveClass(/is-open/);
+    await expect(modal).toHaveAttribute("aria-hidden", "true");
+
+    await trigger.click();
+    await expect(modal).toHaveClass(/is-open/);
+
+    await page.keyboard.press("Escape");
+    await expect(modal).not.toHaveClass(/is-open/);
+    await expect(modal).toHaveAttribute("aria-hidden", "true");
+  });
 });

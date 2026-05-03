@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initSmoothScrolling();
   initContactForm();
   initPortfolioFilter();
+  initPortfolioModal();
   initGridOverlay();
 });
 
@@ -106,6 +107,76 @@ function initPortfolioFilter() {
         }
       });
     });
+  });
+}
+
+function initPortfolioModal() {
+  const modal = document.getElementById("portfolio-modal");
+  const modalDialog = modal ? modal.querySelector(".portfolio-modal__dialog") : null;
+  const triggers = document.querySelectorAll(".portfolio-trigger");
+  const closeButtons = modal ? modal.querySelectorAll("[data-modal-close]") : [];
+
+  if (!modal || !modalDialog || !triggers.length) return;
+
+  const modalTitle = document.getElementById("portfolio-modal-title");
+  const modalClient = document.getElementById("portfolio-modal-client");
+  const modalRole = document.getElementById("portfolio-modal-role");
+  const modalDescription = document.getElementById("portfolio-modal-description");
+  const modalImage = document.getElementById("portfolio-modal-image");
+  const modalLink = document.getElementById("portfolio-modal-link");
+
+  let activeTrigger = null;
+
+  function openModal(trigger) {
+    if (!trigger) return;
+
+    const { title, role, client, description, image, url } = trigger.dataset;
+
+    if (modalTitle) modalTitle.textContent = title || "Untitled Project";
+    if (modalClient) modalClient.textContent = client || "Client";
+    if (modalRole) modalRole.textContent = role || "";
+    if (modalDescription) modalDescription.textContent = description || "";
+
+    if (modalImage) {
+      modalImage.src = image || "";
+      modalImage.alt = title || "Portfolio project";
+    }
+
+    if (modalLink) {
+      modalLink.href = url || "#";
+      modalLink.setAttribute("aria-disabled", url ? "false" : "true");
+      modalLink.tabIndex = url ? 0 : -1;
+    }
+
+    activeTrigger = trigger;
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    modalDialog.focus();
+  }
+
+  function closeModal() {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+
+    if (activeTrigger) {
+      activeTrigger.focus();
+    }
+  }
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => openModal(trigger));
+  });
+
+  closeButtons.forEach((closeButton) => {
+    closeButton.addEventListener("click", closeModal);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && modal.classList.contains("is-open")) {
+      closeModal();
+    }
   });
 }
 
