@@ -112,16 +112,22 @@ function initPortfolioFilter() {
 
 function initPortfolioModal() {
   const modal = document.getElementById("portfolio-modal");
-  const modalDialog = modal ? modal.querySelector(".portfolio-modal__dialog") : null;
+  const modalDialog = modal
+    ? modal.querySelector(".portfolio-modal__dialog")
+    : null;
   const triggers = document.querySelectorAll(".portfolio-trigger");
-  const closeButtons = modal ? modal.querySelectorAll("[data-modal-close]") : [];
+  const closeButtons = modal
+    ? modal.querySelectorAll("[data-modal-close]")
+    : [];
 
   if (!modal || !modalDialog || !triggers.length) return;
 
   const modalTitle = document.getElementById("portfolio-modal-title");
   const modalClient = document.getElementById("portfolio-modal-client");
   const modalRole = document.getElementById("portfolio-modal-role");
-  const modalDescription = document.getElementById("portfolio-modal-description");
+  const modalDescription = document.getElementById(
+    "portfolio-modal-description",
+  );
   const modalImage = document.getElementById("portfolio-modal-image");
   const modalLink = document.getElementById("portfolio-modal-link");
 
