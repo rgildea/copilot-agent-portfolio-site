@@ -32,6 +32,10 @@ function initNavbar() {
 
 // Improved smooth scrolling implementation
 function initSmoothScrolling() {
+  function scrollToSection(section) {
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   // Scroll indicator — prevent instant anchor jump, use smooth scroll instead
   const scrollIndicator = document.querySelector(".scroll-indicator");
   if (scrollIndicator) {
@@ -40,7 +44,7 @@ function initSmoothScrolling() {
       const hrefParts = this.getAttribute("href").split("#");
       if (hrefParts.length < 2) return;
       const section = document.getElementById(hrefParts[1]);
-      if (section) section.scrollIntoView({ behavior: "smooth" });
+      if (section) scrollToSection(section);
     });
   }
 
@@ -65,7 +69,7 @@ function initSmoothScrolling() {
         const section = document.getElementById(sectionId);
 
         if (section) {
-          section.scrollIntoView({ behavior: "smooth" });
+          scrollToSection(section);
         }
       }
       // Otherwise let the browser navigate normally to the homepage section

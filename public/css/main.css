@@ -31,6 +31,9 @@
   --retro-orange: #e29e6d;
   --grid-color: rgba(54, 233, 246, 0.3);
 
+  /* Layout */
+  --navbar-height: 62px;
+
   /* Breakpoints */
   --breakpoint-xxs: 360px; /* Extra extra small devices (small phones) */
   --breakpoint-xs: 480px; /* Extra small devices (phones) */
@@ -138,13 +141,15 @@ a:hover {
   width: 100%;
   top: 0;
   z-index: 1000;
-  transition:
-    background-color 0.3s ease,
-    padding 0.3s ease;
-  padding: 0.8rem 0;
+  height: var(--navbar-height);
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
 }
 
 .navbar.scrolled {
+  height: auto;
+  padding: 0.8rem 0;
   background-color: var(--dark-bg);
   box-shadow: var(--shadow);
 }
@@ -246,18 +251,28 @@ a:hover {
   color: var(--secondary-color);
 }
 
+/* Section scroll offset - accounts for expanded (scrolled) fixed navbar */
+.about-section,
+.portfolio-section,
+.contact-section {
+  scroll-margin-top: 140px;
+}
+
 /* Hero section with smooth crossfade for background images */
 .hero {
   height: 100vh;
   min-height: 600px;
   position: relative;
   display: flex;
-  align-items: top;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   color: var(--light-text);
   overflow: hidden;
   z-index: 1;
-  padding-top: 60px; /* Add consistent padding for navbar */
+  padding-top: calc(var(--navbar-height) + 0.5rem);
+  padding-bottom: 1.5rem;
+  box-sizing: border-box;
 }
 
 /* Background container */
@@ -1077,9 +1092,18 @@ body.modal-open {
 }
 
 /* Tablets and large phones - 768px and below */
-@media (max-width: var(--breakpoint-sm)) {
+@media (max-width: 768px) {
+  :root {
+    --navbar-height: 52px;
+  }
+
+  .about-section,
+  .portfolio-section,
+  .contact-section {
+    scroll-margin-top: 108px;
+  }
+
   .navbar {
-    padding: 0.5rem 0;
     background-color: rgba(
       6,
       4,
@@ -1091,10 +1115,6 @@ body.modal-open {
   .scrolled #navbar-title {
     margin-bottom: 0.3rem; /* Less margin on mobile */
     font-size: 2rem; /* Smaller title in navbar when scrolled */
-  }
-
-  .hero {
-    padding-top: 60px; /* Reduced padding for mobile */
   }
 
   .hero-content {
