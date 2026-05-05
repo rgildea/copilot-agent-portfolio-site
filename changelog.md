@@ -1,5 +1,12 @@
 # Changelog
 
+## [May 5, 2026]
+
+### Added
+
+- `src/pages/index.astro`: Added Bandcamp follow button iframe in the contact section, below social links.
+- `public/css/main.css`: Added `.bandcamp-follow` styles — subtle opacity fade-in on hover.
+
 ## [May 1, 2026]
 
 ### Changed

@@ -953,6 +953,16 @@ body.modal-open {
   justify-content: flex-start;
 }
 
+.bandcamp-follow {
+  margin-top: 1.5rem;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.bandcamp-follow:hover {
+  opacity: 1;
+}
+
 .social-link {
   display: flex;
   align-items: center;
