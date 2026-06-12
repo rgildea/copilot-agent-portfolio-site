@@ -1,8 +1,13 @@
 import WaveSurfer from 'wavesurfer.js';
 
-const WAVE_COLOR = 'rgba(82, 193, 209, 0.4)';
-const PROGRESS_COLOR = '#e252a2';
-const WAVEFORM_HEIGHT = 48;
+const WAVE_OPTIONS = {
+  waveColor: 'rgba(82, 193, 209, 0.4)',
+  progressColor: '#e252a2',
+  height: 48,
+  barWidth: 2,
+  barGap: 1,
+  barRadius: 2,
+};
 
 // Registry of all card states — used for global playback exclusivity
 const players = new Map();
@@ -19,14 +24,18 @@ function initCard(card) {
     tracks,
     activeTrackIndex: 0,
     activeMix: 'rough',
-    ws: null,
+    wsRough: null,
+    wsFinal: null,
+    roughReady: false,
+    finalReady: false,
+    pendingOnReady: null,
     silenceTimer: null,
     silenceStartMs: null,
     rafId: null,
   };
   players.set(card, state);
 
-  const els = getCardEls(card);
+  const els = buildCardEls(card);
 
   card.querySelectorAll('.listen-tab').forEach((tab) => {
     tab.addEventListener('click', () => {
@@ -34,7 +43,8 @@ function initCard(card) {
       if (idx === state.activeTrackIndex) return;
       const wasPlaying = isCardPlaying(state);
       clearSilenceTimer(state);
-      loadTrack(card, state, idx, state.activeMix, wasPlaying, 0, els);
+      destroyPair(state);
+      loadTrackPair(card, state, idx, state.activeMix, wasPlaying, 0, els);
     });
   });
 
@@ -42,138 +52,226 @@ function initCard(card) {
     btn.addEventListener('click', () => {
       const newMix = btn.dataset.mix;
       if (newMix === state.activeMix) return;
-      const wasPlaying = isCardPlaying(state);
-      const playerTime = getPlayerTime(state);
-      const track = tracks[state.activeTrackIndex];
-      const offset_s = (track.roughOffset || 0) / 1000;
-      let targetFileTime;
-      if (newMix === 'rough') {
-        // final → rough: T_rough = T_player - offset_s
-        targetFileTime = Math.max(0, playerTime - offset_s);
-      } else {
-        // rough → final: final file position = player time directly
-        targetFileTime = Math.max(0, playerTime);
-      }
-      clearSilenceTimer(state);
-      // When switching to rough inside the silence zone, pass playerTime so the
-      // silence zone resumes from the current position instead of restarting.
-      const resumePlayerTime = (newMix === 'rough' && targetFileTime === 0) ? playerTime : 0;
-      loadTrack(card, state, state.activeTrackIndex, newMix, wasPlaying, targetFileTime, els, resumePlayerTime);
+      switchMix(card, state, newMix, els);
     });
   });
 
   els.playBtn.addEventListener('click', () => handlePlayClick(card, state, els));
 
-  loadTrack(card, state, 0, 'rough', false, 0, els);
+  loadTrackPair(card, state, 0, 'rough', false, 0, els);
 }
 
-function loadTrack(card, state, trackIndex, mix, autoplay, seekToFileTime, els, resumePlayerTime = 0) {
-  clearSilenceTimer(state);
-  if (state.ws) {
-    state.ws.destroy();
-    state.ws = null;
-  }
+function buildCardEls(card) {
+  const waveformEl = card.querySelector('.listen-waveform');
+  const roughEl = document.createElement('div');
+  const finalEl = document.createElement('div');
+  finalEl.hidden = true;
+  waveformEl.appendChild(roughEl);
+  waveformEl.appendChild(finalEl);
+  return {
+    roughWaveformEl: roughEl,
+    finalWaveformEl: finalEl,
+    playBtn: card.querySelector('.listen-play-btn'),
+    timeCurrentEl: card.querySelector('.listen-time__current'),
+    timeTotalEl: card.querySelector('.listen-time__total'),
+    trackTitleEl: card.querySelector('.listen-track-title'),
+  };
+}
 
+function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTime, els) {
   const track = state.tracks[trackIndex];
-  const url = mix === 'rough' ? track.roughUrl : track.finalUrl;
   const offset_s = (track.roughOffset || 0) / 1000;
 
   state.activeTrackIndex = trackIndex;
-  state.activeMix = mix;
+  state.activeMix = startMix;
 
   updateTabUI(card, trackIndex);
-  updateToggleUI(card, mix);
+  updateToggleUI(card, startMix);
   if (els.trackTitleEl) els.trackTitleEl.textContent = track.title;
   if (els.timeCurrentEl) els.timeCurrentEl.textContent = '0:00';
   if (els.timeTotalEl) els.timeTotalEl.textContent = '0:00';
 
-  const ws = WaveSurfer.create({
-    container: els.waveformEl,
-    waveColor: WAVE_COLOR,
-    progressColor: PROGRESS_COLOR,
-    height: WAVEFORM_HEIGHT,
-    barWidth: 2,
-    barGap: 1,
-    barRadius: 2,
-    url,
-  });
-  state.ws = ws;
+  els.roughWaveformEl.hidden = (startMix !== 'rough');
+  els.finalWaveformEl.hidden = (startMix !== 'final');
 
-  ws.on('ready', () => {
-    const duration = ws.getDuration();
-    if (els.timeTotalEl) els.timeTotalEl.textContent = formatTime(duration);
+  // Compute initial file seek positions from player time
+  const roughSeek = seekPlayerTime === 0 && offset_s < 0
+    ? Math.abs(offset_s)
+    : Math.max(0, seekPlayerTime - offset_s);
+  const finalSeek = Math.max(0, seekPlayerTime);
 
-    // Determine initial seek position in file time
-    let initialFileTime = seekToFileTime;
-    if (seekToFileTime === 0 && mix === 'rough' && offset_s < 0) {
-      // Negative offset: rough file starts at |offset_s| when player is at 0
-      initialFileTime = Math.abs(offset_s);
-    }
-    if (initialFileTime > 0) {
-      ws.setTime(Math.min(initialFileTime, duration));
-    }
+  // --- Rough instance ---
+  const wsRough = WaveSurfer.create({ container: els.roughWaveformEl, url: track.roughUrl, ...WAVE_OPTIONS });
+  state.wsRough = wsRough;
 
-    if (autoplay) {
-      if (mix === 'rough' && offset_s > 0 && seekToFileTime === 0) {
-        // Positive offset: apply silence zone, resuming from resumePlayerTime if mid-zone
-        startSilenceZone(card, state, els, offset_s, resumePlayerTime);
+  wsRough.on('ready', () => {
+    state.roughReady = true;
+    const dur = wsRough.getDuration();
+    if (state.activeMix === 'rough') {
+      if (els.timeTotalEl) els.timeTotalEl.textContent = formatTime(dur);
+      if (state.pendingOnReady) {
+        const action = state.pendingOnReady;
+        state.pendingOnReady = null;
+        action();
       } else {
-        ws.play();
+        if (roughSeek > 0) wsRough.setTime(Math.min(roughSeek, dur));
+        if (autoplay) {
+          if (offset_s > 0 && seekPlayerTime === 0) {
+            startSilenceZone(card, state, els, offset_s, 0);
+          } else {
+            wsRough.play();
+          }
+        }
       }
+    } else {
+      if (roughSeek > 0) wsRough.setTime(Math.min(roughSeek, dur));
     }
   });
 
-  ws.on('timeupdate', (currentTime) => {
-    if (state.silenceStartMs !== null) return; // silence zone RAF handles display
-    const displayTime = mix === 'rough'
-      ? Math.max(0, currentTime + offset_s)
-      : currentTime;
-    if (els.timeCurrentEl) els.timeCurrentEl.textContent = formatTime(displayTime);
+  wsRough.on('timeupdate', (t) => {
+    if (state.activeMix !== 'rough' || state.silenceStartMs !== null) return;
+    if (els.timeCurrentEl) els.timeCurrentEl.textContent = formatTime(Math.max(0, t + offset_s));
   });
 
-  ws.on('play', () => {
-    updatePlayBtn(card, true);
-    pauseOtherCards(card);
+  wsRough.on('play', () => { updatePlayBtn(card, true); pauseOtherCards(card); });
+  wsRough.on('pause', () => { if (!state.wsFinal?.isPlaying() && !state.silenceTimer) updatePlayBtn(card, false); });
+  wsRough.on('finish', () => {
+    if (state.activeMix === 'rough') {
+      updatePlayBtn(card, false);
+      clearSilenceTimer(state);
+      if (els.timeCurrentEl) els.timeCurrentEl.textContent = '0:00';
+    }
   });
 
-  ws.on('pause', () => updatePlayBtn(card, false));
+  // --- Final instance ---
+  const wsFinal = WaveSurfer.create({ container: els.finalWaveformEl, url: track.finalUrl, ...WAVE_OPTIONS });
+  state.wsFinal = wsFinal;
 
-  ws.on('finish', () => {
-    updatePlayBtn(card, false);
-    clearSilenceTimer(state);
-    if (els.timeCurrentEl) els.timeCurrentEl.textContent = '0:00';
+  wsFinal.on('ready', () => {
+    state.finalReady = true;
+    const dur = wsFinal.getDuration();
+    if (state.activeMix === 'final') {
+      if (els.timeTotalEl) els.timeTotalEl.textContent = formatTime(dur);
+      if (state.pendingOnReady) {
+        const action = state.pendingOnReady;
+        state.pendingOnReady = null;
+        action();
+      } else {
+        if (finalSeek > 0) wsFinal.setTime(Math.min(finalSeek, dur));
+        if (autoplay) wsFinal.play();
+      }
+    } else {
+      if (finalSeek > 0) wsFinal.setTime(Math.min(finalSeek, dur));
+    }
+  });
+
+  wsFinal.on('timeupdate', (t) => {
+    if (state.activeMix !== 'final') return;
+    if (els.timeCurrentEl) els.timeCurrentEl.textContent = formatTime(t);
+  });
+
+  wsFinal.on('play', () => { updatePlayBtn(card, true); pauseOtherCards(card); });
+  wsFinal.on('pause', () => { if (!state.wsRough?.isPlaying() && !state.silenceTimer) updatePlayBtn(card, false); });
+  wsFinal.on('finish', () => {
+    if (state.activeMix === 'final') {
+      updatePlayBtn(card, false);
+      if (els.timeCurrentEl) els.timeCurrentEl.textContent = '0:00';
+    }
   });
 }
 
-function handlePlayClick(card, state, els) {
-  if (!state.ws) return;
+function switchMix(card, state, newMix, els) {
   const track = state.tracks[state.activeTrackIndex];
   const offset_s = (track.roughOffset || 0) / 1000;
+  const wasPlaying = isCardPlaying(state);
+  const playerTime = getPlayerTime(state);
 
-  // Pause if silence zone is counting down
+  clearSilenceTimer(state);
+
+  // Pause the outgoing mix
+  const outgoing = newMix === 'rough' ? state.wsFinal : state.wsRough;
+  if (outgoing?.isPlaying()) outgoing.pause();
+
+  state.activeMix = newMix;
+  updateToggleUI(card, newMix);
+
+  // Swap waveform visibility
+  els.roughWaveformEl.hidden = (newMix !== 'rough');
+  els.finalWaveformEl.hidden = (newMix !== 'final');
+
+  const incoming = newMix === 'rough' ? state.wsRough : state.wsFinal;
+  const isReady = newMix === 'rough' ? state.roughReady : state.finalReady;
+  const targetFileTime = newMix === 'rough'
+    ? Math.max(0, playerTime - offset_s)
+    : Math.max(0, playerTime);
+
+  if (isReady && incoming) {
+    state.pendingOnReady = null;
+    incoming.setTime(Math.min(targetFileTime, incoming.getDuration()));
+    if (els.timeTotalEl) els.timeTotalEl.textContent = formatTime(incoming.getDuration());
+    if (wasPlaying) {
+      if (newMix === 'rough' && offset_s > 0 && playerTime < offset_s) {
+        startSilenceZone(card, state, els, offset_s, playerTime);
+      } else {
+        incoming.play();
+      }
+    } else {
+      const displayTime = newMix === 'rough'
+        ? formatTime(Math.max(0, targetFileTime + offset_s))
+        : formatTime(targetFileTime);
+      if (els.timeCurrentEl) els.timeCurrentEl.textContent = displayTime;
+    }
+  } else {
+    // Incoming not ready yet — defer seek + play until its ready event fires
+    const capturedPlayerTime = playerTime;
+    const capturedWasPlaying = wasPlaying;
+    state.pendingOnReady = () => {
+      const ws = newMix === 'rough' ? state.wsRough : state.wsFinal;
+      if (!ws) return;
+      ws.setTime(Math.min(targetFileTime, ws.getDuration()));
+      if (els.timeTotalEl) els.timeTotalEl.textContent = formatTime(ws.getDuration());
+      if (capturedWasPlaying) {
+        if (newMix === 'rough' && offset_s > 0 && capturedPlayerTime < offset_s) {
+          startSilenceZone(card, state, els, offset_s, capturedPlayerTime);
+        } else {
+          ws.play();
+        }
+      } else {
+        const displayTime = newMix === 'rough'
+          ? formatTime(Math.max(0, targetFileTime + offset_s))
+          : formatTime(targetFileTime);
+        if (els.timeCurrentEl) els.timeCurrentEl.textContent = displayTime;
+      }
+    };
+  }
+}
+
+function handlePlayClick(card, state, els) {
+  const track = state.tracks[state.activeTrackIndex];
+  const offset_s = (track.roughOffset || 0) / 1000;
+  const ws = activeWs(state);
+  if (!ws) return;
+
   if (state.silenceTimer !== null) {
     clearSilenceTimer(state);
     updatePlayBtn(card, false);
     return;
   }
 
-  if (state.ws.isPlaying()) {
-    state.ws.pause();
+  if (ws.isPlaying()) {
+    ws.pause();
     return;
   }
 
-  // Positive offset + rough mix + at file position 0 = silence zone
-  if (state.activeMix === 'rough' && offset_s > 0 && state.ws.getCurrentTime() === 0) {
-    startSilenceZone(card, state, els, offset_s);
+  if (state.activeMix === 'rough' && offset_s > 0 && ws.getCurrentTime() === 0) {
+    startSilenceZone(card, state, els, offset_s, 0);
   } else {
     pauseOtherCards(card);
-    state.ws.play();
+    ws.play();
   }
 }
 
 function startSilenceZone(card, state, els, offset_s, startPlayerTime = 0) {
-  // Offset silenceStartMs so elapsed display continues from startPlayerTime,
-  // and reduce the timeout by the already-elapsed portion.
   state.silenceStartMs = performance.now() - startPlayerTime * 1000;
   pauseOtherCards(card);
   updatePlayBtn(card, true);
@@ -189,47 +287,49 @@ function startSilenceZone(card, state, els, offset_s, startPlayerTime = 0) {
   state.silenceTimer = setTimeout(() => {
     state.silenceStartMs = null;
     state.silenceTimer = null;
-    if (state.rafId !== null) {
-      cancelAnimationFrame(state.rafId);
-      state.rafId = null;
-    }
-    if (state.ws) state.ws.play();
+    if (state.rafId !== null) { cancelAnimationFrame(state.rafId); state.rafId = null; }
+    activeWs(state)?.play();
   }, (offset_s - startPlayerTime) * 1000);
 }
 
 function clearSilenceTimer(state) {
-  if (state.silenceTimer !== null) {
-    clearTimeout(state.silenceTimer);
-    state.silenceTimer = null;
-  }
-  if (state.rafId !== null) {
-    cancelAnimationFrame(state.rafId);
-    state.rafId = null;
-  }
+  if (state.silenceTimer !== null) { clearTimeout(state.silenceTimer); state.silenceTimer = null; }
+  if (state.rafId !== null) { cancelAnimationFrame(state.rafId); state.rafId = null; }
   state.silenceStartMs = null;
 }
 
+function destroyPair(state) {
+  if (state.wsRough) { state.wsRough.destroy(); state.wsRough = null; }
+  if (state.wsFinal) { state.wsFinal.destroy(); state.wsFinal = null; }
+  state.roughReady = false;
+  state.finalReady = false;
+  state.pendingOnReady = null;
+}
+
+function activeWs(state) {
+  return state.activeMix === 'rough' ? state.wsRough : state.wsFinal;
+}
+
 function isCardPlaying(state) {
-  return (state.ws !== null && state.ws.isPlaying()) || state.silenceTimer !== null;
+  return (activeWs(state)?.isPlaying() ?? false) || state.silenceTimer !== null;
 }
 
 function getPlayerTime(state) {
-  if (state.silenceStartMs !== null) {
-    return (performance.now() - state.silenceStartMs) / 1000;
-  }
-  if (!state.ws) return 0;
+  if (state.silenceStartMs !== null) return (performance.now() - state.silenceStartMs) / 1000;
+  const ws = activeWs(state);
+  if (!ws) return 0;
   const track = state.tracks[state.activeTrackIndex];
   const offset_s = (track.roughOffset || 0) / 1000;
   return state.activeMix === 'rough'
-    ? Math.max(0, state.ws.getCurrentTime() + offset_s)
-    : state.ws.getCurrentTime();
+    ? Math.max(0, ws.getCurrentTime() + offset_s)
+    : ws.getCurrentTime();
 }
 
 function pauseOtherCards(activeCard) {
   players.forEach((state, card) => {
     if (card === activeCard) return;
     clearSilenceTimer(state);
-    if (state.ws && state.ws.isPlaying()) state.ws.pause();
+    activeWs(state)?.isPlaying() && activeWs(state).pause();
   });
 }
 
@@ -259,19 +359,7 @@ function updatePlayBtn(card, isPlaying) {
   if (btn) btn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
 }
 
-function getCardEls(card) {
-  return {
-    waveformEl: card.querySelector('.listen-waveform'),
-    playBtn: card.querySelector('.listen-play-btn'),
-    timeCurrentEl: card.querySelector('.listen-time__current'),
-    timeTotalEl: card.querySelector('.listen-time__total'),
-    trackTitleEl: card.querySelector('.listen-track-title'),
-  };
-}
-
 function formatTime(seconds) {
   const s = Math.max(0, seconds);
-  const mins = Math.floor(s / 60);
-  const secs = Math.floor(s % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
+  return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 }
