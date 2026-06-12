@@ -183,9 +183,11 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                   {item.data.audioTracks!.map((track, i) => (
                     <button
                       type="button"
+                      id={`tab-${item.id.replace(/\.[^.]+$/, '')}-${i}`}
                       class={`listen-tab${i === 0 ? " active" : ""}`}
                       role="tab"
                       aria-selected={i === 0 ? 'true' : 'false'}
+                      aria-controls={`panel-${item.id.replace(/\.[^.]+$/, '')}`}
                       tabindex={i === 0 ? 0 : -1}
                       data-track-index={String(i)}
                     >
@@ -194,7 +196,12 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                   ))}
                 </div>
 
-                <div class="listen-card__player">
+                <div
+                  class="listen-card__player"
+                  id={`panel-${item.id.replace(/\.[^.]+$/, '')}`}
+                  role="tabpanel"
+                  aria-labelledby={`tab-${item.id.replace(/\.[^.]+$/, '')}-0`}
+                >
                   <div class="listen-player-controls">
                     <button class="listen-play-btn" aria-label="Play">
                       <i class="fas fa-play"></i>

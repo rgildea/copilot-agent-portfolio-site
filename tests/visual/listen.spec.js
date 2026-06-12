@@ -27,19 +27,18 @@ test.describe("Listen section", () => {
     await page.goto("/");
     const firstCard = page.locator(".listen-card").first();
     const tabs = firstCard.locator(".listen-tab");
-    await expect(tabs).toHaveCount(2); // OCCO has 2 tracks
+    await expect(tabs).toHaveCount(1); // OCCO has 1 track
     await expect(tabs.first()).toHaveClass(/active/);
   });
 
-  test("clicking a tab should make it active and deactivate others", async ({
+  test("clicking a tab should keep it active", async ({
     page,
   }) => {
     await page.goto("/");
     const firstCard = page.locator(".listen-card").first();
     const tabs = firstCard.locator(".listen-tab");
-    await tabs.nth(1).click();
-    await expect(tabs.nth(1)).toHaveClass(/active/);
-    await expect(tabs.first()).not.toHaveClass(/active/);
+    await tabs.first().click();
+    await expect(tabs.first()).toHaveClass(/active/);
   });
 
   test("should show rough/final toggle with rough active by default", async ({

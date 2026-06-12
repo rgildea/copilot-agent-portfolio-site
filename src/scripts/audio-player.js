@@ -234,11 +234,13 @@ function pauseOtherCards(activeCard) {
 }
 
 function updateTabUI(card, activeIndex) {
+  const panel = card.querySelector('[role="tabpanel"]');
   card.querySelectorAll('.listen-tab').forEach((tab, i) => {
     const isActive = i === activeIndex;
     tab.classList.toggle('active', isActive);
     tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
     tab.setAttribute('tabindex', isActive ? '0' : '-1');
+    if (isActive && panel && tab.id) panel.setAttribute('aria-labelledby', tab.id);
   });
 }
 
