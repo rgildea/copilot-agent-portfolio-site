@@ -28,6 +28,7 @@ function initCard(card) {
     wsFinal: null,
     roughReady: false,
     finalReady: false,
+    pendingOnReady: null,
     silenceTimer: null,
     silenceStartMs: null,
     rafId: null,
@@ -106,14 +107,24 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
   wsRough.on('ready', () => {
     state.roughReady = true;
     const dur = wsRough.getDuration();
-    if (roughSeek > 0) wsRough.setTime(Math.min(roughSeek, dur));
-    if (state.activeMix === 'rough' && els.timeTotalEl) els.timeTotalEl.textContent = formatTime(dur);
-    if (state.activeMix === 'rough' && autoplay) {
-      if (offset_s > 0 && seekPlayerTime === 0) {
-        startSilenceZone(card, state, els, offset_s, 0);
+    if (state.activeMix === 'rough') {
+      if (els.timeTotalEl) els.timeTotalEl.textContent = formatTime(dur);
+      if (state.pendingOnReady) {
+        const action = state.pendingOnReady;
+        state.pendingOnReady = null;
+        action();
       } else {
-        wsRough.play();
+        if (roughSeek > 0) wsRough.setTime(Math.min(roughSeek, dur));
+        if (autoplay) {
+          if (offset_s > 0 && seekPlayerTime === 0) {
+            startSilenceZone(card, state, els, offset_s, 0);
+          } else {
+            wsRough.play();
+          }
+        }
       }
+    } else {
+      if (roughSeek > 0) wsRough.setTime(Math.min(roughSeek, dur));
     }
   });
 
@@ -139,9 +150,19 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
   wsFinal.on('ready', () => {
     state.finalReady = true;
     const dur = wsFinal.getDuration();
-    if (finalSeek > 0) wsFinal.setTime(Math.min(finalSeek, dur));
-    if (state.activeMix === 'final' && els.timeTotalEl) els.timeTotalEl.textContent = formatTime(dur);
-    if (state.activeMix === 'final' && autoplay) wsFinal.play();
+    if (state.activeMix === 'final') {
+      if (els.timeTotalEl) els.timeTotalEl.textContent = formatTime(dur);
+      if (state.pendingOnReady) {
+        const action = state.pendingOnReady;
+        state.pendingOnReady = null;
+        action();
+      } else {
+        if (finalSeek > 0) wsFinal.setTime(Math.min(finalSeek, dur));
+        if (autoplay) wsFinal.play();
+      }
+    } else {
+      if (finalSeek > 0) wsFinal.setTime(Math.min(finalSeek, dur));
+    }
   });
 
   wsFinal.on('timeupdate', (t) => {
@@ -185,6 +206,7 @@ function switchMix(card, state, newMix, els) {
     : Math.max(0, playerTime);
 
   if (isReady && incoming) {
+    state.pendingOnReady = null;
     incoming.setTime(Math.min(targetFileTime, incoming.getDuration()));
     if (els.timeTotalEl) els.timeTotalEl.textContent = formatTime(incoming.getDuration());
     if (wasPlaying) {
@@ -194,14 +216,34 @@ function switchMix(card, state, newMix, els) {
         incoming.play();
       }
     } else {
-      // Update time display to reflect the seek
       const displayTime = newMix === 'rough'
         ? formatTime(Math.max(0, targetFileTime + offset_s))
         : formatTime(targetFileTime);
       if (els.timeCurrentEl) els.timeCurrentEl.textContent = displayTime;
     }
+  } else {
+    // Incoming not ready yet — defer seek + play until its ready event fires
+    const capturedPlayerTime = playerTime;
+    const capturedWasPlaying = wasPlaying;
+    state.pendingOnReady = () => {
+      const ws = newMix === 'rough' ? state.wsRough : state.wsFinal;
+      if (!ws) return;
+      ws.setTime(Math.min(targetFileTime, ws.getDuration()));
+      if (els.timeTotalEl) els.timeTotalEl.textContent = formatTime(ws.getDuration());
+      if (capturedWasPlaying) {
+        if (newMix === 'rough' && offset_s > 0 && capturedPlayerTime < offset_s) {
+          startSilenceZone(card, state, els, offset_s, capturedPlayerTime);
+        } else {
+          ws.play();
+        }
+      } else {
+        const displayTime = newMix === 'rough'
+          ? formatTime(Math.max(0, targetFileTime + offset_s))
+          : formatTime(targetFileTime);
+        if (els.timeCurrentEl) els.timeCurrentEl.textContent = displayTime;
+      }
+    };
   }
-  // If not yet ready, the 'ready' handler will pick up — state.activeMix is already updated
 }
 
 function handlePlayClick(card, state, els) {
@@ -261,6 +303,7 @@ function destroyPair(state) {
   if (state.wsFinal) { state.wsFinal.destroy(); state.wsFinal = null; }
   state.roughReady = false;
   state.finalReady = false;
+  state.pendingOnReady = null;
 }
 
 function activeWs(state) {
