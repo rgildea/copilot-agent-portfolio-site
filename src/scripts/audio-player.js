@@ -239,7 +239,9 @@ function updateTabUI(card, activeIndex) {
 
 function updateToggleUI(card, mix) {
   card.querySelectorAll('.mix-toggle__btn').forEach((btn) => {
-    btn.classList.toggle('active', btn.dataset.mix === mix);
+    const isActive = btn.dataset.mix === mix;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
   });
 }
 
