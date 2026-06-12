@@ -51,8 +51,8 @@ function initCard(card) {
         // final → rough: T_rough = T_player - offset_s
         targetFileTime = Math.max(0, playerTime - offset_s);
       } else {
-        // rough → final: T_final = T_player = T_rough + offset_s
-        targetFileTime = Math.max(0, playerTime + offset_s);
+        // rough → final: final file position = player time directly
+        targetFileTime = Math.max(0, playerTime);
       }
       clearSilenceTimer(state);
       loadTrack(card, state, state.activeTrackIndex, newMix, wasPlaying, targetFileTime, els);
