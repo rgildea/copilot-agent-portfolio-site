@@ -77,7 +77,7 @@ Install as an npm dependency:
 npm install wavesurfer.js
 ```
 
-Initialize in a `<script type="module">` block at the bottom of `index.astro` (separate from `script.js`, which remains non-module). The script reads audio data serialized into a `data-audio` attribute (JSON) on each artist card element, then instantiates WaveSurfer per card.
+Initialize in a `<script type="module">` block at the bottom of `index.astro` (separate from `script.js`, which remains non-module). The script reads audio data serialized into a `data-tracks` attribute (JSON) on each artist card element, then instantiates WaveSurfer per card.
 
 ---
 
