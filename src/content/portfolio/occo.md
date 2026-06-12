@@ -8,12 +8,8 @@ description: Produced and mixed multiple tracks for ambient electronic artist OC
 featured: true
 order: 2
 audioTracks:
-  - title: "Drift"
-    roughUrl: "https://REPLACE_WITH_R2_URL/occo-drift-rough.mp3"
-    finalUrl: "https://REPLACE_WITH_R2_URL/occo-drift-final.mp3"
+  - title: "Jingle-Jangle Diamond Die"
+    roughUrl: "https://audio.mixdownapp.com/OCCO/Jingle-Jangle%20Diamond%20Die%20(reference).wav"
+    finalUrl: "https://audio.mixdownapp.com/OCCO/OCCO%20-%20Jingle-Jangle%20Diamond%20Die%202022-10-03%20A%20-%20Full%20Mix.wav"
     roughOffset: 0
-  - title: "Void"
-    roughUrl: "https://REPLACE_WITH_R2_URL/occo-void-rough.mp3"
-    finalUrl: "https://REPLACE_WITH_R2_URL/occo-void-final.mp3"
-    roughOffset: -240
 ---
