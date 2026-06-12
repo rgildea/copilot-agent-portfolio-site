@@ -96,7 +96,8 @@ function loadTrack(card, state, trackIndex, mix, autoplay, seekToFileTime, els) 
   });
   state.ws = ws;
 
-  ws.on('ready', (duration) => {
+  ws.on('ready', () => {
+    const duration = ws.getDuration();
     if (els.timeTotalEl) els.timeTotalEl.textContent = formatTime(duration);
 
     // Determine initial seek position in file time
