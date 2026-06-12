@@ -11,6 +11,9 @@ import contact from "../data/contact.json";
 const portfolioItems = (await getCollection("portfolio")).sort(
   (a, b) => a.data.order - b.data.order
 );
+const audioItems = portfolioItems.filter(
+  (item) => item.data.audioTracks && item.data.audioTracks.length > 0,
+);
 const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
   ALLOWED_TAGS: ["p", "strong", "em", "a", "ul", "ol", "li", "br", "h1", "h2", "h3", "h4", "h5", "h6"],
   ALLOWED_ATTR: ["href", "target", "rel"],
@@ -149,6 +152,71 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
         </div>
       </div>
     </section>
+
+    <!-- Listen -->
+    {audioItems.length > 0 && (
+      <section id="listen" class="listen-section">
+        <div class="container">
+          <h2 class="section-title">Rough vs. Final</h2>
+          <div class="listen-cards">
+            {audioItems.map((item) => (
+              <div
+                class="listen-card"
+                data-tracks={JSON.stringify(item.data.audioTracks)}
+              >
+                <div class="listen-card__header">
+                  <img
+                    src={item.data.image}
+                    alt={item.data.title}
+                    class="listen-card__thumb"
+                    width="48"
+                    height="48"
+                    loading="lazy"
+                  />
+                  <div class="listen-card__meta">
+                    <div class="listen-card__artist-name">{item.data.title}</div>
+                    <div class="listen-card__role">{item.data.role}</div>
+                  </div>
+                </div>
+
+                <div class="listen-card__tabs" role="tablist">
+                  {item.data.audioTracks!.map((track, i) => (
+                    <button
+                      class={`listen-tab${i === 0 ? " active" : ""}`}
+                      role="tab"
+                      data-track-index={String(i)}
+                      aria-selected={i === 0 ? "true" : "false"}
+                    >
+                      {track.title}
+                    </button>
+                  ))}
+                </div>
+
+                <div class="listen-card__player">
+                  <div class="listen-player-controls">
+                    <button class="listen-play-btn" aria-label="Play">
+                      <i class="fas fa-play"></i>
+                    </button>
+                    <span class="listen-track-title">
+                      {item.data.audioTracks![0].title}
+                    </span>
+                    <div class="mix-toggle" role="group" aria-label="Mix version">
+                      <button class="mix-toggle__btn active" data-mix="rough">Rough</button>
+                      <button class="mix-toggle__btn" data-mix="final">Final</button>
+                    </div>
+                  </div>
+                  <div class="listen-waveform"></div>
+                  <div class="listen-time">
+                    <span class="listen-time__current">0:00</span>
+                    <span class="listen-time__total">0:00</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
     <!-- Contact -->
     <section id="contact" class="contact-section">
