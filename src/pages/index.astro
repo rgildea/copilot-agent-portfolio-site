@@ -20,7 +20,7 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
 });
 ---
 
-<Base title="Ryan Gildea | Audio Engineer & Producer">
+<Base title="Ryan Gildea | Audio Engineer & Producer" hasListenSection={audioItems.length > 0}>
   <!-- Hero -->
   <header class="hero">
     <div class="hero-backgrounds">
@@ -179,13 +179,11 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                   </div>
                 </div>
 
-                <div class="listen-card__tabs" role="tablist">
+                <div class="listen-card__tabs" role="group" aria-label="Tracks">
                   {item.data.audioTracks!.map((track, i) => (
                     <button
                       class={`listen-tab${i === 0 ? " active" : ""}`}
-                      role="tab"
                       data-track-index={String(i)}
-                      aria-selected={i === 0 ? "true" : "false"}
                     >
                       {track.title}
                     </button>
