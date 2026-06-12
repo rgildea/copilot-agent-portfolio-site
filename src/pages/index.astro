@@ -179,10 +179,14 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                   </div>
                 </div>
 
-                <div class="listen-card__tabs" role="group" aria-label="Tracks">
+                <div class="listen-card__tabs" role="tablist" aria-label="Tracks">
                   {item.data.audioTracks!.map((track, i) => (
                     <button
+                      type="button"
                       class={`listen-tab${i === 0 ? " active" : ""}`}
+                      role="tab"
+                      aria-selected={i === 0 ? 'true' : 'false'}
+                      tabindex={i === 0 ? 0 : -1}
                       data-track-index={String(i)}
                     >
                       {track.title}
