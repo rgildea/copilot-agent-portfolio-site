@@ -246,8 +246,10 @@ function updateToggleUI(card, mix) {
 }
 
 function updatePlayBtn(card, isPlaying) {
-  const icon = card.querySelector('.listen-play-btn i');
+  const btn = card.querySelector('.listen-play-btn');
+  const icon = btn?.querySelector('i');
   if (icon) icon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+  if (btn) btn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
 }
 
 function getCardEls(card) {
