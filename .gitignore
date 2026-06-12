@@ -43,3 +43,4 @@ coverage/
 junit.xml
 test-report.xml
 uploadcare-results.json
+.superpowers/

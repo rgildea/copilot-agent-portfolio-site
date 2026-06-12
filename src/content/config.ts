@@ -11,6 +11,16 @@ const portfolio = defineCollection({
     description: z.string(),
     featured: z.boolean().default(false),
     order: z.number().default(10),
+    audioTracks: z
+      .array(
+        z.object({
+          title: z.string(),
+          roughUrl: z.string().url(),
+          finalUrl: z.string().url(),
+          roughOffset: z.number().default(0),
+        }),
+      )
+      .optional(),
   }),
 });
 
