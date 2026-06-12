@@ -55,7 +55,10 @@ function initCard(card) {
         targetFileTime = Math.max(0, playerTime);
       }
       clearSilenceTimer(state);
-      loadTrack(card, state, state.activeTrackIndex, newMix, wasPlaying, targetFileTime, els);
+      // When switching to rough inside the silence zone, pass playerTime so the
+      // silence zone resumes from the current position instead of restarting.
+      const resumePlayerTime = (newMix === 'rough' && targetFileTime === 0) ? playerTime : 0;
+      loadTrack(card, state, state.activeTrackIndex, newMix, wasPlaying, targetFileTime, els, resumePlayerTime);
     });
   });
 
@@ -64,7 +67,7 @@ function initCard(card) {
   loadTrack(card, state, 0, 'rough', false, 0, els);
 }
 
-function loadTrack(card, state, trackIndex, mix, autoplay, seekToFileTime, els) {
+function loadTrack(card, state, trackIndex, mix, autoplay, seekToFileTime, els, resumePlayerTime = 0) {
   clearSilenceTimer(state);
   if (state.ws) {
     state.ws.destroy();
@@ -112,8 +115,8 @@ function loadTrack(card, state, trackIndex, mix, autoplay, seekToFileTime, els) 
 
     if (autoplay) {
       if (mix === 'rough' && offset_s > 0 && seekToFileTime === 0) {
-        // Positive offset starting from player time 0: apply silence zone
-        startSilenceZone(card, state, els, offset_s);
+        // Positive offset: apply silence zone, resuming from resumePlayerTime if mid-zone
+        startSilenceZone(card, state, els, offset_s, resumePlayerTime);
       } else {
         ws.play();
       }
@@ -168,8 +171,10 @@ function handlePlayClick(card, state, els) {
   }
 }
 
-function startSilenceZone(card, state, els, offset_s) {
-  state.silenceStartMs = performance.now();
+function startSilenceZone(card, state, els, offset_s, startPlayerTime = 0) {
+  // Offset silenceStartMs so elapsed display continues from startPlayerTime,
+  // and reduce the timeout by the already-elapsed portion.
+  state.silenceStartMs = performance.now() - startPlayerTime * 1000;
   pauseOtherCards(card);
   updatePlayBtn(card, true);
 
@@ -189,7 +194,7 @@ function startSilenceZone(card, state, els, offset_s) {
       state.rafId = null;
     }
     if (state.ws) state.ws.play();
-  }, offset_s * 1000);
+  }, (offset_s - startPlayerTime) * 1000);
 }
 
 function clearSilenceTimer(state) {
