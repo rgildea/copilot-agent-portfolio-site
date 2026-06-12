@@ -229,7 +229,10 @@ function pauseOtherCards(activeCard) {
 
 function updateTabUI(card, activeIndex) {
   card.querySelectorAll('.listen-tab').forEach((tab, i) => {
-    tab.classList.toggle('active', i === activeIndex);
+    const isActive = i === activeIndex;
+    tab.classList.toggle('active', isActive);
+    tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    tab.setAttribute('tabindex', isActive ? '0' : '-1');
   });
 }
 
