@@ -135,8 +135,8 @@ a:hover {
     6,
     4,
     29,
-    0.4
-  ); /* Semi-transparent background always present */
+    0.75
+  ); /* Semi-transparent background — opaque enough for white link contrast */
   position: fixed;
   width: 100%;
   top: 0;
@@ -159,8 +159,8 @@ a:hover {
     6,
     4,
     29,
-    0.3
-  ); /* Semi-transparent but visible background */
+    0.75
+  ); /* Opaque enough for white nav link contrast while keeping synthwave feel */
 }
 
 .navbar.scrolled.top-position {
@@ -448,7 +448,8 @@ a:hover {
   color: #fff;
   text-shadow:
     0 0 5px #3498db,
-    0 0 10px #3498db;
+    0 0 10px #3498db,
+    0 2px 6px rgba(0, 0, 0, 0.8); /* dark shadow ensures contrast on any background */
   letter-spacing: 2px;
   margin-bottom: 1.5rem;
   line-height: 1.2;
@@ -1457,7 +1458,7 @@ body.modal-open {
 }
 
 .mix-toggle__btn.active {
-  background: var(--secondary-color);
+  background: #b03080; /* darkened from --secondary-color (#e252a2) for 4.5:1 contrast with white */
   color: #fff;
 }
 
