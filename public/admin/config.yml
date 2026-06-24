@@ -26,6 +26,23 @@ collections:
           default: false,
         }
       - { label: "Order", name: "order", widget: "number", default: 10 }
+      # Keep in sync with audioTracks schema in src/content/config.ts
+      - label: "Audio Tracks"
+        name: "audioTracks"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Rough Mix URL", name: "roughUrl", widget: "string" }
+          - { label: "Final Mix URL", name: "finalUrl", widget: "string" }
+          - {
+              label: "Rough Offset (ms)",
+              name: "roughOffset",
+              widget: "number",
+              default: 0,
+              required: false,
+              hint: "Negative: skip start of rough file. Positive: add silence before rough playback.",
+            }
 
   - name: "services"
     label: "Service"
