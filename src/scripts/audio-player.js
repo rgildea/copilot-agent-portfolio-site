@@ -32,14 +32,25 @@ function initCard(card) {
     silenceTimer: null,
     silenceStartMs: null,
     rafId: null,
+    loaded: false,
   };
   players.set(card, state);
 
   const els = buildCardEls(card);
 
+  function ensureLoaded(trackIndex = 0, autoplay = false) {
+    if (state.loaded) return;
+    state.loaded = true;
+    loadTrackPair(card, state, trackIndex, 'rough', autoplay, 0, els);
+  }
+
   card.querySelectorAll('.listen-tab').forEach((tab) => {
     tab.addEventListener('click', () => {
       const idx = parseInt(tab.dataset.trackIndex, 10);
+      if (!state.loaded) {
+        ensureLoaded(idx);
+        return;
+      }
       if (idx === state.activeTrackIndex) return;
       const wasPlaying = isCardPlaying(state);
       clearSilenceTimer(state);
@@ -50,15 +61,20 @@ function initCard(card) {
 
   card.querySelectorAll('.mix-toggle__btn').forEach((btn) => {
     btn.addEventListener('click', () => {
+      ensureLoaded();
       const newMix = btn.dataset.mix;
       if (newMix === state.activeMix) return;
       switchMix(card, state, newMix, els);
     });
   });
 
-  els.playBtn.addEventListener('click', () => handlePlayClick(card, state, els));
-
-  loadTrackPair(card, state, 0, 'rough', false, 0, els);
+  els.playBtn.addEventListener('click', () => {
+    if (!state.loaded) {
+      ensureLoaded(0, true);
+      return;
+    }
+    handlePlayClick(card, state, els);
+  });
 }
 
 function buildCardEls(card) {
