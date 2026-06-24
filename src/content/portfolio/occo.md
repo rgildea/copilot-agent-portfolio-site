@@ -14,6 +14,10 @@ audioTracks:
     finalUrl: https://audio.mixdownapp.com/OCCO/OCCO%20-%20Jingle-Jangle%20Diamond%20Die%202022-10-03%20A%20-%20Full%20Mix.wav
     roughOffset: 0
   - roughOffset: 0
+    title: No Regerts
+    roughUrl: https://audio.mixdownapp.com/OCCO/NO%20REGRETS%20ROUGH%20MIX.wav
+    finalUrl: https://audio.mixdownapp.com/OCCO/OCCO%20-%20No%20Regrets%202022-11-21%20A%20-%20Main%20Mix.wav
+  - roughOffset: 0
     title: (They're Knocking Down Your Door!)[#FREEASSANGE]
     roughUrl: https://audio.mixdownapp.com/OCCO/%23FREEASSANGE%20Premix%20Draft.wav
     finalUrl: https://audio.mixdownapp.com/OCCO/%23FREEASSANGE%202024-01-29%20A%20%5Bfinal%20mix%5D.wav
