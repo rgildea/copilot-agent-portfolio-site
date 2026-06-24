@@ -1,7 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
-import { Image } from "astro:assets";
 import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
 
@@ -81,7 +80,12 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
         </div>
 
         <div class="portfolio-gallery">
-          {portfolioItems.map((item) => (
+          {portfolioItems.map((item) => {
+            const isLocal = item.data.image.startsWith('/images/portfolio/');
+            const webpSrc = isLocal
+              ? item.data.image.replace(/\.[^.]+$/, '.webp')
+              : null;
+            return (
             <article
               class={`portfolio-item ${item.data.client === "Personal Project" ? "personal-project" : "client-project"}`}
               id={item.slug}
@@ -96,15 +100,28 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                 data-image={item.data.image}
                 data-url={item.data.url}
               >
-                <Image
-                  src={item.data.image}
-                  alt={item.data.title}
-                  class="portfolio-image"
-                  loading="lazy"
-                  width={350}
-                  height={250}
-                  format="webp"
-                />
+                {isLocal ? (
+                  <picture>
+                    <source srcset={webpSrc} type="image/webp" />
+                    <img
+                      src={item.data.image}
+                      alt={item.data.title}
+                      class="portfolio-image"
+                      loading="lazy"
+                      width="350"
+                      height="250"
+                    />
+                  </picture>
+                ) : (
+                  <img
+                    src={item.data.image}
+                    alt={item.data.title}
+                    class="portfolio-image"
+                    loading="lazy"
+                    width="350"
+                    height="250"
+                  />
+                )}
                 <div class="portfolio-info">
                   <h3>{item.data.title}</h3>
                   <p>{item.data.role}</p>
@@ -114,7 +131,8 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                 </div>
               </button>
             </article>
-          ))}
+            );
+          })}
         </div>
 
         <div class="portfolio-modal" id="portfolio-modal" aria-hidden="true">
@@ -164,14 +182,28 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                 data-tracks={JSON.stringify(item.data.audioTracks)}
               >
                 <div class="listen-card__header">
-                  <img
-                    src={item.data.image}
-                    alt={item.data.title}
-                    class="listen-card__thumb"
-                    width="48"
-                    height="48"
-                    loading="lazy"
-                  />
+                  {item.data.image.startsWith('/images/portfolio/') ? (
+                    <picture>
+                      <source srcset={item.data.image.replace(/\.[^.]+$/, '.webp')} type="image/webp" />
+                      <img
+                        src={item.data.image}
+                        alt={item.data.title}
+                        class="listen-card__thumb"
+                        width="48"
+                        height="48"
+                        loading="lazy"
+                      />
+                    </picture>
+                  ) : (
+                    <img
+                      src={item.data.image}
+                      alt={item.data.title}
+                      class="listen-card__thumb"
+                      width="48"
+                      height="48"
+                      loading="lazy"
+                    />
+                  )}
                   <div class="listen-card__meta">
                     <div class="listen-card__artist-name">{item.data.title}</div>
                     <div class="listen-card__role">{item.data.role}</div>
