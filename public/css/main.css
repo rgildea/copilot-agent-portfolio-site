@@ -456,7 +456,7 @@ a:hover {
   display: inline-block;
 }
 
-.hero h4 {
+.hero h2 {
   font-size: clamp(1rem, 3vw, 1.5rem); /* Responsive font size using clamp */
   font-weight: 400;
   margin-bottom: 2rem;

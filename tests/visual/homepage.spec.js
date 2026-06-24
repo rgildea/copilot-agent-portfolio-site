@@ -7,7 +7,7 @@ test.describe("Homepage visual tests", () => {
 
     await expect(page.locator(".hero")).toBeVisible();
     await expect(page.locator(".hero h1")).toBeVisible();
-    await expect(page.locator(".hero h4")).toBeVisible();
+    await expect(page.locator(".hero h2")).toBeVisible();
     await expect(page.locator(".hero .cta-button")).toBeVisible();
   });
 
