@@ -7,6 +7,16 @@ import DOMPurify from "isomorphic-dompurify";
 import about from "../data/about.json";
 import contact from "../data/contact.json";
 
+const socialIconMap = {
+  "fa-linkedin": "icon-linkedin",
+  "fa-instagram": "icon-instagram",
+  "fa-github": "icon-github",
+  "fa-facebook": "icon-facebook",
+  "fa-hashtag": "icon-hashtag",
+  "fa-twitter": "icon-twitter",
+  "fa-cloud": "icon-cloud",
+};
+
 const portfolioItems = (await getCollection("portfolio")).sort(
   (a, b) => a.data.order - b.data.order
 );
@@ -47,7 +57,7 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
     </div>
     <a href="#about" class="scroll-indicator" aria-label="Scroll to About section">
       <div class="scroll-text">Scroll for more</div>
-      <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
+      <div class="scroll-arrow"><svg class="icon" aria-hidden="true"><use href="/icons.svg#icon-chevron-down"></use></svg></div>
     </a>
   </header>
 
@@ -235,7 +245,7 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                 >
                   <div class="listen-player-controls">
                     <button class="listen-play-btn" aria-label="Play">
-                      <i class="fas fa-play"></i>
+                      <svg class="icon" aria-hidden="true"><use href="/icons.svg#icon-play"></use></svg>
                     </button>
                     <span class="listen-track-title">
                       {item.data.audioTracks![0].title}
@@ -264,13 +274,13 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
         <h2 class="section-title">Get In Touch</h2>
         <div class="contact-content">
           <div class="contact-info">
-            <p><i class="fas fa-envelope"></i> {contact.email}</p>
-            <p><i class="fas fa-phone"></i> {contact.phone}</p>
-            <p><i class="fas fa-map-marker-alt"></i> {contact.location}</p>
+            <p><svg class="icon contact-icon" aria-hidden="true"><use href="/icons.svg#icon-envelope"></use></svg> {contact.email}</p>
+            <p><svg class="icon contact-icon" aria-hidden="true"><use href="/icons.svg#icon-phone"></use></svg> {contact.phone}</p>
+            <p><svg class="icon contact-icon" aria-hidden="true"><use href="/icons.svg#icon-map-marker-alt"></use></svg> {contact.location}</p>
             <div class="social-links">
               {contact.socialLinks.map((social) => (
                 <a href={social.url} target="_blank" rel="noopener noreferrer" class="social-link" aria-label={social.platform}>
-                  <i class={`fab ${social.icon}`}></i>
+                  <svg class="icon" aria-hidden="true"><use href={`/icons.svg#${socialIconMap[social.icon] || 'icon-hashtag'}`}></use></svg>
                 </a>
               ))}
             </div>

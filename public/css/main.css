@@ -58,6 +58,13 @@
   box-sizing: border-box;
 }
 
+svg.icon {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
 body {
   font-family: "Open Sans", sans-serif;
   line-height: 1.6;
@@ -403,8 +410,10 @@ a:hover {
   text-transform: uppercase;
 }
 
-.scroll-arrow {
-  font-size: 1.2rem;
+.scroll-arrow svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: var(--light-text);
 }
 
 @keyframes fadeIn {
@@ -940,12 +949,12 @@ body.modal-open {
   align-items: center;
 }
 
-.contact-info i {
+.contact-info .contact-icon {
   margin-right: 1rem;
   color: var(--accent-color);
-  font-size: 1.5rem;
   width: 24px;
-  text-shadow: none;
+  height: 24px;
+  flex-shrink: 0;
 }
 
 .social-links {
@@ -982,16 +991,14 @@ body.modal-open {
   position: relative;
 }
 
-.social-link i {
+.social-link svg {
   color: var(--accent-color);
-  font-size: 1.2rem;
-  margin: 0;
+  width: 1.2rem;
+  height: 1.2rem;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100%;
-  text-align: center;
 }
 
 .social-link:hover {
@@ -1000,7 +1007,7 @@ body.modal-open {
   box-shadow: 0 0 8px var(--accent-color);
 }
 
-.social-link:hover i {
+.social-link:hover svg {
   color: var(--dark-bg);
 }
 
@@ -1413,7 +1420,6 @@ body.modal-open {
   border: none;
   border-radius: 50%;
   color: #fff;
-  font-size: 0.9rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1421,6 +1427,11 @@ body.modal-open {
   flex-shrink: 0;
   box-shadow: 0 0 10px rgba(226, 82, 162, 0.35);
   transition: var(--transition);
+}
+
+.listen-play-btn svg {
+  width: 0.9rem;
+  height: 0.9rem;
 }
 
 .listen-play-btn:hover {
