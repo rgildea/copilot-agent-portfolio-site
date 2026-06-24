@@ -478,6 +478,7 @@ a:hover {
   margin-right: auto;
   width: 90%;
   height: auto;
+  min-height: 152px;
   position: relative;
 }
 
@@ -958,6 +959,7 @@ body.modal-open {
   margin-top: 1.5rem;
   opacity: 0.85;
   transition: opacity 0.2s ease;
+  min-height: 33px;
 }
 
 .bandcamp-follow:hover {
