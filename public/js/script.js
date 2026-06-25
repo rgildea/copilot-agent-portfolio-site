@@ -305,18 +305,25 @@ function initGridOverlay() {
   var facade = document.getElementById("spotify-facade");
   if (!facade) return;
   facade.addEventListener("click", function () {
-    facade.style.opacity = "0";
-    facade.addEventListener("transitionend", function () {
-      var iframe = document.createElement("iframe");
-      iframe.src = "https://open.spotify.com/embed/playlist/3kybqFlT51pOHXhIsLoSOz?utm_source=generator&theme=0";
-      iframe.title = "Featured playlist by Ryan Gildea";
-      iframe.style.cssText = "border-radius:8px;";
-      iframe.setAttribute("frameborder", "0");
-      iframe.setAttribute("allowfullscreen", "");
-      iframe.setAttribute("allow", "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture");
-      facade.innerHTML = "";
-      facade.appendChild(iframe);
-      facade.style.opacity = "1";
+    var btn = facade.querySelector(".spotify-facade-btn");
+    var iframe = document.createElement("iframe");
+    iframe.src = "https://open.spotify.com/embed/playlist/3kybqFlT51pOHXhIsLoSOz?utm_source=generator&theme=0";
+    iframe.title = "Featured playlist by Ryan Gildea";
+    iframe.setAttribute("frameborder", "0");
+    iframe.setAttribute("allowfullscreen", "");
+    iframe.setAttribute("allow", "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture");
+    iframe.style.cssText = "position:absolute;inset:0;opacity:0;transition:opacity 0.3s ease;";
+    facade.appendChild(iframe);
+    iframe.addEventListener("load", function () {
+      iframe.style.opacity = "1";
+      if (btn) {
+        btn.style.transition = "opacity 0.3s ease";
+        btn.style.opacity = "0";
+        btn.addEventListener("transitionend", function () {
+          btn.remove();
+          iframe.style.cssText = "";
+        }, { once: true });
+      }
     }, { once: true });
   }, { once: true });
 })();

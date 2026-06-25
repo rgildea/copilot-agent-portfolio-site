@@ -489,7 +489,6 @@ a:hover {
   min-height: 380px;
   max-height: 800px;
   position: relative;
-  transition: opacity 0.3s ease;
 }
 
 .spotify-direct-embed iframe {
