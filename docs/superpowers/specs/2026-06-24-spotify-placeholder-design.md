@@ -123,18 +123,31 @@ facade.addEventListener("click", function () {
 
 ```bash
 #!/usr/bin/env bash
-# Usage: ./scripts/blur-spotify-screenshot.sh <input.png> [output.jpg]
+# Usage: ./scripts/blur-spotify-screenshot.sh <input> [output]
+# Keeps top SPLIT_PCT% crisp (cover art), blurs bottom (track list).
 set -e
-INPUT="${1:?Usage: $0 <input.png> [output.jpg]}"
+INPUT="${1:?Usage: $0 <input> [output]}"
 OUTPUT="${2:-public/images/spotify-placeholder.jpg}"
-SPLIT_PCT=38
+SPLIT_PCT=37
 
-H=$(identify -format "%h" "$INPUT")
+if command -v magick >/dev/null 2>&1; then
+  IM_CMD=(magick)
+  IDENTIFY_CMD=(magick identify)
+else
+  IM_CMD=(convert)
+  IDENTIFY_CMD=(identify)
+fi
+
+H=$("${IDENTIFY_CMD[@]}" -format "%h" "$INPUT")
+W=$("${IDENTIFY_CMD[@]}" -format "%w" "$INPUT")
 SPLIT=$(echo "$H * $SPLIT_PCT / 100" | bc)
+BLUR_H=$(echo "$H - $SPLIT" | bc)
 
-convert "$INPUT" -blur 0x14 \
-  \( "$INPUT" -gravity North -crop "100%x${SPLIT}+0+0" +repage \) \
-  -gravity North -composite \
+"${IM_CMD[@]}" "$INPUT" \
+  \( "$INPUT" \
+     -crop "${W}x${BLUR_H}+0+${SPLIT}" +repage \
+     -blur 0x14 \) \
+  -gravity South -composite \
   "$OUTPUT"
 
 echo "Written to $OUTPUT"
