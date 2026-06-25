@@ -33,6 +33,7 @@ function initCard(card) {
     silenceStartMs: null,
     rafId: null,
     loaded: false,
+    loading: false,
   };
   players.set(card, state);
 
@@ -41,6 +42,10 @@ function initCard(card) {
   function ensureLoaded(trackIndex = 0, autoplay = false) {
     if (state.loaded) return;
     state.loaded = true;
+    if (autoplay) {
+      state.loading = true;
+      setPlayBtnLoading(els.playBtn, true);
+    }
     loadTrackPair(card, state, trackIndex, 'rough', autoplay, 0, els);
   }
 
@@ -54,7 +59,7 @@ function initCard(card) {
       if (idx === state.activeTrackIndex) return;
       const wasPlaying = isCardPlaying(state);
       clearSilenceTimer(state);
-      destroyPair(state);
+      destroyPair(state, els.playBtn);
       loadTrackPair(card, state, idx, state.activeMix, wasPlaying, 0, els);
     });
   });
@@ -69,6 +74,7 @@ function initCard(card) {
   });
 
   els.playBtn.addEventListener('click', () => {
+    if (state.loading) return;
     if (!state.loaded) {
       ensureLoaded(0, true);
       return;
@@ -149,7 +155,8 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
     if (els.timeCurrentEl) els.timeCurrentEl.textContent = formatTime(Math.max(0, t + offset_s));
   });
 
-  wsRough.on('play', () => { updatePlayBtn(card, true); pauseOtherCards(card); });
+  wsRough.on('play', () => { state.loading = false; setPlayBtnLoading(els.playBtn, false); updatePlayBtn(card, true); pauseOtherCards(card); });
+  wsRough.on('error', () => { state.loading = false; setPlayBtnLoading(els.playBtn, false); });
   wsRough.on('pause', () => { if (!state.wsFinal?.isPlaying() && !state.silenceTimer) updatePlayBtn(card, false); });
   wsRough.on('finish', () => {
     if (state.activeMix === 'rough') {
@@ -186,7 +193,8 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
     if (els.timeCurrentEl) els.timeCurrentEl.textContent = formatTime(t);
   });
 
-  wsFinal.on('play', () => { updatePlayBtn(card, true); pauseOtherCards(card); });
+  wsFinal.on('play', () => { state.loading = false; setPlayBtnLoading(els.playBtn, false); updatePlayBtn(card, true); pauseOtherCards(card); });
+  wsFinal.on('error', () => { state.loading = false; setPlayBtnLoading(els.playBtn, false); });
   wsFinal.on('pause', () => { if (!state.wsRough?.isPlaying() && !state.silenceTimer) updatePlayBtn(card, false); });
   wsFinal.on('finish', () => {
     if (state.activeMix === 'final') {
@@ -314,7 +322,9 @@ function clearSilenceTimer(state) {
   state.silenceStartMs = null;
 }
 
-function destroyPair(state) {
+function destroyPair(state, playBtn = null) {
+  state.loading = false;
+  if (playBtn) setPlayBtnLoading(playBtn, false);
   if (state.wsRough) { state.wsRough.destroy(); state.wsRough = null; }
   if (state.wsFinal) { state.wsFinal.destroy(); state.wsFinal = null; }
   state.roughReady = false;
@@ -366,6 +376,12 @@ function updateToggleUI(card, mix) {
     btn.classList.toggle('active', isActive);
     btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
   });
+}
+
+function setPlayBtnLoading(btn, isLoading) {
+  if (!btn) return;
+  btn.classList.toggle('loading', isLoading);
+  if (isLoading) btn.setAttribute('aria-label', 'Loading audio');
 }
 
 function updatePlayBtn(card, isPlaying) {

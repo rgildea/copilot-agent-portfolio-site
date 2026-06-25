@@ -1439,6 +1439,24 @@ body.modal-open {
   transform: scale(1.05);
 }
 
+@keyframes play-btn-spin {
+  to { transform: rotate(360deg); }
+}
+
+.listen-play-btn.loading {
+  background: transparent;
+  border: 3px solid rgba(176, 48, 128, 0.25);
+  border-top-color: #b03080;
+  box-shadow: none;
+  cursor: default;
+  pointer-events: none;
+  animation: play-btn-spin 0.7s linear infinite;
+}
+
+.listen-play-btn.loading svg {
+  display: none;
+}
+
 .listen-track-title {
   flex: 1;
   font-size: 0.9rem;
