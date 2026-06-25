@@ -27,7 +27,7 @@ test.describe("Listen section", () => {
     await page.goto("/");
     const firstCard = page.locator(".listen-card").first();
     const tabs = firstCard.locator(".listen-tab");
-    await expect(tabs).toHaveCount(1); // OCCO has 1 track
+    await expect(tabs).toHaveCount(3); // OCCO has 3 tracks
     await expect(tabs.first()).toHaveClass(/active/);
   });
 
