@@ -1,6 +1,6 @@
 ---
 title: OCCO
-role: Producer, Mix Engineer
+role: Additional Production, Mixing Engineer
 image: /images/portfolio/occo.png
 url: https://open.spotify.com/artist/5IG3wkveWKVh9r0AQvY8pQ
 client: OCCO
