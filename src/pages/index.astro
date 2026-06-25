@@ -43,7 +43,14 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
       <a href="#contact" class="cta-button">Hire Me</a>
       <div class="spotify-direct-embed" id="spotify-facade">
         <button class="spotify-facade-btn" aria-label="Load Spotify playlist">
-          Load Playlist
+          <img src="/images/spotify-placeholder.jpg" alt="" class="spotify-facade-img" aria-hidden="true">
+          <div class="spotify-facade-content">
+            <svg class="spotify-facade-play" viewBox="0 0 64 64" aria-hidden="true">
+              <circle cx="32" cy="32" r="32"/>
+              <polygon points="24,16 52,32 24,48"/>
+            </svg>
+            <span>Play Playlist</span>
+          </div>
         </button>
       </div>
     </div>
