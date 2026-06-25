@@ -4,7 +4,7 @@
 set -e
 INPUT="${1:?Usage: $0 <input> [output]}"
 OUTPUT="${2:-public/images/spotify-placeholder.jpg}"
-SPLIT_PCT=40
+SPLIT_PCT=37
 
 H=$(magick identify -format "%h" "$INPUT")
 W=$(magick identify -format "%w" "$INPUT")
