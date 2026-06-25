@@ -178,8 +178,6 @@ a:hover {
 .navbar.top-position .nav-links a {
   color: var(--light-text);
   cursor: pointer !important;
-  /* Add a subtle highlight to make it obvious the links are clickable */
-  text-shadow: 0 0 2px var(--accent-color);
 }
 
 .navbar-inner {

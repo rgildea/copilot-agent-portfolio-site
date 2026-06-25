@@ -125,3 +125,11 @@ test.describe("Preloader", () => {
     await expect(preloader).toHaveClass(/loaded/);
   });
 });
+
+test.describe("Accessibility", () => {
+  test("bandcamp follow iframe should have an accessible title", async ({ page }) => {
+    await page.goto("/");
+    const iframe = page.locator(".bandcamp-follow iframe");
+    await expect(iframe).toHaveAttribute("title", /.+/);
+  });
+});
