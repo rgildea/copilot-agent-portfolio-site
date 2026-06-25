@@ -90,3 +90,14 @@ test.describe("Responsive design tests", () => {
     await expect(page.locator(".navbar")).toBeVisible();
   });
 });
+
+test.describe("Homepage visual tests", () => {
+  test("page should render with styles applied on first paint", async ({ page }) => {
+    await page.goto("/");
+    const bg = await page.locator(".navbar").evaluate(
+      (el) => getComputedStyle(el).backgroundColor
+    );
+    // rgba(0,0,0,0) = transparent = CSS not loaded; any real value means CSS loaded
+    expect(bg).not.toBe("rgba(0, 0, 0, 0)");
+  });
+});
