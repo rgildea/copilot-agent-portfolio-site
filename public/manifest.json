@@ -1,0 +1,15 @@
+{
+  "name": "Ryan Gildea — Audio",
+  "short_name": "RG Audio",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0b29",
+  "theme_color": "#52c1d1",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

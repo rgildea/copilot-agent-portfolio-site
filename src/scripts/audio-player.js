@@ -32,33 +32,55 @@ function initCard(card) {
     silenceTimer: null,
     silenceStartMs: null,
     rafId: null,
+    loaded: false,
+    loading: false,
   };
   players.set(card, state);
 
   const els = buildCardEls(card);
 
+  function ensureLoaded(trackIndex = 0, autoplay = false) {
+    if (state.loaded) return;
+    state.loaded = true;
+    if (autoplay) {
+      state.loading = true;
+      setPlayBtnLoading(els.playBtn, true);
+    }
+    loadTrackPair(card, state, trackIndex, 'rough', autoplay, 0, els);
+  }
+
   card.querySelectorAll('.listen-tab').forEach((tab) => {
     tab.addEventListener('click', () => {
       const idx = parseInt(tab.dataset.trackIndex, 10);
+      if (!state.loaded) {
+        ensureLoaded(idx);
+        return;
+      }
       if (idx === state.activeTrackIndex) return;
       const wasPlaying = isCardPlaying(state);
       clearSilenceTimer(state);
-      destroyPair(state);
+      destroyPair(state, els.playBtn);
       loadTrackPair(card, state, idx, state.activeMix, wasPlaying, 0, els);
     });
   });
 
   card.querySelectorAll('.mix-toggle__btn').forEach((btn) => {
     btn.addEventListener('click', () => {
+      ensureLoaded();
       const newMix = btn.dataset.mix;
       if (newMix === state.activeMix) return;
       switchMix(card, state, newMix, els);
     });
   });
 
-  els.playBtn.addEventListener('click', () => handlePlayClick(card, state, els));
-
-  loadTrackPair(card, state, 0, 'rough', false, 0, els);
+  els.playBtn.addEventListener('click', () => {
+    if (state.loading) return;
+    if (!state.loaded) {
+      ensureLoaded(0, true);
+      return;
+    }
+    handlePlayClick(card, state, els);
+  });
 }
 
 function buildCardEls(card) {
@@ -133,7 +155,8 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
     if (els.timeCurrentEl) els.timeCurrentEl.textContent = formatTime(Math.max(0, t + offset_s));
   });
 
-  wsRough.on('play', () => { updatePlayBtn(card, true); pauseOtherCards(card); });
+  wsRough.on('play', () => { state.loading = false; setPlayBtnLoading(els.playBtn, false); updatePlayBtn(card, true); pauseOtherCards(card); });
+  wsRough.on('error', () => { state.loading = false; setPlayBtnLoading(els.playBtn, false); });
   wsRough.on('pause', () => { if (!state.wsFinal?.isPlaying() && !state.silenceTimer) updatePlayBtn(card, false); });
   wsRough.on('finish', () => {
     if (state.activeMix === 'rough') {
@@ -170,7 +193,8 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
     if (els.timeCurrentEl) els.timeCurrentEl.textContent = formatTime(t);
   });
 
-  wsFinal.on('play', () => { updatePlayBtn(card, true); pauseOtherCards(card); });
+  wsFinal.on('play', () => { state.loading = false; setPlayBtnLoading(els.playBtn, false); updatePlayBtn(card, true); pauseOtherCards(card); });
+  wsFinal.on('error', () => { state.loading = false; setPlayBtnLoading(els.playBtn, false); });
   wsFinal.on('pause', () => { if (!state.wsRough?.isPlaying() && !state.silenceTimer) updatePlayBtn(card, false); });
   wsFinal.on('finish', () => {
     if (state.activeMix === 'final') {
@@ -298,7 +322,9 @@ function clearSilenceTimer(state) {
   state.silenceStartMs = null;
 }
 
-function destroyPair(state) {
+function destroyPair(state, playBtn = null) {
+  state.loading = false;
+  if (playBtn) setPlayBtnLoading(playBtn, false);
   if (state.wsRough) { state.wsRough.destroy(); state.wsRough = null; }
   if (state.wsFinal) { state.wsFinal.destroy(); state.wsFinal = null; }
   state.roughReady = false;
@@ -352,10 +378,20 @@ function updateToggleUI(card, mix) {
   });
 }
 
+function setPlayBtnLoading(btn, isLoading) {
+  if (!btn) return;
+  btn.classList.toggle('loading', isLoading);
+  if (isLoading) {
+    btn.setAttribute('aria-label', 'Loading audio');
+  } else if (btn.getAttribute('aria-label') === 'Loading audio') {
+    btn.setAttribute('aria-label', 'Play');
+  }
+}
+
 function updatePlayBtn(card, isPlaying) {
   const btn = card.querySelector('.listen-play-btn');
-  const icon = btn?.querySelector('i');
-  if (icon) icon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+  const use = btn?.querySelector('use');
+  if (use) use.setAttribute('href', isPlaying ? '/icons.svg#icon-pause' : '/icons.svg#icon-play');
   if (btn) btn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
 }
 
