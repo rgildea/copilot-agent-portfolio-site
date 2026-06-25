@@ -1,6 +1,6 @@
 ---
 title: HORNZ
-role: Producer, Mixing Engineer
+role: Co-Producer, Mix Engineer
 image: /images/portfolio/hornz.png
 url: https://open.spotify.com/artist/0p3d1ST3tM1kU64YDKGngW
 client: Hornz
