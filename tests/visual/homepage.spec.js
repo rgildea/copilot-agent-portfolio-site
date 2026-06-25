@@ -90,3 +90,11 @@ test.describe("Responsive design tests", () => {
     await expect(page.locator(".navbar")).toBeVisible();
   });
 });
+
+test.describe("Accessibility", () => {
+  test("bandcamp follow iframe should have an accessible title", async ({ page }) => {
+    await page.goto("/");
+    const iframe = page.locator(".bandcamp-follow iframe");
+    await expect(iframe).toHaveAttribute("title", /.+/);
+  });
+});
