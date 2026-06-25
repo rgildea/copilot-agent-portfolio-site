@@ -381,7 +381,11 @@ function updateToggleUI(card, mix) {
 function setPlayBtnLoading(btn, isLoading) {
   if (!btn) return;
   btn.classList.toggle('loading', isLoading);
-  if (isLoading) btn.setAttribute('aria-label', 'Loading audio');
+  if (isLoading) {
+    btn.setAttribute('aria-label', 'Loading audio');
+  } else if (btn.getAttribute('aria-label') === 'Loading audio') {
+    btn.setAttribute('aria-label', 'Play');
+  }
 }
 
 function updatePlayBtn(card, isPlaying) {
