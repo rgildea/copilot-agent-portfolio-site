@@ -318,5 +318,5 @@ function initGridOverlay() {
       facade.appendChild(iframe);
       facade.style.opacity = "1";
     }, { once: true });
-  });
+  }, { once: true });
 })();
