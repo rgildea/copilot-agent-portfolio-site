@@ -7,11 +7,9 @@ Replace the bare "Load Playlist" button with a visually rich placeholder that lo
 ## Image Asset
 
 - The user takes a screenshot of the live Spotify embed (rendered at up to 900px wide).
-- A shell script using ImageMagick processes the screenshot:
-  1. Blurs a full copy of the image (Gaussian, radius ~14px).
-  2. Composites the crisp top 38% of the original (cover art + playlist title) back over the blurred version.
-  3. Outputs `public/images/spotify-placeholder.jpg`.
-- The 38% split point approximates where the track list begins. It can be tuned after reviewing the result.
+- A shell script using ImageMagick processes the screenshot, keeping the top portion crisp (cover art/title area) and blurring the track list area below.
+- Outputs `public/images/spotify-placeholder.jpg`.
+- The split point (currently 37%) approximates where the track list begins and can be tuned after reviewing the result.
 - The script is provided at `scripts/blur-spotify-screenshot.sh` and is a one-time manual step.
 
 ## HTML (`src/pages/index.astro`)
