@@ -115,10 +115,10 @@ const { title = "Ryan Gildea | Audio Engineer & Producer", hasListenSection = fa
 
     <script src="/js/script.js" defer></script>
     <script is:inline>
-      window.addEventListener("load", function () {
+      document.addEventListener("DOMContentLoaded", function () {
         setTimeout(function () {
           document.querySelector(".preloader").classList.add("loaded");
-        }, 500);
+        }, 200);
       });
     </script>
   </body>
