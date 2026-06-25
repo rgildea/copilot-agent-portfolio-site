@@ -113,3 +113,15 @@ test.describe("Homepage visual tests", () => {
     expect(bg).not.toBe("rgba(0, 0, 0, 0)");
   });
 });
+
+test.describe("Preloader", () => {
+  test("preloader should be hidden before external resources finish loading", async ({ page }) => {
+    // Block external resources to simulate slow third-party embeds
+    await page.route("**/*bandcamp*/**", (route) => route.abort());
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    // Wait 500ms (longer than our 200ms DOMContentLoaded delay)
+    await page.waitForTimeout(500);
+    const preloader = page.locator(".preloader");
+    await expect(preloader).toHaveClass(/loaded/);
+  });
+});
