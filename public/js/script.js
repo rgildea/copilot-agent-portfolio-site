@@ -161,6 +161,7 @@ function initPortfolioModal() {
     activeTrigger = trigger;
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
+    document.documentElement.classList.add("modal-open");
     document.body.classList.add("modal-open");
     modalDialog.focus();
   }
@@ -168,6 +169,7 @@ function initPortfolioModal() {
   function closeModal() {
     modal.classList.remove("is-open");
     modal.setAttribute("aria-hidden", "true");
+    document.documentElement.classList.remove("modal-open");
     document.body.classList.remove("modal-open");
 
     if (activeTrigger) {
