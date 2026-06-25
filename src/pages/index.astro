@@ -41,18 +41,10 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
       <h1 id="hero-name" class="hero-title">Ryan Gildea</h1>
       <h2>Music Production | Mixing | Mastering</h2>
       <a href="#contact" class="cta-button">Hire Me</a>
-      <div class="spotify-direct-embed">
-        <iframe
-          style="border-radius: 12px"
-          src="https://open.spotify.com/embed/playlist/3kybqFlT51pOHXhIsLoSOz?utm_source=generator&theme=0"
-          title="Featured playlist by Ryan Gildea"
-          width="100%"
-          class="spotify-iframe"
-          frameborder="0"
-          allowfullscreen
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="eager"
-        ></iframe>
+      <div class="spotify-direct-embed" id="spotify-facade">
+        <button class="spotify-facade-btn" aria-label="Load Spotify playlist">
+          Load Playlist
+        </button>
       </div>
     </div>
     <a href="#about" class="scroll-indicator" aria-label="Scroll to About section">

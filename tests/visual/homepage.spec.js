@@ -35,6 +35,18 @@ test.describe("Homepage visual tests", () => {
     await page.locator('.nav-links a[href="/#about"]').click();
     await expect(page.locator("#about")).toBeInViewport();
   });
+
+  test("spotify section should show facade button before interaction", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("#spotify-facade .spotify-facade-btn")).toBeVisible();
+    await expect(page.locator(".spotify-direct-embed iframe")).toHaveCount(0);
+  });
+
+  test("clicking spotify facade should load real iframe", async ({ page }) => {
+    await page.goto("/");
+    await page.locator("#spotify-facade .spotify-facade-btn").click();
+    await expect(page.locator(".spotify-direct-embed iframe")).toBeVisible();
+  });
 });
 
 test.describe("Contact form", () => {
