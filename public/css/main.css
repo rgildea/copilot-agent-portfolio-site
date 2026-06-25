@@ -525,15 +525,11 @@ a:hover {
   position: absolute;
   inset: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
   background: rgba(0, 0, 0, 0.35);
   transition: background 0.2s ease;
   border-radius: 8px;
-  color: var(--light-text);
-  font-size: 0.9rem;
 }
 
 .spotify-facade-btn:hover .spotify-facade-content {
@@ -547,14 +543,11 @@ a:hover {
 }
 
 .spotify-facade-play circle {
-  fill: var(--accent-color);
+  fill: #1DB954;
 }
 
 .spotify-facade-play polygon {
   fill: #000;
-  transform: translateX(4px);
-  transform-box: fill-box;
-  transform-origin: center;
 }
 
 .spotify-facade-btn:hover .spotify-facade-play {
