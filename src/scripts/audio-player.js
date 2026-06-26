@@ -19,7 +19,9 @@ function getAudioContext() {
 function connectGain(ws, linearGain) {
   try {
     const ctx = getAudioContext();
-    ctx.resume();
+    if (ctx.state === 'suspended') {
+      void ctx.resume().catch((err) => console.warn('AudioContext resume failed', err));
+    }
     const source = ctx.createMediaElementSource(ws.getMediaElement());
     const gainNode = ctx.createGain();
     gainNode.gain.value = linearGain;

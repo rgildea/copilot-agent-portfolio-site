@@ -64,7 +64,7 @@ interaction handles this.
 ### Fallback on error
 
 If `createMediaElementSource` fails (e.g. CORS on the audio URL), log the error and fall back to
-`setVolume(Math.min(1, linearVolume))` — the current clamped behavior. Playback still works, just
+`setVolume(Math.min(1, linearGain))` — the current clamped behavior. Playback still works, just
 without boost.
 
 ---
