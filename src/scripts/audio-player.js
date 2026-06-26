@@ -122,8 +122,12 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
     : Math.max(0, seekPlayerTime - offset_s);
   const finalSeek = Math.max(0, seekPlayerTime);
 
+  const roughVolume = Math.pow(10, (track.roughGain ?? 0) / 20);
+  const finalVolume = Math.pow(10, (track.finalGain ?? 0) / 20);
+
   // --- Rough instance ---
   const wsRough = WaveSurfer.create({ container: els.roughWaveformEl, url: track.roughUrl, ...WAVE_OPTIONS });
+  wsRough.setVolume(roughVolume);
   state.wsRough = wsRough;
 
   wsRough.on('ready', () => {
@@ -168,6 +172,7 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
 
   // --- Final instance ---
   const wsFinal = WaveSurfer.create({ container: els.finalWaveformEl, url: track.finalUrl, ...WAVE_OPTIONS });
+  wsFinal.setVolume(finalVolume);
   state.wsFinal = wsFinal;
 
   wsFinal.on('ready', () => {
