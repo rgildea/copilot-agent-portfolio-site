@@ -16,4 +16,10 @@ audioTracks:
     finalUrl: https://audio.mixdownapp.com/HornZ/In%20My%20Dreams%20-%202022-07-24%20Mix%20A.wav
     roughGain: 3.5
     finalGain: 1.6
+  - roughOffset: 0
+    roughGain: 6.2
+    finalGain: -2.9
+    title: Recoverable
+    roughUrl: https://audio.mixdownapp.com/HornZ/Recoverable%20Demo%20chop.wav
+    finalUrl: https://audio.mixdownapp.com/HornZ/Recoverable%20Final%20Master%20%5B24bit%2048kHz%5D.wav
 ---
