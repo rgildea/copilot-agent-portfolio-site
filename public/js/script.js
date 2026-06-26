@@ -306,6 +306,7 @@ function isValidEmail(email) {
     iframe.addEventListener("load", function () {
       iframe.style.opacity = "1";
       if (btn) {
+        btn.style.pointerEvents = "none";
         btn.style.transition = "opacity 0.3s ease";
         btn.style.opacity = "0";
         btn.addEventListener("transitionend", function () {
