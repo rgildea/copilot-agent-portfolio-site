@@ -37,14 +37,14 @@ test.describe("Homepage visual tests", () => {
   });
 
   test("spotify section should show facade button before interaction", async ({ page }) => {
-    test.skip((page.viewportSize()?.width ?? 1280) <= 768, "Spotify embed hidden on mobile");
+
     await page.goto("/");
     await expect(page.locator("#spotify-facade .spotify-facade-btn")).toBeVisible();
     await expect(page.locator(".spotify-direct-embed iframe")).toHaveCount(0);
   });
 
   test("clicking spotify facade should load real iframe", async ({ page }) => {
-    test.skip((page.viewportSize()?.width ?? 1280) <= 768, "Spotify embed hidden on mobile");
+
     await page.goto("/");
     await page.locator("#spotify-facade .spotify-facade-btn").click();
     await expect(page.locator(".spotify-direct-embed iframe")).toBeVisible();

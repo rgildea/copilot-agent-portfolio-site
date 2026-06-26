@@ -942,7 +942,7 @@ html.modal-open, body.modal-open { overflow: hidden; }
   .listen-card__player { padding: 0.75rem var(--space-md) var(--space-md); }
   .listen-player-controls { flex-wrap: wrap; }
 
-  .spotify-direct-embed { width: 100%; height: 50vh; }
+  .spotify-direct-embed { width: 100%; height: 140px; min-height: 0; max-height: none; }
 
   .hero { justify-content: flex-start; padding-top: calc(var(--navbar-height) + var(--space-xl)); }
 
@@ -952,12 +952,11 @@ html.modal-open, body.modal-open { overflow: hidden; }
   .nav-links { gap: var(--space-md); }
   .nav-links a { font-size: 13px; padding: 6px; }
   .nav-cta { display: none; }
-  .spotify-direct-embed { display: none; }
 }
 
 @media (max-width: 480px) {
   .hero { padding-top: calc(var(--navbar-height) + var(--space-md)); }
   .section-title { font-size: clamp(28px, 10vw, var(--fs-poster-l)); }
   .portfolio-gallery { grid-template-columns: 1fr; }
-  .spotify-direct-embed { height: 45vh; }
+  .spotify-direct-embed { height: 120px; }
 }
