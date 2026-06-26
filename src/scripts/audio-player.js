@@ -9,12 +9,45 @@ const WAVE_OPTIONS = {
   barRadius: 0,
 };
 
+let audioCtx = null;
+
+function getAudioContext() {
+  if (!audioCtx) audioCtx = new AudioContext();
+  return audioCtx;
+}
+
+export function connectGain(ws, linearGain) {
+  try {
+    const ctx = getAudioContext();
+    if (ctx.state === 'suspended') {
+      void ctx.resume().catch((err) => console.warn('AudioContext resume failed', err));
+    }
+    const source = ctx.createMediaElementSource(ws.getMediaElement());
+    const gainNode = ctx.createGain();
+    gainNode.gain.value = linearGain;
+    source.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    return { source, gainNode };
+  } catch (e) {
+    console.warn('Web Audio unavailable, falling back to volume clamp', e);
+    ws.setVolume(Math.min(1, linearGain));
+    return null;
+  }
+}
+
+export function disconnectAudioNodes(audioNodes) {
+  if (!audioNodes) return null;
+  audioNodes.source.disconnect();
+  audioNodes.gainNode.disconnect();
+  return null;
+}
+
 // Registry of all card states — used for global playback exclusivity
 const players = new Map();
 
 export function gainToVolume(gain) {
   const db = Math.max(-60, Math.min(12, Number(gain) || 0));
-  return Math.min(1, Math.pow(10, db / 20));
+  return Math.pow(10, db / 20);
 }
 
 export function playerTimeToFileTime(playerTime, offset_s) {
@@ -44,6 +77,8 @@ function initCard(card) {
     activeMix: 'rough',
     wsRough: null,
     wsFinal: null,
+    roughAudioNodes: null,
+    finalAudioNodes: null,
     roughReady: false,
     finalReady: false,
     pendingOnReady: null,
@@ -145,7 +180,7 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
 
   // --- Rough instance ---
   const wsRough = WaveSurfer.create({ container: els.roughWaveformEl, url: track.roughUrl, ...WAVE_OPTIONS });
-  wsRough.setVolume(roughVolume);
+  state.roughAudioNodes = connectGain(wsRough, roughVolume);
   state.wsRough = wsRough;
 
   wsRough.on('ready', () => {
@@ -190,7 +225,7 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
 
   // --- Final instance ---
   const wsFinal = WaveSurfer.create({ container: els.finalWaveformEl, url: track.finalUrl, ...WAVE_OPTIONS });
-  wsFinal.setVolume(finalVolume);
+  state.finalAudioNodes = connectGain(wsFinal, finalVolume);
   state.wsFinal = wsFinal;
 
   wsFinal.on('ready', () => {
@@ -346,6 +381,8 @@ function clearSilenceTimer(state) {
 function destroyPair(state, playBtn = null) {
   state.loading = false;
   if (playBtn) setPlayBtnLoading(playBtn, false);
+  state.roughAudioNodes = disconnectAudioNodes(state.roughAudioNodes);
+  state.finalAudioNodes = disconnectAudioNodes(state.finalAudioNodes);
   if (state.wsRough) { state.wsRough.destroy(); state.wsRough = null; }
   if (state.wsFinal) { state.wsFinal.destroy(); state.wsFinal = null; }
   state.roughReady = false;
