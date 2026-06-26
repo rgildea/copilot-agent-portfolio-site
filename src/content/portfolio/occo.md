@@ -13,6 +13,8 @@ audioTracks:
     roughUrl: https://audio.mixdownapp.com/OCCO/Jingle-Jangle%20Diamond%20Die%20(reference).wav
     finalUrl: https://audio.mixdownapp.com/OCCO/OCCO%20-%20Jingle-Jangle%20Diamond%20Die%202022-10-03%20A%20-%20Full%20Mix.wav
     roughOffset: 0
+    roughGain: 8.6
+    finalGain: 6.9
   - roughOffset: 0
     title: No Regerts
     roughUrl: https://audio.mixdownapp.com/OCCO/NO%20REGRETS%20ROUGH%20MIX.wav
