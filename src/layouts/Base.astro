@@ -14,44 +14,37 @@ const { title = "Ryan Gildea | Audio Engineer & Producer", hasListenSection = fa
     <meta name="description" content="Ryan Gildea — audio engineer, producer, and mixer. Portfolio of mixing and production work." />
     <title>{title}</title>
 
-    <link rel="preload" href="/fonts/lazer84.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/images/hero-background.webp" as="image" type="image/webp" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#52c1d1" />
+    <meta name="theme-color" content="#FF3D7F" />
 
     <style>
       html, body {
         overflow-x: hidden;
         margin: 0;
-        font-family: "Open Sans", sans-serif;
+        font-family: "Hanken Grotesk", system-ui, sans-serif;
       }
-      body { position: relative; }
-      .synthwave-wrapper {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        z-index: 0; pointer-events: none; opacity: 0.8;
-      }
-      .site-content { position: relative; z-index: 10; }
+      body { position: relative; background: #16130E; }
+      .site-content { position: relative; }
       .navbar {
-        background: rgba(6, 4, 29, 0.75); /* opaque enough for white nav link contrast */
-        padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1001;
+        background: transparent;
+        padding: 0; position: fixed; width: 100%; top: 0; z-index: 1000;
       }
       .nav-links { pointer-events: auto; }
       .nav-links a {
-        position: relative; z-index: 1002; cursor: pointer; user-select: none;
+        position: relative; z-index: 1001; cursor: pointer; user-select: none;
       }
-      .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-      .webp .hero { background-image: url("/images/hero-background.webp"); }
-      .no-webp .hero { background-image: url("/images/hero-background.jpg"); }
-      .preloader {
+      .container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+.preloader {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: #000; display: flex; justify-content: center;
+        background: #16130E; display: flex; justify-content: center;
         align-items: center; z-index: 9999; transition: opacity 0.5s ease-out;
       }
       .preloader.loaded { opacity: 0; pointer-events: none; }
       .loader {
-        width: 60px; height: 60px; border: 4px solid rgba(255,255,255,0.3);
-        border-radius: 50%; border-top-color: #ff00ff;
+        width: 60px; height: 60px; border: 4px solid rgba(255,255,255,0.1);
+        border-radius: 50%; border-top-color: #FF3D7F;
         animation: spin 1s ease-in-out infinite;
       }
       @keyframes spin { to { transform: rotate(360deg); } }
@@ -61,7 +54,7 @@ const { title = "Ryan Gildea | Audio Engineer & Producer", hasListenSection = fa
     <link rel="stylesheet" href="/css/synthwave.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
     <script is:inline>
       (function () {
@@ -74,26 +67,28 @@ const { title = "Ryan Gildea | Audio Engineer & Producer", hasListenSection = fa
     </script>
   </head>
 
-  <body class="synthwave-bg">
+  <body>
     <div class="preloader"><div class="loader"></div></div>
 
-    <div class="synthwave-wrapper">
-      <div class="grid-overlay"></div>
-      <div class="synthwave-sun"></div>
-      <div class="horizon-line"></div>
-    </div>
+    <!-- Always-on film grain overlay -->
+    <div class="grain-overlay" aria-hidden="true"></div>
 
     <div class="site-content">
       <nav class="navbar">
         <div class="container">
           <div class="navbar-inner">
-            <div id="navbar-title">Ryan Gildea</div>
+            <a href="/" class="navbar-mark" id="navbar-title" aria-label="Ryan Gildea" tabindex="-1">
+              <span class="ghost-teal" aria-hidden="true">RYAN GILDEA</span>
+              <span class="ghost-pink" aria-hidden="true">RYAN GILDEA</span>
+              <span class="bone" aria-hidden="true">RYAN GILDEA</span>
+            </a>
             <ul class="nav-links">
               <li><a href="/#about">About</a></li>
               <li><a href="/#portfolio">Portfolio</a></li>
               {hasListenSection && <li><a href="/#listen">Listen</a></li>}
               <li><a href="/#contact">Contact</a></li>
             </ul>
+            <a href="/#contact" class="nav-cta">Book a session</a>
           </div>
         </div>
       </nav>

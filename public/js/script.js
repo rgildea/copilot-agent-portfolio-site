@@ -6,21 +6,21 @@ document.addEventListener("DOMContentLoaded", function () {
   initContactForm();
   initPortfolioFilter();
   initPortfolioModal();
-  initGridOverlay();
 });
 
-// Navigation scroll effect - simplified without hero-name-fixed classes
+// Navigation scroll effect
 function initNavbar() {
   const navbar = document.querySelector(".navbar");
+  const navbarMark = document.querySelector(".navbar-mark");
   const scrollThreshold = 100;
 
   function updateNavbar() {
     if (window.scrollY > scrollThreshold) {
       navbar.classList.add("scrolled");
-      navbar.classList.remove("top-position");
+      if (navbarMark) navbarMark.setAttribute("tabindex", "0");
     } else {
       navbar.classList.remove("scrolled");
-      navbar.classList.add("top-position");
+      if (navbarMark) navbarMark.setAttribute("tabindex", "-1");
     }
   }
 
@@ -255,7 +255,7 @@ function showError(inputId, message) {
   const errorMessage = document.createElement("div");
   errorMessage.className = "error-message";
   errorMessage.textContent = message;
-  errorMessage.style.color = "var(--accent-color)";
+  errorMessage.style.color = "var(--ink-pink)";
   errorMessage.style.fontSize = "0.8rem";
   errorMessage.style.marginTop = "5px";
 
@@ -268,7 +268,7 @@ function showError(inputId, message) {
   input.parentElement.appendChild(errorMessage);
 
   // Highlight the input field
-  input.style.borderColor = "var(--accent-color)";
+  input.style.borderColor = "var(--ink-pink)";
 
   // Remove error styling when input changes
   input.addEventListener(
@@ -289,17 +289,6 @@ function isValidEmail(email) {
   return emailRegex.test(email);
 }
 
-// Initialize grid overlay
-function initGridOverlay() {
-  const body = document.body;
-
-  // Check if grid overlay already exists
-  if (!document.querySelector(".grid-overlay")) {
-    const gridOverlay = document.createElement("div");
-    gridOverlay.className = "grid-overlay";
-    body.appendChild(gridOverlay);
-  }
-}
 
 (function () {
   var facade = document.getElementById("spotify-facade");

@@ -8,7 +8,7 @@ test.describe("Homepage visual tests", () => {
     await expect(page.locator(".hero")).toBeVisible();
     await expect(page.locator(".hero h1")).toBeVisible();
     await expect(page.locator(".hero h2")).toBeVisible();
-    await expect(page.locator(".hero .cta-button")).toBeVisible();
+    await expect(page.locator(".hero .btn-primary")).toBeVisible();
   });
 
   test("portfolio images should include WebP sources", async ({ page }) => {
@@ -106,7 +106,7 @@ test.describe("Responsive design tests", () => {
 test.describe("Homepage visual tests", () => {
   test("page should render with styles applied on first paint", async ({ page }) => {
     await page.goto("/");
-    const bg = await page.locator(".navbar").evaluate(
+    const bg = await page.locator("body").evaluate(
       (el) => getComputedStyle(el).backgroundColor
     );
     // rgba(0,0,0,0) = transparent = CSS not loaded; any real value means CSS loaded
