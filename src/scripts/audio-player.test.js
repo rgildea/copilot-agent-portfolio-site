@@ -1,5 +1,12 @@
-import { describe, it, expect } from 'vitest';
-import { gainToVolume, formatTime, playerTimeToFileTime, fileTimeToPlayerTime } from './audio-player.js';
+import { describe, it, expect, vi } from 'vitest';
+import {
+  connectGain,
+  disconnectAudioNodes,
+  gainToVolume,
+  formatTime,
+  playerTimeToFileTime,
+  fileTimeToPlayerTime,
+} from './audio-player.js';
 
 describe('gainToVolume', () => {
   it('returns unity (1.0) for 0 dB', () => {
@@ -17,19 +24,58 @@ describe('gainToVolume', () => {
     expect(gainToVolume(-6)).toBeCloseTo(0.501, 2);
   });
 
-  it('caps positive dB at 1.0 so audio.volume stays in valid range', () => {
-    expect(gainToVolume(6)).toBe(1);
-    expect(gainToVolume(12)).toBe(1);
+  it('returns linear gain above 1.0 for positive dB (Web Audio GainNode range)', () => {
+    expect(gainToVolume(6)).toBeCloseTo(1.995, 2);
+    expect(gainToVolume(12)).toBeCloseTo(3.981, 2);
   });
 
-  it('clamps values above +12 dB to 1.0', () => {
-    expect(gainToVolume(100)).toBe(1);
-    expect(gainToVolume(13)).toBe(1);
+  it('clamps dB input above +12 to the +12 dB ceiling', () => {
+    expect(gainToVolume(100)).toBeCloseTo(gainToVolume(12), 5);
+    expect(gainToVolume(13)).toBeCloseTo(gainToVolume(12), 5);
   });
 
   it('clamps values below -60 dB to the min', () => {
     expect(gainToVolume(-100)).toBeCloseTo(gainToVolume(-60));
     expect(gainToVolume(-61)).toBeCloseTo(gainToVolume(-60));
+  });
+});
+
+describe('Web Audio node lifecycle', () => {
+  it('disconnects both the source and gain nodes for cleanup', () => {
+    const source = { connect: vi.fn(), disconnect: vi.fn() };
+    const gainNode = { connect: vi.fn(), disconnect: vi.fn(), gain: { value: 0 } };
+    class MockAudioContext {
+      constructor() {
+        this.state = 'running';
+        this.destination = {};
+      }
+      createMediaElementSource() {
+        return source;
+      }
+      createGain() {
+        return gainNode;
+      }
+    }
+
+    vi.stubGlobal('AudioContext', MockAudioContext);
+
+    const ws = {
+      getMediaElement: vi.fn(() => ({})),
+      setVolume: vi.fn(),
+    };
+
+    const audioNodes = connectGain(ws, 1.5);
+
+    expect(audioNodes).toEqual({ source, gainNode });
+    expect(source.connect).toHaveBeenCalledWith(gainNode);
+    expect(gainNode.connect).toHaveBeenCalledOnce();
+    expect(gainNode.gain.value).toBe(1.5);
+
+    expect(disconnectAudioNodes(audioNodes)).toBeNull();
+    expect(source.disconnect).toHaveBeenCalledOnce();
+    expect(gainNode.disconnect).toHaveBeenCalledOnce();
+
+    vi.unstubAllGlobals();
   });
 });
 
