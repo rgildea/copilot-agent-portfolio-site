@@ -133,3 +133,56 @@ test.describe("Accessibility", () => {
     await expect(iframe).toHaveAttribute("title", /.+/);
   });
 });
+
+test.describe("Audio player", () => {
+  test("listen section and card structure renders", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator(".listen-section")).toBeVisible();
+    await expect(page.locator(".listen-card").first()).toBeVisible();
+    await expect(page.locator(".listen-play-btn").first()).toBeVisible();
+    await expect(page.locator(".mix-toggle__btn[data-mix='rough']").first()).toBeVisible();
+    await expect(page.locator(".mix-toggle__btn[data-mix='final']").first()).toBeVisible();
+  });
+
+  test("data-tracks is valid JSON with required fields on each card", async ({ page }) => {
+    await page.goto("/");
+    const cards = page.locator(".listen-card");
+    const count = await cards.count();
+    expect(count).toBeGreaterThan(0);
+
+    for (let i = 0; i < count; i++) {
+      const raw = await cards.nth(i).getAttribute("data-tracks");
+      expect(raw).not.toBeNull();
+      const tracks = JSON.parse(raw);
+      expect(tracks.length).toBeGreaterThan(0);
+      for (const track of tracks) {
+        expect(track).toHaveProperty("roughUrl");
+        expect(track).toHaveProperty("finalUrl");
+        expect(track).toHaveProperty("title");
+      }
+    }
+  });
+
+  test("roughGain and finalGain fields are numeric or absent on each track", async ({ page }) => {
+    await page.goto("/");
+    const cards = page.locator(".listen-card");
+    const count = await cards.count();
+
+    for (let i = 0; i < count; i++) {
+      const raw = await cards.nth(i).getAttribute("data-tracks");
+      const tracks = JSON.parse(raw);
+      for (const track of tracks) {
+        if ("roughGain" in track) expect(typeof track.roughGain).toBe("number");
+        if ("finalGain" in track) expect(typeof track.finalGain).toBe("number");
+      }
+    }
+  });
+
+  test("no JavaScript errors on page load", async ({ page }) => {
+    const errors = [];
+    page.on("pageerror", (err) => errors.push(err.message));
+    await page.goto("/");
+    expect(errors).toHaveLength(0);
+  });
+
+});

@@ -12,6 +12,11 @@ const WAVE_OPTIONS = {
 // Registry of all card states — used for global playback exclusivity
 const players = new Map();
 
+export function gainToVolume(gain) {
+  const db = Math.max(-60, Math.min(12, Number(gain) || 0));
+  return Math.pow(10, db / 20);
+}
+
 export function initAudioPlayers() {
   document.querySelectorAll('.listen-card').forEach(initCard);
 }
@@ -122,8 +127,8 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
     : Math.max(0, seekPlayerTime - offset_s);
   const finalSeek = Math.max(0, seekPlayerTime);
 
-  const roughVolume = Math.pow(10, (track.roughGain ?? 0) / 20);
-  const finalVolume = Math.pow(10, (track.finalGain ?? 0) / 20);
+  const roughVolume = gainToVolume(track.roughGain);
+  const finalVolume = gainToVolume(track.finalGain);
 
   // --- Rough instance ---
   const wsRough = WaveSurfer.create({ container: els.roughWaveformEl, url: track.roughUrl, ...WAVE_OPTIONS });

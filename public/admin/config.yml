@@ -50,6 +50,9 @@ collections:
               value_type: "float",
               default: 0,
               required: false,
+              min: -60,
+              max: 12,
+              step: 0.1,
               hint: "Gain in dB applied to the rough mix player. Negative to attenuate, positive to boost.",
             }
           - {
@@ -59,6 +62,9 @@ collections:
               value_type: "float",
               default: 0,
               required: false,
+              min: -60,
+              max: 12,
+              step: 0.1,
               hint: "Gain in dB applied to the final mix player. Negative to attenuate, positive to boost.",
             }
 
