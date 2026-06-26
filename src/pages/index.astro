@@ -139,7 +139,7 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                   <p>{item.data.role}</p>
                   {item.data.client === "Personal Project"
                     ? <span class="project-badge personal">Personal</span>
-                    : <span class="project-badge client">{item.data.client}</span>
+                    : <span class="project-badge client">{item.data.client ?? "Client"}</span>
                   }
                 </div>
               </button>
