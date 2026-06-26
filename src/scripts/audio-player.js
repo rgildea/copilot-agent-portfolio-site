@@ -17,6 +17,19 @@ export function gainToVolume(gain) {
   return Math.pow(10, db / 20);
 }
 
+export function playerTimeToFileTime(playerTime, offset_s) {
+  return Math.max(0, playerTime - offset_s);
+}
+
+export function fileTimeToPlayerTime(fileTime, offset_s) {
+  return Math.max(0, fileTime + offset_s);
+}
+
+export function formatTime(seconds) {
+  const s = Math.max(0, seconds);
+  return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+}
+
 export function initAudioPlayers() {
   document.querySelectorAll('.listen-card').forEach(initCard);
 }
@@ -122,10 +135,8 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
   els.finalWaveformEl.hidden = (startMix !== 'final');
 
   // Compute initial file seek positions from player time
-  const roughSeek = seekPlayerTime === 0 && offset_s < 0
-    ? Math.abs(offset_s)
-    : Math.max(0, seekPlayerTime - offset_s);
-  const finalSeek = Math.max(0, seekPlayerTime);
+  const roughSeek = playerTimeToFileTime(seekPlayerTime, offset_s);
+  const finalSeek = playerTimeToFileTime(seekPlayerTime, 0);
 
   const roughVolume = gainToVolume(track.roughGain);
   const finalVolume = gainToVolume(track.finalGain);
@@ -161,7 +172,7 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
 
   wsRough.on('timeupdate', (t) => {
     if (state.activeMix !== 'rough' || state.silenceStartMs !== null) return;
-    if (els.timeCurrentEl) els.timeCurrentEl.textContent = formatTime(Math.max(0, t + offset_s));
+    if (els.timeCurrentEl) els.timeCurrentEl.textContent = formatTime(fileTimeToPlayerTime(t, offset_s));
   });
 
   wsRough.on('play', () => { state.loading = false; setPlayBtnLoading(els.playBtn, false); updatePlayBtn(card, true); pauseOtherCards(card); });
@@ -235,9 +246,7 @@ function switchMix(card, state, newMix, els) {
 
   const incoming = newMix === 'rough' ? state.wsRough : state.wsFinal;
   const isReady = newMix === 'rough' ? state.roughReady : state.finalReady;
-  const targetFileTime = newMix === 'rough'
-    ? Math.max(0, playerTime - offset_s)
-    : Math.max(0, playerTime);
+  const targetFileTime = playerTimeToFileTime(playerTime, newMix === 'rough' ? offset_s : 0);
 
   if (isReady && incoming) {
     state.pendingOnReady = null;
@@ -251,7 +260,7 @@ function switchMix(card, state, newMix, els) {
       }
     } else {
       const displayTime = newMix === 'rough'
-        ? formatTime(Math.max(0, targetFileTime + offset_s))
+        ? formatTime(fileTimeToPlayerTime(targetFileTime, offset_s))
         : formatTime(targetFileTime);
       if (els.timeCurrentEl) els.timeCurrentEl.textContent = displayTime;
     }
@@ -272,7 +281,7 @@ function switchMix(card, state, newMix, els) {
         }
       } else {
         const displayTime = newMix === 'rough'
-          ? formatTime(Math.max(0, targetFileTime + offset_s))
+          ? formatTime(fileTimeToPlayerTime(targetFileTime, offset_s))
           : formatTime(targetFileTime);
         if (els.timeCurrentEl) els.timeCurrentEl.textContent = displayTime;
       }
@@ -357,7 +366,7 @@ function getPlayerTime(state) {
   const track = state.tracks[state.activeTrackIndex];
   const offset_s = (track.roughOffset || 0) / 1000;
   return state.activeMix === 'rough'
-    ? Math.max(0, ws.getCurrentTime() + offset_s)
+    ? fileTimeToPlayerTime(ws.getCurrentTime(), offset_s)
     : ws.getCurrentTime();
 }
 
@@ -403,9 +412,4 @@ function updatePlayBtn(card, isPlaying) {
   const use = btn?.querySelector('use');
   if (use) use.setAttribute('href', isPlaying ? '/icons.svg#icon-pause' : '/icons.svg#icon-play');
   if (btn) btn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
-}
-
-function formatTime(seconds) {
-  const s = Math.max(0, seconds);
-  return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 }
