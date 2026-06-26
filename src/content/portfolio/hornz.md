@@ -17,9 +17,9 @@ audioTracks:
     roughGain: 3.5
     finalGain: 1.6
   - roughOffset: 0
-    roughGain: 6.3
-    finalGain: -8.1
+    roughGain: 6.2
+    finalGain: -2.9
     title: Recoverable
-    roughUrl: https://audio.mixdownapp.com/HornZ/Recoverable%20(1-3).mp3
+    roughUrl: https://audio.mixdownapp.com/HornZ/Recoverable%20Demo%20chop.wav
     finalUrl: https://audio.mixdownapp.com/HornZ/Recoverable%20Final%20Master%20%5B24bit%2048kHz%5D.wav
 ---
