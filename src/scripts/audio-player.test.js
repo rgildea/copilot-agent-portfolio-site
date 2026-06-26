@@ -17,14 +17,14 @@ describe('gainToVolume', () => {
     expect(gainToVolume(-6)).toBeCloseTo(0.501, 2);
   });
 
-  it('caps positive dB at 1.0 so audio.volume stays in valid range', () => {
-    expect(gainToVolume(6)).toBe(1);
-    expect(gainToVolume(12)).toBe(1);
+  it('returns linear gain above 1.0 for positive dB (Web Audio GainNode range)', () => {
+    expect(gainToVolume(6)).toBeCloseTo(1.995, 2);
+    expect(gainToVolume(12)).toBeCloseTo(3.981, 2);
   });
 
-  it('clamps values above +12 dB to 1.0', () => {
-    expect(gainToVolume(100)).toBe(1);
-    expect(gainToVolume(13)).toBe(1);
+  it('clamps dB input above +12 to the +12 dB ceiling', () => {
+    expect(gainToVolume(100)).toBeCloseTo(gainToVolume(12), 5);
+    expect(gainToVolume(13)).toBeCloseTo(gainToVolume(12), 5);
   });
 
   it('clamps values below -60 dB to the min', () => {

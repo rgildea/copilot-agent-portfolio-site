@@ -9,12 +9,36 @@ const WAVE_OPTIONS = {
   barRadius: 2,
 };
 
+let audioCtx = null;
+
+function getAudioContext() {
+  if (!audioCtx) audioCtx = new AudioContext();
+  return audioCtx;
+}
+
+function connectGain(ws, linearGain) {
+  try {
+    const ctx = getAudioContext();
+    ctx.resume();
+    const source = ctx.createMediaElementSource(ws.getMediaElement());
+    const gainNode = ctx.createGain();
+    gainNode.gain.value = linearGain;
+    source.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    return gainNode;
+  } catch (e) {
+    console.warn('Web Audio unavailable, falling back to volume clamp', e);
+    ws.setVolume(Math.min(1, linearGain));
+    return null;
+  }
+}
+
 // Registry of all card states — used for global playback exclusivity
 const players = new Map();
 
 export function gainToVolume(gain) {
   const db = Math.max(-60, Math.min(12, Number(gain) || 0));
-  return Math.min(1, Math.pow(10, db / 20));
+  return Math.pow(10, db / 20);
 }
 
 export function playerTimeToFileTime(playerTime, offset_s) {
@@ -44,6 +68,8 @@ function initCard(card) {
     activeMix: 'rough',
     wsRough: null,
     wsFinal: null,
+    roughGainNode: null,
+    finalGainNode: null,
     roughReady: false,
     finalReady: false,
     pendingOnReady: null,
@@ -143,7 +169,7 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
 
   // --- Rough instance ---
   const wsRough = WaveSurfer.create({ container: els.roughWaveformEl, url: track.roughUrl, ...WAVE_OPTIONS });
-  wsRough.setVolume(roughVolume);
+  state.roughGainNode = connectGain(wsRough, roughVolume);
   state.wsRough = wsRough;
 
   wsRough.on('ready', () => {
@@ -188,7 +214,7 @@ function loadTrackPair(card, state, trackIndex, startMix, autoplay, seekPlayerTi
 
   // --- Final instance ---
   const wsFinal = WaveSurfer.create({ container: els.finalWaveformEl, url: track.finalUrl, ...WAVE_OPTIONS });
-  wsFinal.setVolume(finalVolume);
+  state.finalGainNode = connectGain(wsFinal, finalVolume);
   state.wsFinal = wsFinal;
 
   wsFinal.on('ready', () => {
@@ -344,6 +370,8 @@ function clearSilenceTimer(state) {
 function destroyPair(state, playBtn = null) {
   state.loading = false;
   if (playBtn) setPlayBtnLoading(playBtn, false);
+  if (state.roughGainNode) { state.roughGainNode.disconnect(); state.roughGainNode = null; }
+  if (state.finalGainNode) { state.finalGainNode.disconnect(); state.finalGainNode = null; }
   if (state.wsRough) { state.wsRough.destroy(); state.wsRough = null; }
   if (state.wsFinal) { state.wsFinal.destroy(); state.wsFinal = null; }
   state.roughReady = false;
