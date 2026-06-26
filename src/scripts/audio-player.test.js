@@ -13,15 +13,18 @@ describe('gainToVolume', () => {
     expect(gainToVolume(NaN)).toBeCloseTo(1.0);
   });
 
-  it('converts valid dB values correctly', () => {
+  it('converts negative dB values correctly', () => {
     expect(gainToVolume(-6)).toBeCloseTo(0.501, 2);
-    expect(gainToVolume(6)).toBeCloseTo(1.995, 2);
-    expect(gainToVolume(12)).toBeCloseTo(3.981, 2);
   });
 
-  it('clamps values above +12 dB to the max', () => {
-    expect(gainToVolume(100)).toBeCloseTo(gainToVolume(12));
-    expect(gainToVolume(13)).toBeCloseTo(gainToVolume(12));
+  it('caps positive dB at 1.0 so audio.volume stays in valid range', () => {
+    expect(gainToVolume(6)).toBe(1);
+    expect(gainToVolume(12)).toBe(1);
+  });
+
+  it('clamps values above +12 dB to 1.0', () => {
+    expect(gainToVolume(100)).toBe(1);
+    expect(gainToVolume(13)).toBe(1);
   });
 
   it('clamps values below -60 dB to the min', () => {

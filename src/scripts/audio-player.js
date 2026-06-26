@@ -14,7 +14,7 @@ const players = new Map();
 
 export function gainToVolume(gain) {
   const db = Math.max(-60, Math.min(12, Number(gain) || 0));
-  return Math.pow(10, db / 20);
+  return Math.min(1, Math.pow(10, db / 20));
 }
 
 export function playerTimeToFileTime(playerTime, offset_s) {
