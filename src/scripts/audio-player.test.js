@@ -1,5 +1,12 @@
-import { describe, it, expect } from 'vitest';
-import { gainToVolume, formatTime, playerTimeToFileTime, fileTimeToPlayerTime } from './audio-player.js';
+import { describe, it, expect, vi } from 'vitest';
+import {
+  connectGain,
+  disconnectAudioNodes,
+  gainToVolume,
+  formatTime,
+  playerTimeToFileTime,
+  fileTimeToPlayerTime,
+} from './audio-player.js';
 
 describe('gainToVolume', () => {
   it('returns unity (1.0) for 0 dB', () => {
@@ -30,6 +37,45 @@ describe('gainToVolume', () => {
   it('clamps values below -60 dB to the min', () => {
     expect(gainToVolume(-100)).toBeCloseTo(gainToVolume(-60));
     expect(gainToVolume(-61)).toBeCloseTo(gainToVolume(-60));
+  });
+});
+
+describe('Web Audio node lifecycle', () => {
+  it('disconnects both the source and gain nodes for cleanup', () => {
+    const source = { connect: vi.fn(), disconnect: vi.fn() };
+    const gainNode = { connect: vi.fn(), disconnect: vi.fn(), gain: { value: 0 } };
+    class MockAudioContext {
+      constructor() {
+        this.state = 'running';
+        this.destination = {};
+      }
+      createMediaElementSource() {
+        return source;
+      }
+      createGain() {
+        return gainNode;
+      }
+    }
+
+    vi.stubGlobal('AudioContext', MockAudioContext);
+
+    const ws = {
+      getMediaElement: vi.fn(() => ({})),
+      setVolume: vi.fn(),
+    };
+
+    const audioNodes = connectGain(ws, 1.5);
+
+    expect(audioNodes).toEqual({ source, gainNode });
+    expect(source.connect).toHaveBeenCalledWith(gainNode);
+    expect(gainNode.connect).toHaveBeenCalledOnce();
+    expect(gainNode.gain.value).toBe(1.5);
+
+    expect(disconnectAudioNodes(audioNodes)).toBeNull();
+    expect(source.disconnect).toHaveBeenCalledOnce();
+    expect(gainNode.disconnect).toHaveBeenCalledOnce();
+
+    vi.unstubAllGlobals();
   });
 });
 
