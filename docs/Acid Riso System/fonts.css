@@ -1,0 +1,27 @@
+/* ============================================================
+   ACID RISO — Fonts
+   Three voices, all available on Google Fonts:
+     · Anton          — poster display (UPPER, weight 400 only)
+     · Hanken Grotesk — body / UI (400–700)
+     · Space Mono     — technical labels / data (400, 700)
+
+   Easiest: keep this @import at the very top of your CSS,
+   OR drop the <link> snippet below into your <head>.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+/* ------------------------------------------------------------
+   <head> alternative (faster — preconnect + preload):
+
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+   ------------------------------------------------------------ */
+
+/* Convenience aliases — match the design tokens */
+:root {
+  --font-display: "Anton", "Arial Narrow", sans-serif;
+  --font-sans:    "Hanken Grotesk", system-ui, sans-serif;
+  --font-mono:    "Space Mono", ui-monospace, monospace;
+}
