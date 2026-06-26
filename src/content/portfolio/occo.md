@@ -17,6 +17,8 @@ audioTracks:
     title: No Regerts
     roughUrl: https://audio.mixdownapp.com/OCCO/NO%20REGRETS%20ROUGH%20MIX.wav
     finalUrl: https://audio.mixdownapp.com/OCCO/OCCO%20-%20No%20Regrets%202022-11-21%20A%20-%20Main%20Mix.wav
+    roughGain: 3.1
+    finalGain: 4.4
   - roughOffset: 0
     title: (They're Knocking Down Your Door!)[#FREEASSANGE]
     roughUrl: https://audio.mixdownapp.com/OCCO/%23FREEASSANGE%20Premix%20Draft.wav
