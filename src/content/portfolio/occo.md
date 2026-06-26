@@ -23,4 +23,6 @@ audioTracks:
     title: (They're Knocking Down Your Door!)[#FREEASSANGE]
     roughUrl: https://audio.mixdownapp.com/OCCO/%23FREEASSANGE%20Premix%20Draft.wav
     finalUrl: https://audio.mixdownapp.com/OCCO/%23FREEASSANGE%202024-01-29%20A%20%5Bfinal%20mix%5D.wav
+    roughGain: 4.2
+    finalGain: -5.3
 ---
