@@ -18,6 +18,8 @@ const portfolio = defineCollection({
           roughUrl: z.string().url(),
           finalUrl: z.string().url(),
           roughOffset: z.number().default(0),
+          roughGain: z.number().default(0),
+          finalGain: z.number().default(0),
         }),
       )
       .optional(),

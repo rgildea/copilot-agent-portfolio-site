@@ -43,6 +43,24 @@ collections:
               required: false,
               hint: "Negative: skip start of rough file. Positive: add silence before rough playback.",
             }
+          - {
+              label: "Rough Gain (dB)",
+              name: "roughGain",
+              widget: "number",
+              value_type: "float",
+              default: 0,
+              required: false,
+              hint: "Gain in dB applied to the rough mix player. Negative to attenuate, positive to boost.",
+            }
+          - {
+              label: "Final Gain (dB)",
+              name: "finalGain",
+              widget: "number",
+              value_type: "float",
+              default: 0,
+              required: false,
+              hint: "Gain in dB applied to the final mix player. Negative to attenuate, positive to boost.",
+            }
 
   - name: "services"
     label: "Service"
