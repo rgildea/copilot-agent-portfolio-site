@@ -239,6 +239,10 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
 }
 .nav-links a:hover { color: var(--ink-pink); }
+.nav-links a:focus-visible {
+  outline: 2px solid var(--ink-pink);
+  outline-offset: 2px;
+}
 
 .nav-cta {
   background: var(--ink-pink); color: var(--ink);
@@ -252,6 +256,10 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
 }
 .nav-cta:hover { color: var(--ink); transform: translate(2px,2px); box-shadow: 2px 2px 0 rgba(22,19,14,0.6); }
+.nav-cta:focus-visible {
+  outline: 2px solid var(--ink-pink);
+  outline-offset: 2px;
+}
 
 /* Section scroll offsets */
 .about-section, .portfolio-section, .listen-section, .contact-section {
