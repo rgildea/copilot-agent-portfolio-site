@@ -8,7 +8,7 @@ description: Collaborated on production and mixing for electronic artist Hornz,
   creating a unique blend of bass-heavy soundscapes and innovative sonic
   textures.
 featured: true
-order: 4
+order: 1
 audioTracks:
   - roughOffset: 0
     title: In My Dreams
