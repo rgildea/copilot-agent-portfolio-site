@@ -194,12 +194,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar-inner {
   display: flex; align-items: center; gap: var(--space-lg); width: 100%;
+  justify-content: center; position: relative;
 }
 
 /* Misregistered wordmark — appears on scroll */
 .navbar-mark {
-  position: relative;
-  margin-right: auto;
+  position: absolute; left: 0;
   height: 24px;
   min-width: 160px;
   opacity: 0;
@@ -957,7 +957,6 @@ html.modal-open, body.modal-open { overflow: hidden; }
 
   .navbar-mark { display: none; }
   .navbar.scrolled .navbar-mark { display: none; }
-  .navbar-inner { justify-content: center; }
   .nav-links { gap: var(--space-md); }
   .nav-links a { font-size: 13px; padding: 6px; }
   .nav-cta { display: none; }
