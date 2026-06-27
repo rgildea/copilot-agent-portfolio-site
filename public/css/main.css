@@ -192,14 +192,16 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 1px solid var(--line-2);
 }
 
+.navbar .container { width: 100%; max-width: 100%; }
+
 .navbar-inner {
   display: flex; align-items: center; gap: var(--space-lg); width: 100%;
-  justify-content: center; position: relative;
+  justify-content: flex-end; position: relative;
 }
 
-/* Misregistered wordmark — appears on scroll */
+/* Misregistered wordmark — appears on scroll, centered */
 .navbar-mark {
-  position: absolute; left: 0;
+  position: absolute; left: 50%; transform: translateX(-50%);
   height: 24px;
   min-width: 160px;
   opacity: 0;
@@ -252,7 +254,6 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--shadow-hard);
   transition: transform var(--dur-micro), box-shadow var(--dur-micro);
   white-space: nowrap;
-  flex-shrink: 0;
   text-decoration: none;
 }
 .nav-cta:hover { color: var(--ink); transform: translate(2px,2px); box-shadow: 2px 2px 0 rgba(22,19,14,0.6); }
@@ -268,7 +269,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* === HERO === */
 .hero {
-  position: relative; overflow: clip;
+  position: relative; overflow: hidden;
   min-height: 100vh;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: calc(var(--navbar-height) + var(--space-xl)) var(--space-xl) var(--space-xl);
@@ -933,10 +934,6 @@ html.modal-open, body.modal-open { overflow: hidden; }
 
   .container { padding: 0 var(--space-md); }
 
-  .about-section, .portfolio-section, .listen-section, .contact-section {
-    scroll-margin-top: 80px;
-  }
-
   .about-content, .contact-content { grid-template-columns: 1fr; gap: var(--space-xl); }
 
   .portfolio-gallery { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
@@ -950,13 +947,13 @@ html.modal-open, body.modal-open { overflow: hidden; }
   .listen-card__player { padding: 0.75rem var(--space-md) var(--space-md); }
   .listen-player-controls { flex-wrap: wrap; }
 
-  .spotify-direct-embed { width: 100%; height: 50vh; min-height: 0; max-height: none; }
+  .spotify-direct-embed { width: 100%; height: 50vh; min-height: 0; }
   .spotify-facade-img { object-fit: contain; background: #121212; }
 
   .hero { justify-content: flex-start; padding-top: calc(var(--navbar-height) + var(--space-xl)); }
 
+  .navbar-inner { justify-content: center; }
   .navbar-mark { display: none; }
-  .navbar.scrolled .navbar-mark { display: none; }
   .nav-links { gap: var(--space-md); }
   .nav-links a { font-size: 13px; padding: 6px; }
   .nav-cta { display: none; }
