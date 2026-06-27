@@ -1,12 +1,12 @@
 import WaveSurfer from 'wavesurfer.js';
 
 const WAVE_OPTIONS = {
-  waveColor: 'rgba(82, 193, 209, 0.4)',
-  progressColor: '#e252a2',
+  waveColor: 'rgba(236,230,216,0.16)',
+  progressColor: '#FF3D7F',
   height: 48,
   barWidth: 2,
   barGap: 1,
-  barRadius: 2,
+  barRadius: 0,
 };
 
 let audioCtx = null;
@@ -113,6 +113,8 @@ function initCard(card) {
       const wasPlaying = isCardPlaying(state);
       clearSilenceTimer(state);
       destroyPair(state, els.playBtn);
+      els.roughWaveformEl.innerHTML = '';
+      els.finalWaveformEl.innerHTML = '';
       loadTrackPair(card, state, idx, state.activeMix, wasPlaying, 0, els);
     });
   });

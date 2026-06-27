@@ -38,9 +38,13 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
       <div class="hero-bg bg-3"></div>
     </div>
     <div class="hero-content">
-      <h1 id="hero-name" class="hero-title">Ryan Gildea</h1>
+      <div class="hero-eyebrow">Boutique Mix &amp; Master &middot; Neo-Psych Specialist</div>
+      <h1 id="hero-name">Ryan Gildea</h1>
       <h2>Music Production | Mixing | Mastering</h2>
-      <a href="#contact" class="cta-button">Hire Me</a>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Get Started</a>
+        <a href="#listen" class="btn btn-secondary">Hear the Work</a>
+      </div>
       <div class="spotify-direct-embed" id="spotify-facade">
         <button class="spotify-facade-btn" aria-label="Load Spotify playlist">
           <img src="/images/spotify-placeholder.jpg" alt="" class="spotify-facade-img" aria-hidden="true">
@@ -133,9 +137,10 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                 <div class="portfolio-info">
                   <h3>{item.data.title}</h3>
                   <p>{item.data.role}</p>
-                  {item.data.client === "Personal Project" && (
-                    <span class="project-badge personal">Personal Project</span>
-                  )}
+                  {item.data.client === "Personal Project"
+                    ? <span class="project-badge personal">Personal</span>
+                    : <span class="project-badge client">{item.data.client ?? "Client"}</span>
+                  }
                 </div>
               </button>
             </article>
@@ -152,9 +157,6 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
             aria-labelledby="portfolio-modal-title"
             tabindex="-1"
           >
-            <button type="button" class="portfolio-modal__close" data-modal-close aria-label="Close project details">
-              <span aria-hidden="true">&times;</span>
-            </button>
             <div class="portfolio-modal__media-wrap">
               <img src="" alt="" class="portfolio-modal__image" id="portfolio-modal-image" />
             </div>
@@ -167,12 +169,15 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="cta-button portfolio-modal__link"
+                class="btn btn-primary portfolio-modal__link"
                 id="portfolio-modal-link"
               >
                 Visit Project
               </a>
             </div>
+            <button type="button" class="portfolio-modal__close" data-modal-close aria-label="Close project details">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
         </div>
       </div>
@@ -269,7 +274,7 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
     <!-- Contact -->
     <section id="contact" class="contact-section">
       <div class="container">
-        <h2 class="section-title">Get In Touch</h2>
+        <h2 class="section-title">Get Started</h2>
         <div class="contact-content">
           <div class="contact-info">
             <p><svg class="icon contact-icon" aria-hidden="true"><use href="/icons.svg#icon-envelope"></use></svg> {contact.email}</p>

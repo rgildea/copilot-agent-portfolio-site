@@ -1,0 +1,155 @@
+/* ============================================================
+   ACID RISO — Design Tokens
+   Ryan Gildea · Mix / Master / Produce
+   Source of truth for styling. Import after fonts.css:
+     @import url("./fonts.css");
+     @import url("./design-tokens.css");
+   ============================================================ */
+
+:root {
+  /* ---- INK / SURFACES (warm blacks) ---- */
+  --ink:          #16130E;   /* page ground */
+  --ink-2:        #1B170F;   /* deep panel  */
+  --surface:      #211C13;   /* card        */
+  --surface-2:    #2A2417;   /* raised      */
+  --surface-3:    #332B1C;   /* hover       */
+
+  /* ---- SPOT INKS (use flat, full strength — never tint/gradient) ---- */
+  --ink-pink:     #FF3D7F;   /* primary · play · active   */
+  --ink-teal:     #1FB89C;   /* secondary · links · final */
+  --ink-yellow:   #F2D43C;   /* punctuation · highlight   */
+
+  /* ---- PAPER & TEXT ---- */
+  --text:         #ECE6D8;   /* bone — primary text  */
+  --text-muted:   #C4BEAE;   /* body secondary       */
+  --text-faint:   #8A8270;   /* labels, captions     */
+  --line:         rgba(236,230,216,0.12);
+  --line-2:       rgba(236,230,216,0.22);
+
+  /* ---- TYPE ---- */
+  --font-display: "Anton", "Arial Narrow", sans-serif;  /* poster caps, weight 400 only */
+  --font-sans:    "Hanken Grotesk", system-ui, sans-serif;
+  --font-mono:    "Space Mono", ui-monospace, monospace;
+
+  --fs-poster-xl: 96px;   /* hero          · Anton UPPER */
+  --fs-poster-l:  56px;   /* section head  · Anton UPPER */
+  --fs-heading:   20px;   /* Hanken 700                 */
+  --fs-body-l:    18px;   /* Hanken 400 / 1.6           */
+  --fs-body:      16px;   /* Hanken 400 / 1.65          */
+  --fs-label:     12px;   /* Space Mono UPPER / +1.5    */
+
+  --tracking-display: 0.5px;
+  --tracking-label:   1.5px;
+
+  /* ---- SPACING · 4px base grid ---- */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  48px;
+  --space-2xl: 72px;   /* section padding */
+
+  /* ---- RADIUS (corners stay hard; pill = toggles only) ---- */
+  --radius-hard: 0px;
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-pill: 999px;
+
+  /* ---- DEPTH — hard offset shadows, no glow ---- */
+  --shadow-hard:  4px 4px 0 rgba(22,19,14,0.6);
+  --shadow-pink:  5px 5px 0 var(--ink-pink);
+  --shadow-pink-soft: 6px 6px 0 rgba(255,61,127,0.25);
+  --shadow-teal-soft: 5px 5px 0 rgba(31,184,156,0.35);
+
+  /* ---- SIGNATURE ---- */
+  --misregister: 3px;   /* channel offset for off-register print */
+
+  /* ---- MOTION ---- */
+  --dur-micro: 120ms;   /* hover, focus, toggle */
+  --dur-card:  160ms;   /* card lift            */
+  --ease:      cubic-bezier(.2,.7,.2,1);
+}
+
+/* ============================================================
+   SIGNATURE TEXTURE UTILITIES
+   Layer order: print dots (element bg) → grain (::after).
+   Misregistration is a text effect (.riso-misreg).
+   ============================================================ */
+
+/* CMYK halftone — three offset dot screens, screen-blended.
+   Put on a dark element; great for hero bands and photo overlays.
+   NOTE: when text sits on top, dampen it — opacity ~.5 plus a dark
+   scrim (linear-gradient over it) keeps body + yellow text legible.
+   Reserve full strength for empty/decorative bands. */
+.riso-print {
+  background-color: var(--ink);
+  background-image:
+    radial-gradient(var(--ink-pink)   2px, transparent 2.6px),
+    radial-gradient(var(--ink-teal)   2px, transparent 2.6px),
+    radial-gradient(var(--ink-yellow) 1.8px, transparent 2.4px);
+  background-size: 9px 9px;
+  background-position: 0 0, 3px 2px, 5px 5px;
+  background-blend-mode: screen, screen, screen;
+}
+
+/* Placeholder duotone fill (no real image) — a pink→teal gradient + dots.
+   Use for empty image slots / loading states. */
+.riso-duotone {
+  position: relative;
+  background-image: linear-gradient(135deg, var(--ink-pink) 0%, var(--ink) 60%, var(--ink-teal) 120%);
+}
+.riso-duotone::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  opacity: .5; mix-blend-mode: multiply;
+  background-image: radial-gradient(var(--ink) 1.2px, transparent 1.6px);
+  background-size: 6px 6px;
+}
+
+/* LIVE PHOTO TREATMENT — duotone + halftone on a real <img>, no Photoshop.
+   Markup:
+     <figure class="riso-photo">
+       <img src="studio.jpg" alt="…">
+       <span class="rp-shadow"></span>     shadows → teal
+       <span class="rp-highlight"></span>  highlights → pink
+       <span class="rp-screen"></span>     halftone on top
+     </figure>
+   To flip the duotone, swap the two background colors below. */
+.riso-photo { position: relative; overflow: hidden; isolation: isolate; }
+.riso-photo > img {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(1) contrast(1.08) brightness(1.04);
+}
+.riso-photo > span { position: absolute; inset: 0; pointer-events: none; }
+.riso-photo .rp-shadow    { background: var(--ink-teal); mix-blend-mode: lighten; }  /* darks → teal */
+.riso-photo .rp-highlight { background: var(--ink-pink); mix-blend-mode: darken; }   /* lights → pink */
+.riso-photo .rp-screen {
+  opacity: .5; mix-blend-mode: multiply;
+  background-image: radial-gradient(var(--ink) 1.2px, transparent 1.6px);
+  background-size: 6px 6px;
+}
+
+/* Living film grain — animated, stepped (never smooth). Needs position. */
+.riso-grain { position: relative; }
+.riso-grain::after {
+  content: ""; position: absolute; inset: -50%; pointer-events: none;
+  opacity: .20; mix-blend-mode: overlay;
+  background-size: 260px 260px;
+  animation: riso-grainshift 1s steps(3) infinite;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes riso-grainshift {
+  0%{transform:translate(0,0)} 10%{transform:translate(-4%,-3%)} 20%{transform:translate(-8%,2%)}
+  30%{transform:translate(3%,-6%)} 40%{transform:translate(-2%,6%)} 50%{transform:translate(-7%,-2%)}
+  60%{transform:translate(5%,4%)} 70%{transform:translate(-4%,-5%)} 80%{transform:translate(6%,-3%)}
+  90%{transform:translate(-3%,4%)} 100%{transform:translate(0,0)}
+}
+
+/* Off-register print — pink + teal ghosts behind bone type.
+   Apply to Anton headlines on a dark ground. */
+.riso-misreg {
+  color: var(--text);
+  text-shadow:
+    calc(var(--misregister) * -1) -2px 0 var(--ink-pink),
+    var(--misregister) 2px 0 var(--ink-teal);
+}

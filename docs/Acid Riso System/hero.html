@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acid Riso — Hero Reference</title>
+
+<!-- Design system: fonts + tokens (sibling files in this folder) -->
+<link rel="stylesheet" href="./fonts.css">
+<link rel="stylesheet" href="./design-tokens.css">
+
+<style>
+  /* ---- reset / page ---- */
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--ink-pink); color: var(--ink); }
+  a { color: inherit; }
+
+  /* ---- nav ---- */
+  .nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    display: flex; align-items: center; gap: 28px;
+    padding: 18px 40px;
+  }
+  .nav .mark { position: relative; width: 132px; height: 26px; margin-right: auto; }
+  .nav .mark span {
+    position: absolute; left: 0; top: 0;
+    font: 400 24px/1 var(--font-display); letter-spacing: var(--tracking-display);
+  }
+  .nav .mark .teal { color: var(--ink-teal); left: 2px; top: 1px; mix-blend-mode: screen; }
+  .nav .mark .pink { color: var(--ink-pink); left: -2px; top: -1px; mix-blend-mode: screen; }
+  .nav .mark .bone { color: var(--text); }
+  .nav .links { display: flex; gap: 26px; }
+  .nav a { font: 700 14px/1 var(--font-sans); text-decoration: none; color: var(--text); transition: color var(--dur-micro); }
+  .nav a:hover { color: var(--ink-pink); }
+  .nav .cta {
+    background: var(--ink-pink); color: var(--ink); padding: 10px 18px; white-space: nowrap;
+    border-radius: var(--radius-sm); font: 700 13px/1 var(--font-sans);
+    box-shadow: var(--shadow-hard); transition: transform var(--dur-micro), box-shadow var(--dur-micro);
+  }
+  .nav .cta:hover { color: var(--ink); transform: translate(2px,2px); box-shadow: 2px 2px 0 rgba(22,19,14,0.6); }
+
+  /* ---- hero ---- */
+  .hero {
+    position: relative; overflow: hidden;
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 140px 40px 80px;
+  }
+  /* CMYK halftone field (from .riso-print, slightly stronger for the hero) */
+  .hero .print {
+    position: absolute; inset: 0; z-index: 0;
+    background-color: var(--ink);
+    background-image:
+      radial-gradient(var(--ink-pink)   2px, transparent 2.6px),
+      radial-gradient(var(--ink-teal)   2px, transparent 2.6px),
+      radial-gradient(var(--ink-yellow) 1.8px, transparent 2.4px);
+    background-size: 9px 9px;
+    background-position: 0 0, 3px 2px, 5px 5px;
+    background-blend-mode: screen, screen, screen;
+    opacity: .5;
+  }
+  .hero .vignette {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(180deg, rgba(22,19,14,0.55) 0%, rgba(22,19,14,0.72) 45%, rgba(22,19,14,0.86) 100%);
+  }
+  .hero .grain::after {
+    content: ""; position: absolute; inset: -50%; z-index: 2; pointer-events: none;
+    opacity: .20; mix-blend-mode: overlay; background-size: 240px 240px;
+    animation: riso-grainshift 1s steps(3) infinite;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .hero .inner { position: relative; z-index: 3; max-width: 1080px; margin: 0 auto; width: 100%; }
+  .eyebrow { font: 700 12px/1 var(--font-mono); letter-spacing: 2px; color: var(--ink-yellow); }
+
+  /* misregistered display headline — single in-flow element, ghosts via
+     text-shadow (matches the .riso-misreg token utility) */
+  .headline {
+    margin: 24px 0 0;
+    font: 400 clamp(64px, 12vw, 140px)/0.86 var(--font-display);
+    letter-spacing: var(--tracking-display);
+    color: var(--text);
+    text-shadow: -4px -3px 0 var(--ink-pink), 4px 3px 0 var(--ink-teal);
+  }
+
+  .lede { margin: 40px 0 0; font: 400 var(--fs-body-l)/1.6 var(--font-sans); color: var(--text-muted); max-width: 52ch; }
+  .actions { display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; text-decoration: none; cursor: pointer; white-space: nowrap;
+    padding: 15px 30px; border-radius: var(--radius-sm); font: 700 15px/1 var(--font-sans); border: none;
+    transition: transform var(--dur-micro), box-shadow var(--dur-micro), background var(--dur-micro);
+  }
+  .btn-primary { background: var(--ink-pink); color: var(--ink); box-shadow: var(--shadow-hard); }
+  .btn-primary:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 rgba(22,19,14,0.6); }
+  .btn-secondary { background: transparent; color: var(--ink-teal); border: 1.5px solid var(--ink-teal); }
+  .btn-secondary:hover { background: rgba(31,184,156,0.10); }
+
+  /* ---- waveform player ---- */
+  .player {
+    position: relative; z-index: 3; max-width: 680px; margin: 56px auto 0;
+    background: var(--ink-2); border: 1.5px solid var(--line-2);
+    border-radius: var(--radius-md); overflow: hidden;
+  }
+  .player .head { display: flex; align-items: center; gap: 14px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+  .player .art { position: relative; width: 46px; height: 46px; border-radius: var(--radius-sm); overflow: hidden; isolation: isolate;
+    border: 1px solid var(--line-2); flex-shrink: 0; }
+  .player .art > img { display:block; width:100%; height:100%; object-fit:cover; filter:grayscale(1) contrast(1.08) brightness(1.04); }
+  .player .art > span { position:absolute; inset:0; pointer-events:none; }
+  .player .art .rp-shadow { background: var(--ink-teal); mix-blend-mode: lighten; }
+  .player .art .rp-highlight { background: var(--ink-pink); mix-blend-mode: darken; }
+  .player .art .rp-screen { opacity:.5; mix-blend-mode:multiply; background-image: radial-gradient(var(--ink) 1px, transparent 1.4px); background-size: 5px 5px; }
+  .player .title { font: 400 18px/0.95 var(--font-display); letter-spacing: 0.3px; }
+  .player .role { margin-top: 4px; font: 400 11px/1 var(--font-mono); letter-spacing: 1px; color: var(--ink-teal); }
+  .player .spotify { margin-left: auto; font: 700 12px/1 var(--font-sans); color: var(--ink-teal); text-decoration: none; }
+
+  .player .tabs { display: flex; gap: 4px; padding: 0 20px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+  .player .tab { padding: 12px 14px; white-space: nowrap; background: none; border: none; cursor: pointer;
+    font: 400 12px/1 var(--font-mono); letter-spacing: .5px; color: var(--text-faint); border-bottom: 2px solid transparent; }
+  .player .tab.active { color: var(--ink-pink); border-bottom-color: var(--ink-pink); }
+
+  .player .body { padding: 18px 20px 20px; }
+  .player .controls { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .player .play { width: 44px; height: 44px; border-radius: var(--radius-sm); background: var(--ink-pink); border: none;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; box-shadow: 3px 3px 0 rgba(22,19,14,0.6); }
+  .player .eq { display: flex; align-items: flex-end; gap: 3px; height: 18px; flex-shrink: 0; }
+  .player .eq i { width: 3px; background: var(--ink-teal); display: block; }
+  .player .now { font: 500 13px/1 var(--font-sans); color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .player .nowwrap { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; }
+  .player .ab { display: flex; border: 1.5px solid var(--ink-teal); border-radius: var(--radius-sm); overflow: hidden; flex-shrink: 0; }
+  .player .ab button { padding: 7px 15px; font: 600 10px/1 var(--font-mono); letter-spacing: 1px; border: none; cursor: pointer;
+    background: transparent; color: var(--text-faint); }
+  .player .ab button.active { background: var(--ink-teal); color: var(--ink); }
+
+  .player .wave { display: flex; align-items: center; gap: 3px; height: 60px; width: 100%; cursor: pointer; }
+  .player .wave i { flex: 1; min-width: 2px; display: block; }
+  .player .stamps { display: flex; justify-content: space-between; margin-top: 10px; font: 400 12px/1 var(--font-mono);
+    color: var(--text-faint); font-variant-numeric: tabular-nums; }
+
+  @media (max-width: 760px) {
+    .nav .links { display: none; }
+  }
+
+  /* ---- imagery demo band ---- */
+  .imagery { position: relative; padding: 80px 40px 100px; background: var(--ink-2); border-top: 1px solid var(--line); }
+  .imagery-inner { max-width: 1080px; margin: 0 auto; }
+  .imagery-note { margin: 14px 0 0; font: 400 var(--fs-body)/1.6 var(--font-sans); color: var(--text-muted); max-width: 60ch; }
+  .imagery-note code, figcaption code { font: 400 13px/1 var(--font-mono); color: var(--ink-teal); }
+  .imagery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px; }
+  .shot { margin: 0; }
+  .shot .frame { position: relative; aspect-ratio: 4/5; border: 1px solid var(--line-2); border-radius: var(--radius-sm); overflow: hidden; }
+  .shot .frame.raw img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .shot figcaption { margin-top: 10px; font: 400 var(--fs-label)/1 var(--font-mono); letter-spacing: var(--tracking-label); color: var(--text-faint); }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="mark">
+      <span class="teal">RYAN GILDEA</span>
+      <span class="pink">RYAN GILDEA</span>
+      <span class="bone">RYAN GILDEA</span>
+    </div>
+    <div class="links">
+      <a href="#">About</a>
+      <a href="#">Work</a>
+      <a href="#">Listen</a>
+    </div>
+    <a href="#" class="cta">Book a session</a>
+  </nav>
+
+  <header class="hero grain">
+    <div class="print"></div>
+    <div class="vignette"></div>
+    <div class="inner">
+      <div class="eyebrow">BOUTIQUE MIX &amp; MASTER · NEO-PSYCH SPECIALIST</div>
+      <h1 class="headline">WIDE &amp;<br>LUSH</h1>
+      <p class="lede">Your weird, deep, washy record deserves to sound wide and lush — not flat and crowded. Twenty years behind the console, mixing and mastering for artists who chase the trip in the sound.</p>
+      <div class="actions">
+        <a href="#" class="btn btn-primary">Book a session</a>
+        <a href="#player" class="btn btn-secondary">Hear the work</a>
+      </div>
+
+      <!-- Signature waveform player -->
+      <div class="player" id="player">
+        <div class="head">
+          <div class="art">
+            <img src="./sample-photo.jpg" alt="OCCO at the console">
+            <span class="rp-shadow"></span><span class="rp-highlight"></span><span class="rp-screen"></span>
+          </div>
+          <div>
+            <div class="title">OCCO</div>
+            <div class="role">PRODUCTION · MIXING ENGINEER</div>
+          </div>
+          <a href="#" class="spotify">Spotify →</a>
+        </div>
+        <div class="tabs" id="tabs"></div>
+        <div class="body">
+          <div class="controls">
+            <button class="play" id="play" aria-label="Play / pause">
+              <svg width="13" height="13" viewBox="0 0 12 12"><polygon id="playicon" points="2,1 11,6 2,11" fill="#16130E"></polygon></svg>
+            </button>
+            <div class="nowwrap">
+              <span class="eq" id="eq"></span>
+              <span class="now" id="now">Now playing · Final Master</span>
+            </div>
+            <div class="ab" id="ab">
+              <button data-ab="final" class="active">FINAL</button>
+              <button data-ab="rough">ROUGH</button>
+            </div>
+          </div>
+          <div class="wave" id="wave"></div>
+          <div class="stamps"><span id="cur">1:48</span><span id="dur">3:18</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- IMAGERY · live duotone treatment (.riso-photo) -->
+  <section class="imagery">
+    <div class="imagery-inner">
+      <div class="imagery-head">
+        <div class="eyebrow">IMAGERY · LIVE DUOTONE</div>
+        <p class="imagery-note">Drop a normal photo into <code>.riso-photo</code> — CSS does the duotone (shadows&nbsp;&rarr;&nbsp;teal, highlights&nbsp;&rarr;&nbsp;pink) and halftone screen on the fly. No Photoshop, updates instantly if you swap the file.</p>
+      </div>
+      <div class="imagery-grid">
+        <figure class="shot">
+          <div class="frame raw"><img src="./sample-photo.jpg" alt="Studio console, untreated"></div>
+          <figcaption>RAW · grayscale source</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="frame riso-photo">
+            <img src="./sample-photo.jpg" alt="Studio console, riso-treated">
+            <span class="rp-shadow"></span><span class="rp-highlight"></span><span class="rp-screen"></span>
+          </div>
+          <figcaption>TREATED · <code>.riso-photo</code></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+<script>
+(function () {
+  var INK_PINK = '#FF3D7F', MUTED = 'rgba(236,230,216,0.16)';
+  var tracks = ['Jingle-Jangle Diamond Die', 'No Regerts', '#FREEASSANGE'];
+  var state = { track: 0, playing: true, ab: 'final', frac: 0.55 };
+
+  // ---- equalizer (animated via inline keyframes injected once) ----
+  var eq = document.getElementById('eq');
+  var style = document.createElement('style');
+  style.textContent =
+    '@keyframes eqa{0%,100%{height:30%}50%{height:90%}}' +
+    '@keyframes eqb{0%,100%{height:70%}50%{height:25%}}' +
+    '@keyframes eqc{0%,100%{height:45%}50%{height:100%}}' +
+    '@keyframes eqd{0%,100%{height:85%}50%{height:40%}}';
+  document.head.appendChild(style);
+  ['eqa','eqb','eqc','eqd'].forEach(function (k, i) {
+    var b = document.createElement('i');
+    b.style.height = '60%';
+    b.dataset.anim = k + ' ' + (0.7 + i * 0.12) + 's ease-in-out infinite';
+    eq.appendChild(b);
+  });
+
+  // ---- tabs ----
+  var tabsEl = document.getElementById('tabs');
+  tracks.forEach(function (t, i) {
+    var b = document.createElement('button');
+    b.className = 'tab' + (i === 0 ? ' active' : '');
+    b.textContent = t;
+    b.onclick = function () { state.track = i; state.frac = 0.12; render(); };
+    tabsEl.appendChild(b);
+  });
+
+  // ---- waveform (deterministic, clickable to scrub) ----
+  var wave = document.getElementById('wave');
+  var N = 64, heights = [];
+  for (var i = 0; i < N; i++) {
+    var raw = Math.abs(Math.sin(i*0.6)*0.7 + Math.sin(i*0.27+1)*0.5 + Math.sin(i*1.3)*0.25);
+    heights.push(Math.max(14, Math.min(100, 20 + raw*72)));
+    var bar = document.createElement('i');
+    wave.appendChild(bar);
+  }
+  wave.onclick = function (e) {
+    var r = wave.getBoundingClientRect();
+    state.frac = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+    render();
+  };
+
+  // ---- controls ----
+  document.getElementById('play').onclick = function () { state.playing = !state.playing; render(); };
+  document.getElementById('ab').addEventListener('click', function (e) {
+    var btn = e.target.closest('button'); if (!btn) return;
+    state.ab = btn.dataset.ab; render();
+  });
+
+  function render() {
+    // tabs
+    [].forEach.call(tabsEl.children, function (t, i) { t.classList.toggle('active', i === state.track); });
+    // ab
+    [].forEach.call(document.getElementById('ab').children, function (b) {
+      b.classList.toggle('active', b.dataset.ab === state.ab);
+    });
+    // bars
+    [].forEach.call(wave.children, function (bar, i) {
+      var t = i / N;
+      var h = heights[i] * (state.ab === 'rough' ? 0.78 : 1);
+      bar.style.height = Math.max(10, h) + '%';
+      bar.style.background = t < state.frac ? INK_PINK : MUTED;
+    });
+    // eq
+    [].forEach.call(eq.children, function (b) { b.style.animation = state.playing ? b.dataset.anim : 'none'; b.style.opacity = state.playing ? 1 : 0.4; });
+    // play icon
+    document.getElementById('playicon').setAttribute('points', state.playing ? '2,1 4.5,1 4.5,11 2,11 2,1' : '2,1 11,6 2,11');
+    var pts = state.playing ? null : null; // (icon swap handled via two-bar points below)
+    document.getElementById('playicon').setAttribute('points',
+      state.playing ? '2.5,1 4.5,1 4.5,11 2.5,11' : '2,1 11,6 2,11');
+    // a second bar for pause
+    // now text
+    document.getElementById('now').textContent =
+      (state.playing ? 'Now playing' : 'Paused') + ' · ' + (state.ab === 'final' ? 'Final Master' : 'Rough Mix');
+    // current time
+    var total = 198; // 3:18
+    var s = Math.round(state.frac * total);
+    document.getElementById('cur').textContent = Math.floor(s/60) + ':' + String(s%60).padStart(2,'0');
+  }
+
+  // pause icon needs two bars — draw with a rect overlay instead of polygon morph
+  var playBtn = document.getElementById('play');
+  var svg = playBtn.querySelector('svg');
+  var bar2 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  bar2.setAttribute('x','7'); bar2.setAttribute('y','1'); bar2.setAttribute('width','2.5'); bar2.setAttribute('height','10'); bar2.setAttribute('fill','#16130E');
+  bar2.id = 'pausebar';
+  svg.appendChild(bar2);
+  function syncIcon() {
+    var icon = document.getElementById('playicon');
+    var pb = document.getElementById('pausebar');
+    if (state.playing) { icon.setAttribute('points','2.5,1 5,1 5,11 2.5,11'); pb.style.display='block'; }
+    else { icon.setAttribute('points','2,1 11,6 2,11'); pb.style.display='none'; }
+  }
+  var _render = render;
+  render = function () { _render(); syncIcon(); };
+
+  render();
+})();
+</script>
+</body>
+</html>

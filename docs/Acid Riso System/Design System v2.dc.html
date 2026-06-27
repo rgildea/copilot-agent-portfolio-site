@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:#16130E;}
+  ::selection{background:#FF3D7F; color:#16130E;}
+  @keyframes grainshift{
+    0%{transform:translate(0,0)} 10%{transform:translate(-4%,-3%)} 20%{transform:translate(-8%,2%)}
+    30%{transform:translate(3%,-6%)} 40%{transform:translate(-2%,6%)} 50%{transform:translate(-7%,-2%)}
+    60%{transform:translate(5%,4%)} 70%{transform:translate(-4%,-5%)} 80%{transform:translate(6%,-3%)}
+    90%{transform:translate(-3%,4%)} 100%{transform:translate(0,0)}
+  }
+  @keyframes eq1{0%,100%{height:30%}50%{height:90%}}
+  @keyframes eq2{0%,100%{height:70%}50%{height:25%}}
+  @keyframes eq3{0%,100%{height:45%}50%{height:100%}}
+  @keyframes eq4{0%,100%{height:85%}50%{height:40%}}
+</style>
+</helmet>
+
+<div style="display:flex; min-height:100vh; background:#16130E; color:#ECE6D8; font-family:'Hanken Grotesk',sans-serif;">
+
+  <!-- SIDEBAR -->
+  <aside style="position:sticky; top:0; align-self:flex-start; width:252px; height:100vh; flex-shrink:0; border-right:1px solid rgba(236,230,216,0.12); padding:34px 26px; overflow-y:auto;">
+    <div style="position:relative; width:34px; height:34px;">
+      <div style="position:absolute; left:2px; top:1px; font:400 28px/1 'Anton',sans-serif; color:#1FB89C; mix-blend-mode:screen;">RG</div>
+      <div style="position:absolute; left:-1px; top:-1px; font:400 28px/1 'Anton',sans-serif; color:#FF3D7F;">RG</div>
+    </div>
+    <div style="margin-top:12px; font:700 10px/1.6 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270;">DESIGN SYSTEM<br>ACID RISO · v1.0</div>
+    <nav style="margin-top:30px; display:flex; flex-direction:column; gap:1px;">
+      <a href="#foundations" style="font:700 10px/1 'Space Mono',monospace; letter-spacing:1.5px; color:#FF3D7F; text-decoration:none; padding:14px 0 6px;">FOUNDATIONS</a>
+      <a href="#principles" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Principles</a>
+      <a href="#color" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Color</a>
+      <a href="#type" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Typography</a>
+      <a href="#texture" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Texture &amp; Print</a>
+      <a href="#space" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Spacing &amp; Radius</a>
+      <a href="#depth" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Depth &amp; Borders</a>
+      <a href="#components" style="font:700 10px/1 'Space Mono',monospace; letter-spacing:1.5px; color:#FF3D7F; text-decoration:none; padding:18px 0 6px;">COMPONENTS</a>
+      <a href="#buttons" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Buttons</a>
+      <a href="#tags" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Tags &amp; Filters</a>
+      <a href="#cards" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Project Cards</a>
+      <a href="#forms" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Forms</a>
+      <a href="#player" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Waveform Player</a>
+      <a href="#nav" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Navigation</a>
+      <a href="#guidance" style="font:700 10px/1 'Space Mono',monospace; letter-spacing:1.5px; color:#FF3D7F; text-decoration:none; padding:18px 0 6px;">GUIDANCE</a>
+      <a href="#imagery" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Imagery</a>
+      <a href="#motion" style="font:500 13px/1 'Hanken Grotesk',sans-serif; color:#C4BEAE; text-decoration:none; padding:7px 0;">Motion</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main style="flex:1; min-width:0;">
+
+    <!-- COVER -->
+    <section id="foundations" style="position:relative; overflow:hidden; border-bottom:1px solid rgba(236,230,216,0.12); background:#16130E;">
+      <div style="position:absolute; inset:0; opacity:0.50; mix-blend-mode:screen; background-image:radial-gradient(#FF3D7F 2px, transparent 2.6px); background-size:9px 9px; background-position:0 0;"></div>
+      <div style="position:absolute; inset:0; opacity:0.42; mix-blend-mode:screen; background-image:radial-gradient(#1FB89C 2px, transparent 2.6px); background-size:9px 9px; background-position:3px 2px;"></div>
+      <div style="position:absolute; inset:0; opacity:0.34; mix-blend-mode:screen; background-image:radial-gradient(#F2D43C 1.8px, transparent 2.4px); background-size:9px 9px; background-position:5px 5px;"></div>
+      <div style="position:absolute; inset:-50%; opacity:0.20; mix-blend-mode:overlay; animation:grainshift 1s steps(3) infinite; background-image:url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20200%20200%22%3E%3Cfilter%20id=%22n%22%3E%3CfeTurbulence%20type=%22fractalNoise%22%20baseFrequency=%220.55%22%20numOctaves=%222%22%20stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect%20width=%22200%22%20height=%22200%22%20filter=%22url(%23n)%22/%3E%3C/svg%3E'); background-size:260px 260px;"></div>
+      <div style="position:relative; padding:92px 72px 76px;">
+        <div style="font:700 12px/1 'Space Mono',monospace; letter-spacing:2px; color:#F2D43C;">RYAN GILDEA · MIX / MASTER / PRODUCE</div>
+        <div style="position:relative; margin-top:22px; height:184px;">
+          <div style="position:absolute; left:4px; top:3px; font:400 112px/0.82 'Anton',sans-serif; letter-spacing:0.5px; color:#1FB89C; mix-blend-mode:screen;">ACID<br>RISO</div>
+          <div style="position:absolute; left:-4px; top:-2px; font:400 112px/0.82 'Anton',sans-serif; letter-spacing:0.5px; color:#FF3D7F; mix-blend-mode:screen;">ACID<br>RISO</div>
+          <div style="position:absolute; left:0; top:0; font:400 112px/0.82 'Anton',sans-serif; letter-spacing:0.5px; color:#ECE6D8;">ACID<br>RISO</div>
+        </div>
+        <p style="margin:28px 0 0; font:400 19px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:60ch;">A gritty, neo-psychedelic design language for a boutique mix &amp; master studio. Risograph spot inks, off-register CMYK print, and live film grain over warm ink-black — loud and tactile on the surface, clean and structured underneath.</p>
+        <div style="display:flex; gap:32px; margin-top:40px; flex-wrap:wrap;">
+          <div><div style="font:400 34px/1 'Anton',sans-serif; color:#FF3D7F;">3</div><div style="margin-top:6px; font:400 11px/1.4 'Space Mono',monospace; color:#8A8270;">SPOT INKS</div></div>
+          <div><div style="font:400 34px/1 'Anton',sans-serif; color:#1FB89C;">3</div><div style="margin-top:6px; font:400 11px/1.4 'Space Mono',monospace; color:#8A8270;">TYPEFACES</div></div>
+          <div><div style="font:400 34px/1 'Anton',sans-serif; color:#F2D43C;">4px</div><div style="margin-top:6px; font:400 11px/1.4 'Space Mono',monospace; color:#8A8270;">BASE GRID</div></div>
+          <div><div style="font:400 34px/1 'Anton',sans-serif; color:#ECE6D8;">±3px</div><div style="margin-top:6px; font:400 11px/1.4 'Space Mono',monospace; color:#8A8270;">MISREGISTER</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRINCIPLES -->
+    <section id="principles" style="padding:64px 72px; border-bottom:1px solid rgba(236,230,216,0.12);">
+      <div style="font:400 12px/1 'Space Mono',monospace; letter-spacing:2px; color:#8A8270; margin-bottom:8px;">FOUNDATIONS / 01</div>
+      <h2 style="margin:0 0 32px; font:400 40px/0.95 'Anton',sans-serif; letter-spacing:0.4px; color:#ECE6D8;">PRINCIPLES</h2>
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:16px;">
+        <div style="background:#1B170F; border:1px solid rgba(236,230,216,0.12); border-left:3px solid #FF3D7F; border-radius:4px; padding:26px;">
+          <div style="font:400 20px/1.0 'Anton',sans-serif; letter-spacing:0.3px; color:#FF3D7F;">OFF-REGISTER ON PURPOSE</div>
+          <p style="margin:12px 0 0; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE;">Color channels sit a few pixels off, like a cheap two-pass print. The slip is the signature — controlled imperfection that signals hand-made, underground, real.</p>
+        </div>
+        <div style="background:#1B170F; border:1px solid rgba(236,230,216,0.12); border-left:3px solid #1FB89C; border-radius:4px; padding:26px;">
+          <div style="font:400 20px/1.0 'Anton',sans-serif; letter-spacing:0.3px; color:#1FB89C;">SPOT INKS, NOT GRADIENTS</div>
+          <p style="margin:12px 0 0; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE;">Three flat fluoro inks do the work. No soft gradients, no glow — color is laid down solid and lets the halftone do the mixing, the way a risograph does.</p>
+        </div>
+        <div style="background:#1B170F; border:1px solid rgba(236,230,216,0.12); border-left:3px solid #F2D43C; border-radius:4px; padding:26px;">
+          <div style="font:400 20px/1.0 'Anton',sans-serif; letter-spacing:0.3px; color:#F2D43C;">GRAIN IS THE GLUE</div>
+          <p style="margin:12px 0 0; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE;">A faint, living film grain sits over everything and ties the page together. It moves — never a static stamp — so the surface feels like running film, warm and analog.</p>
+        </div>
+        <div style="background:#1B170F; border:1px solid rgba(236,230,216,0.12); border-left:3px solid #ECE6D8; border-radius:4px; padding:26px;">
+          <div style="font:400 20px/1.0 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">CLEAN BONES, LOUD SKIN</div>
+          <p style="margin:12px 0 0; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE;">The texture is maximal; the structure is not. A strict grid, mono labels and clear hierarchy keep the work navigable. Wild surface, disciplined skeleton.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLOR -->
+    <section id="color" style="padding:64px 72px; border-bottom:1px solid rgba(236,230,216,0.12);">
+      <div style="font:400 12px/1 'Space Mono',monospace; letter-spacing:2px; color:#8A8270; margin-bottom:8px;">FOUNDATIONS / 02</div>
+      <h2 style="margin:0 0 6px; font:400 40px/0.95 'Anton',sans-serif; letter-spacing:0.4px; color:#ECE6D8;">COLOR</h2>
+      <p style="margin:0 0 32px; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:58ch;">Warm ink-black grounds everything. Three fluoro spot inks are used flat and full-strength — pink leads, teal supports, yellow punctuates. Never tint or gradient an ink; overprint it instead.</p>
+
+      <div style="font:400 11px/1 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:14px;">INK / SURFACES (WARM BLACKS)</div>
+      <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:36px;">
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:84px; background:#16130E;"></div><div style="padding:12px;"><div style="font:600 13px/1.2 'Hanken Grotesk',sans-serif;">Ink</div><div style="font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">#16130E<br>--ink</div></div></div>
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:84px; background:#1B170F;"></div><div style="padding:12px;"><div style="font:600 13px/1.2 'Hanken Grotesk',sans-serif;">Deep</div><div style="font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">#1B170F<br>--ink-2</div></div></div>
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:84px; background:#211C13;"></div><div style="padding:12px;"><div style="font:600 13px/1.2 'Hanken Grotesk',sans-serif;">Surface</div><div style="font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">#211C13<br>--surface</div></div></div>
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:84px; background:#2A2417;"></div><div style="padding:12px;"><div style="font:600 13px/1.2 'Hanken Grotesk',sans-serif;">Raised</div><div style="font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">#2A2417<br>--surface-2</div></div></div>
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:84px; background:#332B1C;"></div><div style="padding:12px;"><div style="font:600 13px/1.2 'Hanken Grotesk',sans-serif;">Hover</div><div style="font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">#332B1C<br>--surface-3</div></div></div>
+      </div>
+
+      <div style="font:400 11px/1 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:14px;">SPOT INKS</div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:36px;">
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:96px; background:#FF3D7F;"></div><div style="padding:14px;"><div style="display:flex; justify-content:space-between; align-items:flex-end;"><div><div style="font:600 14px/1.2 'Hanken Grotesk',sans-serif;">Fluoro pink</div><div style="font:400 11px/1.4 'Space Mono',monospace; color:#8A8270;">--ink-pink</div></div><div style="font:400 12px/1 'Space Mono',monospace; color:#8A8270;">#FF3D7F</div></div><div style="margin-top:8px; font:400 11px/1.5 'Hanken Grotesk',sans-serif; color:#8A8270;">Primary. Play, active, the lead voice.</div></div></div>
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:96px; background:#1FB89C;"></div><div style="padding:14px;"><div style="display:flex; justify-content:space-between; align-items:flex-end;"><div><div style="font:600 14px/1.2 'Hanken Grotesk',sans-serif;">Riso teal</div><div style="font:400 11px/1.4 'Space Mono',monospace; color:#8A8270;">--ink-teal</div></div><div style="font:400 12px/1 'Space Mono',monospace; color:#8A8270;">#1FB89C</div></div><div style="margin-top:8px; font:400 11px/1.5 'Hanken Grotesk',sans-serif; color:#8A8270;">Secondary. Links, &ldquo;final mix&rdquo;, outlines.</div></div></div>
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:96px; background:#F2D43C;"></div><div style="padding:14px;"><div style="display:flex; justify-content:space-between; align-items:flex-end;"><div><div style="font:600 14px/1.2 'Hanken Grotesk',sans-serif;">Acid yellow</div><div style="font:400 11px/1.4 'Space Mono',monospace; color:#8A8270;">--ink-yellow</div></div><div style="font:400 12px/1 'Space Mono',monospace; color:#8A8270;">#F2D43C</div></div><div style="margin-top:8px; font:400 11px/1.5 'Hanken Grotesk',sans-serif; color:#8A8270;">Punctuation only. Highlights, the third dot.</div></div></div>
+      </div>
+
+      <div style="font:400 11px/1 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:14px;">PAPER &amp; TEXT</div>
+      <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:12px;">
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:60px; background:#ECE6D8;"></div><div style="padding:12px;"><div style="font:600 13px/1.2 'Hanken Grotesk',sans-serif;">Bone</div><div style="font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">#ECE6D8<br>--text</div></div></div>
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:60px; background:#C4BEAE;"></div><div style="padding:12px;"><div style="font:600 13px/1.2 'Hanken Grotesk',sans-serif;">Muted</div><div style="font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">#C4BEAE<br>--text-muted</div></div></div>
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:60px; background:#8A8270;"></div><div style="padding:12px;"><div style="font:600 13px/1.2 'Hanken Grotesk',sans-serif;">Faint</div><div style="font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">#8A8270<br>--text-faint</div></div></div>
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:60px; background:#16130E; background-image:linear-gradient(135deg, transparent 49%, rgba(236,230,216,0.12) 49% 51%, transparent 51%);"></div><div style="padding:12px;"><div style="font:600 13px/1.2 'Hanken Grotesk',sans-serif;">Line</div><div style="font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">bone 12%<br>--line</div></div></div>
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:60px; background:#16130E; background-image:linear-gradient(135deg, transparent 48%, rgba(236,230,216,0.24) 48% 52%, transparent 52%);"></div><div style="padding:12px;"><div style="font:600 13px/1.2 'Hanken Grotesk',sans-serif;">Line strong</div><div style="font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">bone 24%<br>--line-2</div></div></div>
+      </div>
+    </section>
+
+    <!-- TYPE -->
+    <section id="type" style="padding:64px 72px; border-bottom:1px solid rgba(236,230,216,0.12);">
+      <div style="font:400 12px/1 'Space Mono',monospace; letter-spacing:2px; color:#8A8270; margin-bottom:8px;">FOUNDATIONS / 03</div>
+      <h2 style="margin:0 0 6px; font:400 40px/0.95 'Anton',sans-serif; letter-spacing:0.4px; color:#ECE6D8;">TYPOGRAPHY</h2>
+      <p style="margin:0 0 36px; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:58ch;">Three voices. <strong style="color:#ECE6D8;">Anton</strong> shouts the headlines like a gig poster, <strong style="color:#ECE6D8;">Hanken Grotesk</strong> carries everything readable, <strong style="color:#ECE6D8;">Space Mono</strong> runs the technical layer — times, levels, labels.</p>
+
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:40px;">
+        <div style="background:#1B170F; border:1px solid rgba(236,230,216,0.12); border-radius:4px; padding:24px;"><div style="font:400 60px/0.9 'Anton',sans-serif; color:#ECE6D8;">Aa</div><div style="margin-top:16px; font:700 15px/1.2 'Hanken Grotesk',sans-serif;">Anton</div><div style="font:400 12px/1.6 'Space Mono',monospace; color:#8A8270;">Display · 400 only<br>UPPER · tracking +0.5</div></div>
+        <div style="background:#1B170F; border:1px solid rgba(236,230,216,0.12); border-radius:4px; padding:24px;"><div style="font:600 56px/0.9 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Aa</div><div style="margin-top:16px; font:700 15px/1.2 'Hanken Grotesk',sans-serif;">Hanken Grotesk</div><div style="font:400 12px/1.6 'Space Mono',monospace; color:#8A8270;">Body / UI · 400–700<br>Tracking 0</div></div>
+        <div style="background:#1B170F; border:1px solid rgba(236,230,216,0.12); border-radius:4px; padding:24px;"><div style="font:400 50px/0.9 'Space Mono',monospace; color:#ECE6D8;">Aa</div><div style="margin-top:22px; font:700 15px/1.2 'Hanken Grotesk',sans-serif;">Space Mono</div><div style="font:400 12px/1.6 'Space Mono',monospace; color:#8A8270;">Labels / data · 400–700<br>Tracking +1.5, UPPER</div></div>
+      </div>
+
+      <div style="font:400 11px/1 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:18px;">SCALE</div>
+      <div style="display:flex; flex-direction:column;">
+        <div style="display:flex; align-items:baseline; gap:24px; padding:18px 0; border-top:1px solid rgba(236,230,216,0.12);"><div style="width:160px; flex-shrink:0; font:400 11px/1.4 'Space Mono',monospace; color:#8A8270;">Poster XL<br>Anton 400 · 96 UPPER</div><div style="font:400 80px/0.86 'Anton',sans-serif; color:#ECE6D8;">TURN IT UP</div></div>
+        <div style="display:flex; align-items:baseline; gap:24px; padding:18px 0; border-top:1px solid rgba(236,230,216,0.12);"><div style="width:160px; flex-shrink:0; font:400 11px/1.4 'Space Mono',monospace; color:#8A8270;">Poster L<br>Anton 400 · 56 UPPER</div><div style="font:400 50px/0.9 'Anton',sans-serif; color:#ECE6D8;">SELECTED WORK</div></div>
+        <div style="display:flex; align-items:baseline; gap:24px; padding:18px 0; border-top:1px solid rgba(236,230,216,0.12);"><div style="width:160px; flex-shrink:0; font:400 11px/1.4 'Space Mono',monospace; color:#8A8270;">Heading<br>Hanken 700 · 20</div><div style="font:700 20px/1.3 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Audio mixing &amp; mastering</div></div>
+        <div style="display:flex; align-items:baseline; gap:24px; padding:18px 0; border-top:1px solid rgba(236,230,216,0.12);"><div style="width:160px; flex-shrink:0; font:400 11px/1.4 'Space Mono',monospace; color:#8A8270;">Body L<br>Hanken 400 · 18/1.6</div><div style="font:400 18px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:46ch;">Twenty years behind the console, crafting wide, lush mixes across genres.</div></div>
+        <div style="display:flex; align-items:baseline; gap:24px; padding:18px 0; border-top:1px solid rgba(236,230,216,0.12);"><div style="width:160px; flex-shrink:0; font:400 11px/1.4 'Space Mono',monospace; color:#8A8270;">Body<br>Hanken 400 · 16/1.65</div><div style="font:400 16px/1.65 'Hanken Grotesk',sans-serif; color:#8A8270; max-width:52ch;">Recording, mixing and mastering for artists who care about the details.</div></div>
+        <div style="display:flex; align-items:baseline; gap:24px; padding:18px 0; border-top:1px solid rgba(236,230,216,0.12); border-bottom:1px solid rgba(236,230,216,0.12);"><div style="width:160px; flex-shrink:0; font:400 11px/1.4 'Space Mono',monospace; color:#8A8270;">Mono label<br>Space Mono 400 · 12/+1.5</div><div style="font:400 12px/1 'Space Mono',monospace; letter-spacing:1.5px; color:#1FB89C;">0:42 / 3:18 · −14 LUFS · FINAL MIX</div></div>
+      </div>
+    </section>
+
+    <!-- TEXTURE & PRINT -->
+    <section id="texture" style="padding:64px 72px; border-bottom:1px solid rgba(236,230,216,0.12);">
+      <div style="font:400 12px/1 'Space Mono',monospace; letter-spacing:2px; color:#8A8270; margin-bottom:8px;">FOUNDATIONS / 04</div>
+      <h2 style="margin:0 0 6px; font:400 40px/0.95 'Anton',sans-serif; letter-spacing:0.4px; color:#ECE6D8;">TEXTURE &amp; PRINT</h2>
+      <p style="margin:0 0 32px; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:62ch;">The signature. Three stacked layers, all pure CSS / SVG — no image files, crisp at any size. Order matters: halftone first, misregistered channels second, living grain on top.</p>
+
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px;">
+        <div style="border:1px solid rgba(236,230,216,0.12); border-radius:4px; overflow:hidden;">
+          <div style="position:relative; height:150px; background:#16130E;">
+            <div style="position:absolute; inset:0; opacity:0.6; mix-blend-mode:screen; background-image:radial-gradient(#FF3D7F 2px,transparent 2.6px); background-size:9px 9px;"></div>
+            <div style="position:absolute; inset:0; opacity:0.55; mix-blend-mode:screen; background-image:radial-gradient(#1FB89C 2px,transparent 2.6px); background-size:9px 9px; background-position:3px 2px;"></div>
+            <div style="position:absolute; inset:0; opacity:0.45; mix-blend-mode:screen; background-image:radial-gradient(#F2D43C 1.8px,transparent 2.4px); background-size:9px 9px; background-position:5px 5px;"></div>
+          </div>
+          <div style="padding:16px;"><div style="font:600 14px/1.2 'Hanken Grotesk',sans-serif; color:#ECE6D8;">1 · CMYK halftone</div><div style="margin-top:6px; font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">3× radial-gradient<br>9px grid · screen blend<br>offset 0 / +3+2 / +5+5</div></div>
+        </div>
+        <div style="border:1px solid rgba(236,230,216,0.12); border-radius:4px; overflow:hidden;">
+          <div style="position:relative; height:150px; background:#16130E; display:flex; align-items:center; justify-content:center;">
+            <div style="position:relative; width:140px; height:54px;">
+              <div style="position:absolute; left:4px; top:3px; font:400 44px/1 'Anton',sans-serif; color:#1FB89C; mix-blend-mode:screen;">MIX</div>
+              <div style="position:absolute; left:-3px; top:-2px; font:400 44px/1 'Anton',sans-serif; color:#FF3D7F; mix-blend-mode:screen;">MIX</div>
+              <div style="position:absolute; left:0; top:0; font:400 44px/1 'Anton',sans-serif; color:#ECE6D8;">MIX</div>
+            </div>
+          </div>
+          <div style="padding:16px;"><div style="font:600 14px/1.2 'Hanken Grotesk',sans-serif; color:#ECE6D8;">2 · Misregistration</div><div style="margin-top:6px; font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">pink / teal ghosts<br>±3px offset · screen<br>bone copy on top</div></div>
+        </div>
+        <div style="border:1px solid rgba(236,230,216,0.12); border-radius:4px; overflow:hidden;">
+          <div style="position:relative; height:150px; background:#211C13; overflow:hidden;">
+            <div style="position:absolute; inset:-50%; opacity:0.9; animation:grainshift 1s steps(3) infinite; background-image:url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20200%20200%22%3E%3Cfilter%20id=%22n%22%3E%3CfeTurbulence%20type=%22fractalNoise%22%20baseFrequency=%220.55%22%20numOctaves=%222%22/%3E%3C/filter%3E%3Crect%20width=%22200%22%20height=%22200%22%20filter=%22url(%23n)%22%20opacity=%220.5%22/%3E%3C/svg%3E'); background-size:200px 200px;"></div>
+          </div>
+          <div style="padding:16px;"><div style="font:600 14px/1.2 'Hanken Grotesk',sans-serif; color:#ECE6D8;">3 · Living grain</div><div style="margin-top:6px; font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">feTurbulence fractalNoise<br>baseFreq .55 · overlay .20<br>animated · steps(3) 1s</div></div>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center; font:400 12px/1.5 'Space Mono',monospace; color:#8A8270;"><span style="display:inline-block; width:8px; height:8px; background:#F2D43C; border-radius:50%;"></span>STACKED RESULT → the cover, hero, and any full-bleed band. Use sparingly on dense UI; let content breathe.</div>
+    </section>
+
+    <!-- SPACING -->
+    <section id="space" style="padding:64px 72px; border-bottom:1px solid rgba(236,230,216,0.12);">
+      <div style="font:400 12px/1 'Space Mono',monospace; letter-spacing:2px; color:#8A8270; margin-bottom:8px;">FOUNDATIONS / 05</div>
+      <h2 style="margin:0 0 6px; font:400 40px/0.95 'Anton',sans-serif; letter-spacing:0.4px; color:#ECE6D8;">SPACING &amp; RADIUS</h2>
+      <p style="margin:0 0 36px; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:58ch;">Everything snaps to a 4px base grid. Corners stay hard — print doesn't round much. Pills are reserved for toggles alone.</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px;">
+        <div>
+          <div style="font:400 11px/1 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:18px;">SPACE SCALE · base 4</div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="display:flex; align-items:center; gap:16px;"><div style="width:4px; height:24px; background:#FF3D7F;"></div><span style="font:400 12px 'Space Mono',monospace; color:#C4BEAE;">4 · xs</span></div>
+            <div style="display:flex; align-items:center; gap:16px;"><div style="width:8px; height:24px; background:#FF3D7F;"></div><span style="font:400 12px 'Space Mono',monospace; color:#C4BEAE;">8 · sm</span></div>
+            <div style="display:flex; align-items:center; gap:16px;"><div style="width:16px; height:24px; background:#FF3D7F;"></div><span style="font:400 12px 'Space Mono',monospace; color:#C4BEAE;">16 · md</span></div>
+            <div style="display:flex; align-items:center; gap:16px;"><div style="width:24px; height:24px; background:#FF3D7F;"></div><span style="font:400 12px 'Space Mono',monospace; color:#C4BEAE;">24 · lg</span></div>
+            <div style="display:flex; align-items:center; gap:16px;"><div style="width:48px; height:24px; background:#FF3D7F;"></div><span style="font:400 12px 'Space Mono',monospace; color:#C4BEAE;">48 · xl</span></div>
+            <div style="display:flex; align-items:center; gap:16px;"><div style="width:72px; height:24px; background:#FF3D7F;"></div><span style="font:400 12px 'Space Mono',monospace; color:#C4BEAE;">72 · 2xl · section pad</span></div>
+          </div>
+        </div>
+        <div>
+          <div style="font:400 11px/1 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:18px;">RADIUS</div>
+          <div style="display:flex; gap:16px; flex-wrap:wrap;">
+            <div style="text-align:center;"><div style="width:80px; height:80px; background:#211C13; border:1px solid rgba(236,230,216,0.24); border-radius:0;"></div><div style="margin-top:8px; font:400 11px 'Space Mono',monospace; color:#C4BEAE;">0 · hard</div></div>
+            <div style="text-align:center;"><div style="width:80px; height:80px; background:#211C13; border:1px solid rgba(236,230,216,0.24); border-radius:4px;"></div><div style="margin-top:8px; font:400 11px 'Space Mono',monospace; color:#C4BEAE;">4 · sm</div></div>
+            <div style="text-align:center;"><div style="width:80px; height:80px; background:#211C13; border:1px solid rgba(236,230,216,0.24); border-radius:6px;"></div><div style="margin-top:8px; font:400 11px 'Space Mono',monospace; color:#C4BEAE;">6 · md</div></div>
+            <div style="text-align:center;"><div style="width:80px; height:80px; background:#211C13; border:1px solid rgba(236,230,216,0.24); border-radius:999px;"></div><div style="margin-top:8px; font:400 11px 'Space Mono',monospace; color:#C4BEAE;">pill · toggle</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEPTH -->
+    <section id="depth" style="padding:64px 72px; border-bottom:1px solid rgba(236,230,216,0.12);">
+      <div style="font:400 12px/1 'Space Mono',monospace; letter-spacing:2px; color:#8A8270; margin-bottom:8px;">FOUNDATIONS / 06</div>
+      <h2 style="margin:0 0 6px; font:400 40px/0.95 'Anton',sans-serif; letter-spacing:0.4px; color:#ECE6D8;">DEPTH &amp; BORDERS</h2>
+      <p style="margin:0 0 36px; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:58ch;">No glow here. Depth comes from hard offset shadows — like ink stamped a hair off the page — and from solid spot-ink borders. Flat, graphic, printed.</p>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+        <div style="background:#211C13; border:1px solid rgba(236,230,216,0.12); border-radius:4px; padding:26px;"><div style="font:600 14px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Hairline card</div><div style="margin-top:8px; font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">1px bone 12%<br>no shadow</div></div>
+        <div style="background:#211C13; border:1px solid rgba(236,230,216,0.18); border-radius:4px; padding:26px; box-shadow:5px 5px 0 #FF3D7F;"><div style="font:600 14px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Hard offset · pink</div><div style="margin-top:8px; font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">5px 5px 0<br>#FF3D7F</div></div>
+        <div style="background:#211C13; border:1.5px solid #1FB89C; border-radius:4px; padding:26px; box-shadow:5px 5px 0 rgba(31,184,156,0.35);"><div style="font:600 14px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Spot-ink border · teal</div><div style="margin-top:8px; font:400 11px/1.6 'Space Mono',monospace; color:#8A8270;">1.5px solid<br>+ soft offset</div></div>
+      </div>
+    </section>
+
+    <!-- BUTTONS -->
+    <section id="components" style="padding:64px 72px 0;">
+      <div style="font:400 12px/1 'Space Mono',monospace; letter-spacing:2px; color:#8A8270; margin-bottom:8px;">COMPONENTS</div>
+    </section>
+    <section id="buttons" style="padding:24px 72px 64px; border-bottom:1px solid rgba(236,230,216,0.12);">
+      <h2 style="margin:0 0 6px; font:400 34px/0.95 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">BUTTONS</h2>
+      <p style="margin:0 0 32px; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:58ch;">Hard-edged, 4px radius. One solid pink primary per view; teal-outline secondary; acid-yellow chip for emphasis. Hover nudges the hard shadow.</p>
+      <div style="display:flex; gap:48px; flex-wrap:wrap; align-items:flex-start;">
+        <div><div style="font:400 11px 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:14px;">PRIMARY</div><button style="background:#FF3D7F; color:#16130E; border:none; padding:14px 28px; border-radius:4px; font:700 15px 'Hanken Grotesk',sans-serif; cursor:pointer; box-shadow:4px 4px 0 rgba(22,19,14,0.6);">Book a session</button><div style="margin-top:12px; font:400 11px/1.5 'Space Mono',monospace; color:#8A8270;">hover → shadow 2px 2px</div></div>
+        <div><div style="font:400 11px 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:14px;">SECONDARY</div><button style="background:transparent; color:#1FB89C; border:1.5px solid #1FB89C; padding:14px 28px; border-radius:4px; font:700 15px 'Hanken Grotesk',sans-serif; cursor:pointer;">Hear the work</button><div style="margin-top:12px; font:400 11px/1.5 'Space Mono',monospace; color:#8A8270;">hover → fill teal 10%</div></div>
+        <div><div style="font:400 11px 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:14px;">TEXT</div><a href="#buttons" style="color:#1FB89C; font:700 15px 'Hanken Grotesk',sans-serif; text-decoration:none; border-bottom:2px solid #1FB89C; padding-bottom:2px;">View all projects →</a><div style="margin-top:18px; font:400 11px/1.5 'Space Mono',monospace; color:#8A8270;">underline thickens</div></div>
+        <div><div style="font:400 11px 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:14px;">DISABLED</div><button style="background:#211C13; color:#8A8270; border:1px solid rgba(236,230,216,0.12); padding:14px 28px; border-radius:4px; font:700 15px 'Hanken Grotesk',sans-serif; cursor:not-allowed;">Unavailable</button></div>
+      </div>
+    </section>
+
+    <!-- TAGS -->
+    <section id="tags" style="padding:64px 72px; border-bottom:1px solid rgba(236,230,216,0.12);">
+      <h2 style="margin:0 0 6px; font:400 34px/0.95 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">TAGS &amp; FILTERS</h2>
+      <p style="margin:0 0 32px; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:58ch;">Badges classify a project; filter pills switch the gallery. Active filter fills solid; mono caps throughout.</p>
+      <div style="display:flex; gap:48px; flex-wrap:wrap;">
+        <div><div style="font:400 11px 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:14px;">BADGES</div><div style="display:flex; gap:10px;"><span style="font:600 10px 'Space Mono',monospace; letter-spacing:1.5px; color:#16130E; background:#F2D43C; padding:5px 11px; border-radius:3px;">CLIENT</span><span style="font:600 10px 'Space Mono',monospace; letter-spacing:1.5px; color:#FF3D7F; border:1.5px solid #FF3D7F; padding:4px 10px; border-radius:3px;">PERSONAL</span></div></div>
+        <div><div style="font:400 11px 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:14px;">FILTER PILLS</div><div style="display:flex; gap:10px;"><span style="font:700 12px 'Hanken Grotesk',sans-serif; color:#16130E; background:#1FB89C; padding:8px 18px; border-radius:4px;">All</span><span style="font:700 12px 'Hanken Grotesk',sans-serif; color:#1FB89C; background:transparent; border:1.5px solid #1FB89C; padding:7px 17px; border-radius:4px;">Client</span><span style="font:700 12px 'Hanken Grotesk',sans-serif; color:#1FB89C; background:transparent; border:1.5px solid #1FB89C; padding:7px 17px; border-radius:4px;">Personal</span></div></div>
+      </div>
+    </section>
+
+    <!-- CARDS -->
+    <section id="cards" style="padding:64px 72px; border-bottom:1px solid rgba(236,230,216,0.12);">
+      <h2 style="margin:0 0 6px; font:400 34px/0.95 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">PROJECT CARDS</h2>
+      <p style="margin:0 0 32px; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:58ch;">Image-led tiles with a duotone-halftone photo. Info sits on a solid ink band; on hover the card lifts onto a hard pink offset and the spot border lights.</p>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+        <div style="position:relative; height:300px; border-radius:4px; overflow:hidden; border:1.5px solid #FF3D7F; box-shadow:6px 6px 0 rgba(255,61,127,0.25);">
+          <div style="position:absolute; inset:0; background:linear-gradient(135deg,#FF3D7F 0%, #16130E 60%, #1FB89C 120%);"></div>
+          <div style="position:absolute; inset:0; opacity:0.5; mix-blend-mode:multiply; background-image:radial-gradient(#16130E 1.2px, transparent 1.6px); background-size:6px 6px;"></div>
+          <div style="position:absolute; left:14px; top:12px; font:700 10px 'Space Mono',monospace; letter-spacing:1px; color:#ECE6D8;">[ duotone halftone photo ]</div>
+          <div style="position:absolute; left:0; right:0; bottom:0; padding:18px 20px; background:#16130E; border-top:1.5px solid #FF3D7F;">
+            <div style="font:400 24px/0.95 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">OCCO</div>
+            <div style="margin-top:6px; font:500 13px 'Hanken Grotesk',sans-serif; color:#C4BEAE;">Production · Mixing</div>
+            <span style="display:inline-block; margin-top:10px; font:600 10px 'Space Mono',monospace; letter-spacing:1.5px; color:#16130E; background:#F2D43C; padding:4px 9px; border-radius:3px;">CLIENT</span>
+          </div>
+          <div style="position:absolute; right:14px; top:12px; font:700 10px 'Space Mono',monospace; color:#F2D43C;">↖ HOVER</div>
+        </div>
+        <div style="position:relative; height:300px; border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.14);">
+          <div style="position:absolute; inset:0; background:linear-gradient(135deg,#1FB89C 0%, #16130E 65%, #FF3D7F 130%);"></div>
+          <div style="position:absolute; inset:0; opacity:0.5; mix-blend-mode:multiply; background-image:radial-gradient(#16130E 1.2px, transparent 1.6px); background-size:6px 6px;"></div>
+          <div style="position:absolute; left:14px; top:12px; font:700 10px 'Space Mono',monospace; letter-spacing:1px; color:#ECE6D8;">[ duotone halftone photo ]</div>
+          <div style="position:absolute; left:0; right:0; bottom:0; padding:18px 20px; background:#16130E;">
+            <div style="font:400 24px/0.95 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">HORNZ</div>
+            <div style="margin-top:6px; font:500 13px 'Hanken Grotesk',sans-serif; color:#C4BEAE;">Mix Engineer</div>
+          </div>
+          <div style="position:absolute; right:14px; top:12px; font:700 10px 'Space Mono',monospace; color:#8A8270;">REST</div>
+        </div>
+        <div style="position:relative; height:300px; border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.14);">
+          <div style="position:absolute; inset:0; background:linear-gradient(135deg,#F2D43C 0%, #16130E 60%, #1FB89C 125%);"></div>
+          <div style="position:absolute; inset:0; opacity:0.5; mix-blend-mode:multiply; background-image:radial-gradient(#16130E 1.2px, transparent 1.6px); background-size:6px 6px;"></div>
+          <div style="position:absolute; left:14px; top:12px; font:700 10px 'Space Mono',monospace; letter-spacing:1px; color:#16130E;">[ duotone halftone photo ]</div>
+          <div style="position:absolute; left:0; right:0; bottom:0; padding:18px 20px; background:#16130E;">
+            <div style="font:400 24px/0.95 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">EONS PAST</div>
+            <div style="margin-top:6px; font:500 13px 'Hanken Grotesk',sans-serif; color:#C4BEAE;">Recording · Master</div>
+            <span style="display:inline-block; margin-top:10px; font:600 10px 'Space Mono',monospace; letter-spacing:1.5px; color:#FF3D7F; border:1.5px solid #FF3D7F; padding:3px 9px; border-radius:3px;">PERSONAL</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMS -->
+    <section id="forms" style="padding:64px 72px; border-bottom:1px solid rgba(236,230,216,0.12);">
+      <h2 style="margin:0 0 6px; font:400 34px/0.95 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">FORMS</h2>
+      <p style="margin:0 0 32px; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:58ch;">Inputs sit on surface with a hairline; focus lights the border pink with a hard offset, no glow.</p>
+      <div style="max-width:520px; display:flex; flex-direction:column; gap:20px;">
+        <div>
+          <label style="display:block; margin-bottom:8px; font:600 13px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Name</label>
+          <input type="text" value="OCCO" readonly style="width:100%; padding:13px 16px; background:#211C13; border:1px solid rgba(236,230,216,0.18); border-radius:4px; color:#ECE6D8; font:400 15px 'Hanken Grotesk',sans-serif;">
+        </div>
+        <div>
+          <label style="display:block; margin-bottom:8px; font:600 13px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Email <span style="color:#8A8270; font-weight:400;">· focus state</span></label>
+          <input type="text" value="hello@studio.com" readonly style="width:100%; padding:13px 16px; background:#211C13; border:1.5px solid #FF3D7F; border-radius:4px; color:#ECE6D8; font:400 15px 'Hanken Grotesk',sans-serif; box-shadow:3px 3px 0 rgba(255,61,127,0.3);">
+        </div>
+        <div>
+          <label style="display:block; margin-bottom:8px; font:600 13px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Message</label>
+          <textarea readonly rows="3" style="width:100%; padding:13px 16px; background:#211C13; border:1px solid rgba(236,230,216,0.18); border-radius:4px; color:#C4BEAE; font:400 15px/1.5 'Hanken Grotesk',sans-serif; resize:vertical;">Tell me about the project…</textarea>
+        </div>
+        <button style="align-self:flex-start; background:#FF3D7F; color:#16130E; border:none; padding:14px 32px; border-radius:4px; font:700 15px 'Hanken Grotesk',sans-serif; cursor:pointer; box-shadow:4px 4px 0 rgba(22,19,14,0.6);">Send message</button>
+      </div>
+    </section>
+
+    <!-- WAVEFORM PLAYER -->
+    <section id="player" style="padding:64px 72px; border-bottom:1px solid rgba(236,230,216,0.12);">
+      <h2 style="margin:0 0 6px; font:400 34px/0.95 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">WAVEFORM PLAYER</h2>
+      <p style="margin:0 0 32px; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:60ch;">The signature component, carried forward in spot ink. Hard-edged bars, an A/B rough-vs-final toggle, and tabs per track. Played samples are solid pink; the rest sit muted bone.</p>
+
+      <div style="max-width:680px; background:#1B170F; border:1.5px solid rgba(236,230,216,0.14); border-radius:6px; overflow:hidden;">
+        <div style="display:flex; align-items:center; gap:14px; padding:20px 22px; border-bottom:1px solid rgba(236,230,216,0.12);">
+          <div style="position:relative; width:48px; height:48px; border-radius:4px; flex-shrink:0; overflow:hidden; background:linear-gradient(135deg,#FF3D7F,#1FB89C); border:1px solid rgba(236,230,216,0.14);"><div style="position:absolute; inset:0; opacity:0.5; mix-blend-mode:multiply; background-image:radial-gradient(#16130E 1px,transparent 1.4px); background-size:5px 5px;"></div></div>
+          <div style="flex:1; min-width:0;">
+            <div style="font:400 18px/0.95 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">OCCO</div>
+            <div style="margin-top:4px; font:400 11px 'Space Mono',monospace; letter-spacing:1px; color:#1FB89C;">PRODUCTION · MIXING ENGINEER</div>
+          </div>
+          <a href="#player" style="font:700 12px 'Hanken Grotesk',sans-serif; color:#1FB89C; text-decoration:none;">Spotify →</a>
+        </div>
+        <div style="display:flex; gap:4px; padding:0 22px; border-bottom:1px solid rgba(236,230,216,0.12);">
+          <span style="padding:12px 16px; font:700 12px 'Space Mono',monospace; letter-spacing:0.5px; color:#FF3D7F; border-bottom:2px solid #FF3D7F;">Jingle-Jangle Diamond Die</span>
+          <span style="padding:12px 16px; font:400 12px 'Space Mono',monospace; letter-spacing:0.5px; color:#8A8270; border-bottom:2px solid transparent;">No Regerts</span>
+          <span style="padding:12px 16px; font:400 12px 'Space Mono',monospace; letter-spacing:0.5px; color:#8A8270; border-bottom:2px solid transparent;">#FREEASSANGE</span>
+        </div>
+        <div style="padding:20px 22px 22px;">
+          <div style="display:flex; align-items:center; gap:14px; margin-bottom:16px;">
+            <button style="width:44px; height:44px; border-radius:4px; background:#FF3D7F; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; box-shadow:3px 3px 0 rgba(22,19,14,0.6);"><svg width="13" height="13" viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="#16130E"></polygon></svg></button>
+            <div style="flex:1; min-width:0; display:flex; align-items:center; gap:10px;">{{ eqBars }}<span style="font:500 13px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Now playing · Full Mix</span></div>
+            <div style="display:flex; border:1.5px solid #1FB89C; border-radius:4px; overflow:hidden; flex-shrink:0;">
+              <span style="padding:7px 16px; font:600 10px 'Space Mono',monospace; letter-spacing:1px; color:#16130E; background:#1FB89C;">FINAL</span>
+              <span style="padding:7px 16px; font:600 10px 'Space Mono',monospace; letter-spacing:1px; color:#8A8270;">ROUGH</span>
+            </div>
+          </div>
+          {{ wavePlayer }}
+          <div style="display:flex; justify-content:space-between; margin-top:10px; font:400 12px 'Space Mono',monospace; color:#8A8270; font-variant-numeric:tabular-nums;"><span>1:48</span><span>3:18</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NAV -->
+    <section id="nav" style="padding:64px 72px; border-bottom:1px solid rgba(236,230,216,0.12);">
+      <h2 style="margin:0 0 6px; font:400 34px/0.95 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">NAVIGATION</h2>
+      <p style="margin:0 0 32px; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:58ch;">A flat bar. Transparent over the hero; once you scroll it gains a solid ink background, a hairline, and the misregistered wordmark.</p>
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div>
+          <div style="font:400 11px 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:10px;">AT TOP · TRANSPARENT</div>
+          <div style="position:relative; display:flex; align-items:center; justify-content:center; gap:36px; padding:18px 28px; border-radius:4px; overflow:hidden; background:linear-gradient(135deg,#FF3D7F,#16130E 70%,#1FB89C);">
+            <div style="position:absolute; inset:0; opacity:0.45; mix-blend-mode:multiply; background-image:radial-gradient(#16130E 1.2px,transparent 1.6px); background-size:6px 6px;"></div>
+            <span style="position:relative; font:700 14px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">About</span>
+            <span style="position:relative; font:700 14px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Work</span>
+            <span style="position:relative; font:700 14px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Listen</span>
+            <span style="position:relative; font:700 14px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Contact</span>
+          </div>
+        </div>
+        <div>
+          <div style="font:400 11px 'Space Mono',monospace; letter-spacing:1.5px; color:#8A8270; margin-bottom:10px;">SCROLLED · SOLID</div>
+          <div style="display:flex; align-items:center; gap:28px; padding:14px 28px; border-radius:4px; background:#16130E; border:1px solid rgba(236,230,216,0.12);">
+            <div style="position:relative; width:120px; height:24px; margin-right:auto;">
+              <div style="position:absolute; left:2px; top:1px; font:400 22px/1 'Anton',sans-serif; letter-spacing:0.3px; color:#1FB89C; mix-blend-mode:screen;">RYAN GILDEA</div>
+              <div style="position:absolute; left:0; top:0; font:400 22px/1 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">RYAN GILDEA</div>
+            </div>
+            <span style="font:700 14px 'Hanken Grotesk',sans-serif; color:#FF3D7F;">About</span>
+            <span style="font:700 14px 'Hanken Grotesk',sans-serif; color:#C4BEAE;">Work</span>
+            <span style="font:700 14px 'Hanken Grotesk',sans-serif; color:#C4BEAE;">Listen</span>
+            <span style="font:700 14px 'Hanken Grotesk',sans-serif; color:#C4BEAE;">Contact</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMAGERY -->
+    <section id="imagery" style="padding:64px 72px; border-bottom:1px solid rgba(236,230,216,0.12);">
+      <div style="font:400 12px/1 'Space Mono',monospace; letter-spacing:2px; color:#8A8270; margin-bottom:8px;">GUIDANCE</div>
+      <h2 style="margin:0 0 6px; font:400 34px/0.95 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">IMAGERY</h2>
+      <p style="margin:0 0 32px; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:60ch;">Photography is pushed through a two-ink press: duotone to pink+teal, hit with a halftone screen, registered a hair off. Treat every photo — never drop a clean full-color image in.</p>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:150px; position:relative; background:linear-gradient(135deg,#FF3D7F,#16130E 60%,#1FB89C);"><div style="position:absolute; inset:0; opacity:0.5; mix-blend-mode:multiply; background-image:radial-gradient(#16130E 1.2px,transparent 1.6px); background-size:6px 6px;"></div></div><div style="padding:14px; font:400 12px/1.5 'Space Mono',monospace; color:#C4BEAE;">DO · pink/teal duotone<br>+ halftone screen</div></div>
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(236,230,216,0.12);"><div style="height:150px; position:relative; background:linear-gradient(135deg,#1FB89C,#16130E 65%,#F2D43C);"><div style="position:absolute; inset:0; opacity:0.5; mix-blend-mode:multiply; background-image:radial-gradient(#16130E 1.2px,transparent 1.6px); background-size:6px 6px;"></div><div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;"><div style="position:relative; width:120px; height:40px;"><div style="position:absolute; left:3px; top:2px; font:400 34px/1 'Anton',sans-serif; color:#FF3D7F; mix-blend-mode:screen;">LOUD</div><div style="position:absolute; left:0; top:0; font:400 34px/1 'Anton',sans-serif; color:#ECE6D8;">LOUD</div></div></div></div><div style="padding:14px; font:400 12px/1.5 'Space Mono',monospace; color:#C4BEAE;">DO · misregistered<br>type straight on photo</div></div>
+        <div style="border-radius:4px; overflow:hidden; border:1px solid rgba(255,61,127,0.3);"><div style="height:150px; position:relative; background-image:repeating-linear-gradient(135deg,#3a2a1a 0 14px,#2a1f14 14px 28px);"><div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font:700 15px 'Hanken Grotesk',sans-serif; color:#fff; text-shadow:0 1px 4px rgba(0,0,0,0.6);">Clean full-color</div></div><div style="padding:14px; font:400 12px/1.5 'Space Mono',monospace; color:#FF3D7F;">DON'T · untreated photo<br>or no halftone</div></div>
+      </div>
+    </section>
+
+    <!-- MOTION -->
+    <section id="motion" style="padding:64px 72px 96px;">
+      <h2 style="margin:0 0 6px; font:400 34px/0.95 'Anton',sans-serif; letter-spacing:0.3px; color:#ECE6D8;">MOTION</h2>
+      <p style="margin:0 0 32px; font:400 15px/1.6 'Hanken Grotesk',sans-serif; color:#C4BEAE; max-width:60ch;">Quick and physical. UI snaps; the grain is the one always-on motion — a faint stepped shimmer that keeps the print feeling alive.</p>
+      <div style="display:flex; flex-direction:column;">
+        <div style="display:flex; gap:24px; padding:16px 0; border-top:1px solid rgba(236,230,216,0.12); align-items:baseline;"><div style="width:160px; font:400 12px 'Space Mono',monospace; color:#1FB89C;">stepped · 1s loop</div><div style="font:600 14px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Film grain</div><div style="font:400 14px 'Hanken Grotesk',sans-serif; color:#C4BEAE;">Always-on shimmer, steps(3) — never smooth.</div></div>
+        <div style="display:flex; gap:24px; padding:16px 0; border-top:1px solid rgba(236,230,216,0.12); align-items:baseline;"><div style="width:160px; font:400 12px 'Space Mono',monospace; color:#1FB89C;">120ms</div><div style="font:600 14px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Micro</div><div style="font:400 14px 'Hanken Grotesk',sans-serif; color:#C4BEAE;">Hover color, focus, pill toggle.</div></div>
+        <div style="display:flex; gap:24px; padding:16px 0; border-top:1px solid rgba(236,230,216,0.12); align-items:baseline;"><div style="width:160px; font:400 12px 'Space Mono',monospace; color:#1FB89C;">160ms ease-out</div><div style="font:600 14px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Card</div><div style="font:400 14px 'Hanken Grotesk',sans-serif; color:#C4BEAE;">Lift onto hard offset shadow; border lights.</div></div>
+        <div style="display:flex; gap:24px; padding:16px 0; border-top:1px solid rgba(236,230,216,0.12); border-bottom:1px solid rgba(236,230,216,0.12); align-items:baseline;"><div style="width:160px; font:400 12px 'Space Mono',monospace; color:#1FB89C;">2s ease</div><div style="font:600 14px 'Hanken Grotesk',sans-serif; color:#ECE6D8;">Hero crossfade</div><div style="font:400 14px 'Hanken Grotesk',sans-serif; color:#C4BEAE;">Treated photographs dissolve, ~9s hold each.</div></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#16130E"/>
+    <text x="50" y="44" font-family="Arial Black, sans-serif" font-size="26" font-weight="900" text-anchor="middle" fill="#1FB89C" transform="translate(2,1)">RG</text>
+    <text x="50" y="44" font-family="Arial Black, sans-serif" font-size="26" font-weight="900" text-anchor="middle" fill="#FF3D7F">RG</text>
+    <text x="50" y="68" font-family="monospace" font-size="8" letter-spacing="1" text-anchor="middle" fill="#F2D43C">ACID RISO</text>
+  </svg>
+</template>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:760}}">
+class Component extends DCLogic {
+  renderVals() {
+    // Hard-edged riso waveform specimen
+    const n = 64, bars = [];
+    const frac = 0.55;
+    for (let i = 0; i < n; i++) {
+      const t = i / n;
+      const raw = Math.abs(Math.sin(i * 0.6) * 0.7 + Math.sin(i * 0.27 + 1) * 0.5 + Math.sin(i * 1.3) * 0.25);
+      const h = Math.max(14, Math.min(100, 20 + raw * 72));
+      bars.push(React.createElement('div', {
+        key: i,
+        style: { flex: 1, height: h + '%', minWidth: '2px', borderRadius: '0px', background: t < frac ? '#FF3D7F' : 'rgba(236,230,216,0.16)' }
+      }));
+    }
+    const wavePlayer = React.createElement('div', {
+      style: { display: 'flex', alignItems: 'center', gap: '3px', height: '64px', width: '100%' }
+    }, bars);
+
+    const eqHeights = ['eq1', 'eq2', 'eq3', 'eq4'];
+    const eqBars = React.createElement('div', {
+      style: { display: 'flex', alignItems: 'flex-end', gap: '3px', height: '18px', flexShrink: 0 }
+    }, eqHeights.map((k, i) => React.createElement('div', {
+      key: i,
+      style: { width: '3px', height: '60%', borderRadius: '0px', background: '#1FB89C', animation: `${k} ${0.7 + i * 0.12}s ease-in-out infinite` }
+    })));
+
+    return { wavePlayer, eqBars };
+  }
+}
+</script>
+</body>
+</html>
