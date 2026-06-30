@@ -102,6 +102,14 @@ function initCard(card) {
     loadTrackPair(card, state, trackIndex, 'rough', autoplay, 0, els);
   }
 
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      ensureLoaded();
+      observer.disconnect();
+    }
+  }, { rootMargin: '200px' });
+  observer.observe(card);
+
   card.querySelectorAll('.listen-tab').forEach((tab) => {
     tab.addEventListener('click', () => {
       const idx = parseInt(tab.dataset.trackIndex, 10);
@@ -110,12 +118,12 @@ function initCard(card) {
         return;
       }
       if (idx === state.activeTrackIndex) return;
-      const wasPlaying = isCardPlaying(state);
       clearSilenceTimer(state);
       destroyPair(state, els.playBtn);
+      updatePlayBtn(card, false);
       els.roughWaveformEl.innerHTML = '';
       els.finalWaveformEl.innerHTML = '';
-      loadTrackPair(card, state, idx, state.activeMix, wasPlaying, 0, els);
+      loadTrackPair(card, state, idx, state.activeMix, false, 0, els);
     });
   });
 
@@ -340,6 +348,23 @@ function handlePlayClick(card, state, els) {
 
   if (ws.isPlaying()) {
     ws.pause();
+    return;
+  }
+
+  const isReady = state.activeMix === 'rough' ? state.roughReady : state.finalReady;
+  if (!isReady) {
+    state.loading = true;
+    setPlayBtnLoading(els.playBtn, true);
+    state.pendingOnReady = () => {
+      const currentWs = activeWs(state);
+      if (!currentWs) return;
+      if (state.activeMix === 'rough' && offset_s > 0 && currentWs.getCurrentTime() === 0) {
+        startSilenceZone(card, state, els, offset_s, 0);
+      } else {
+        pauseOtherCards(card);
+        currentWs.play();
+      }
+    };
     return;
   }
 

@@ -800,7 +800,9 @@ html.modal-open, body.modal-open { overflow: hidden; }
   border-top-color: var(--ink-pink);
   box-shadow: none; cursor: default; pointer-events: none;
   animation: play-btn-spin 0.7s linear infinite;
+  transition: none;
 }
+.listen-play-btn.loading:hover { transform: none; box-shadow: none; }
 .listen-play-btn.loading svg { display: none; }
 
 .listen-track-title {

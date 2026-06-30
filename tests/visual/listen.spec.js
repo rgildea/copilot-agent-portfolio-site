@@ -1,6 +1,14 @@
 // @ts-check
 import { expect, test } from "@playwright/test";
 
+// Stall all audio requests for the duration of a test so we can assert
+// loading states without depending on network timing.
+async function stallAudio(page) {
+  await page.route("**/audio.mixdownapp.com/**", async () => {
+    await new Promise((r) => setTimeout(r, 30_000));
+  });
+}
+
 test.describe("Listen section", () => {
   test("should render the listen section with a nav link", async ({ page }) => {
     await page.goto("/");
@@ -83,5 +91,57 @@ test.describe("Listen section", () => {
     await expect(firstCard).toBeVisible();
     const bounds = await firstCard.boundingBox();
     if (bounds) expect(bounds.width).toBeLessThanOrEqual(375);
+  });
+});
+
+test.describe("Audio player button behavior", () => {
+  test("play button starts with play icon and no loading state", async ({ page }) => {
+    await page.goto("/");
+    const playBtn = page.locator(".listen-card").first().locator(".listen-play-btn");
+    await expect(playBtn).toBeVisible();
+    await expect(playBtn).not.toHaveClass(/loading/);
+    const href = await playBtn.locator("use").getAttribute("href");
+    expect(href).toContain("icon-play");
+  });
+
+  test("clicking play before audio is ready shows the loading spinner", async ({ page }) => {
+    await stallAudio(page);
+    await page.goto("/");
+    const firstCard = page.locator(".listen-card").first();
+    await firstCard.locator(".listen-play-btn").click();
+    await expect(firstCard.locator(".listen-play-btn")).toHaveClass(/loading/);
+  });
+
+  test("switching tabs resets the play button to stopped state", async ({ page }) => {
+    await stallAudio(page);
+    await page.goto("/");
+    const firstCard = page.locator(".listen-card").first();
+    const tabs = firstCard.locator(".listen-tab");
+    if (await tabs.count() < 2) return;
+
+    await firstCard.locator(".listen-play-btn").click();
+    await expect(firstCard.locator(".listen-play-btn")).toHaveClass(/loading/);
+
+    await tabs.nth(1).click();
+
+    const playBtn = firstCard.locator(".listen-play-btn");
+    await expect(playBtn).not.toHaveClass(/loading/);
+    const href = await playBtn.locator("use").getAttribute("href");
+    expect(href).toContain("icon-play");
+  });
+
+  test("switching tabs does not autoplay the new track", async ({ page }) => {
+    await stallAudio(page);
+    await page.goto("/");
+    const firstCard = page.locator(".listen-card").first();
+    const tabs = firstCard.locator(".listen-tab");
+    if (await tabs.count() < 2) return;
+
+    await tabs.nth(1).click();
+
+    const playBtn = firstCard.locator(".listen-play-btn");
+    await expect(playBtn).not.toHaveClass(/loading/);
+    const href = await playBtn.locator("use").getAttribute("href");
+    expect(href).toContain("icon-play");
   });
 });
