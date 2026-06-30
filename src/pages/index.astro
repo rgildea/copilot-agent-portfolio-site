@@ -18,18 +18,36 @@ const socialIconMap = {
 };
 
 const portfolioItems = (await getCollection("portfolio")).sort(
-  (a, b) => a.data.order - b.data.order
+  (a, b) => a.data.order - b.data.order,
 );
 const audioItems = portfolioItems.filter(
   (item) => item.data.audioTracks && item.data.audioTracks.length > 0,
 );
 const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
-  ALLOWED_TAGS: ["p", "strong", "em", "a", "ul", "ol", "li", "br", "h1", "h2", "h3", "h4", "h5", "h6"],
+  ALLOWED_TAGS: [
+    "p",
+    "strong",
+    "em",
+    "a",
+    "ul",
+    "ol",
+    "li",
+    "br",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+  ],
   ALLOWED_ATTR: ["href", "target", "rel"],
 });
 ---
 
-<Base title="Ryan Gildea | Audio Engineer & Producer" hasListenSection={audioItems.length > 0}>
+<Base
+  title="Ryan Gildea | Audio Engineer & Producer"
+  hasListenSection={audioItems.length > 0}
+>
   <!-- Hero -->
   <header class="hero">
     <div class="hero-backgrounds">
@@ -38,7 +56,9 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
       <div class="hero-bg bg-3"></div>
     </div>
     <div class="hero-content">
-      <div class="hero-eyebrow">Boutique Mix &amp; Master &middot; Neo-Psych Specialist</div>
+      <div class="hero-eyebrow">
+        Boutique Mix &amp; Master &middot; Neo-Psych Specialist
+      </div>
       <h1 id="hero-name">Ryan Gildea</h1>
       <h2>Music Production | Mixing | Mastering</h2>
       <div class="hero-actions">
@@ -47,19 +67,35 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
       </div>
       <div class="spotify-direct-embed" id="spotify-facade">
         <button class="spotify-facade-btn" aria-label="Load Spotify playlist">
-          <img src="/images/spotify-placeholder.jpg" alt="" class="spotify-facade-img" aria-hidden="true">
+          <img
+            src="/images/spotify-placeholder.jpg"
+            alt=""
+            class="spotify-facade-img"
+            aria-hidden="true"
+          />
           <div class="spotify-facade-content">
-            <svg class="spotify-facade-play" viewBox="0 0 64 64" aria-hidden="true">
-              <circle cx="32" cy="32" r="32"/>
-              <polygon points="24,16 48,32 24,48"/>
+            <svg
+              class="spotify-facade-play"
+              viewBox="0 0 64 64"
+              aria-hidden="true"
+            >
+              <circle cx="32" cy="32" r="32"></circle>
+              <polygon points="24,16 48,32 24,48"></polygon>
             </svg>
           </div>
         </button>
       </div>
     </div>
-    <a href="#about" class="scroll-indicator" aria-label="Scroll to About section">
+    <a
+      href="#about"
+      class="scroll-indicator"
+      aria-label="Scroll to About section"
+    >
       <div class="scroll-text">Scroll for more</div>
-      <div class="scroll-arrow"><svg class="icon" aria-hidden="true"><use href="/icons.svg#icon-chevron-down"></use></svg></div>
+      <div class="scroll-arrow">
+        <svg class="icon" aria-hidden="true"
+          ><use href="/icons.svg#icon-chevron-down"></use></svg>
+      </div>
     </a>
   </header>
 
@@ -80,72 +116,195 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
       </div>
     </section>
 
+    <!-- Listen -->
+    {
+      audioItems.length > 0 && (
+        <section id="listen" class="listen-section">
+          <div class="container">
+            <h2 class="section-title">Rough vs. Final</h2>
+            <p class="section-desc">
+              Listen to the same track before and after mixing to hear how a
+              professional mix can improve the clarity and emotional impact of a
+              record.
+            </p>
+            <div class="listen-cards">
+              {audioItems.map((item) => (
+                <div
+                  class="listen-card"
+                  data-tracks={JSON.stringify(item.data.audioTracks)}
+                >
+                  <div class="listen-card__header">
+                    {item.data.image.startsWith("/images/portfolio/") ? (
+                      <picture>
+                        <source
+                          srcset={item.data.image.replace(/\.[^.]+$/, ".webp")}
+                          type="image/webp"
+                        />
+                        <img
+                          src={item.data.image}
+                          alt={item.data.title}
+                          class="listen-card__thumb"
+                          width="48"
+                          height="48"
+                          loading="lazy"
+                        />
+                      </picture>
+                    ) : (
+                      <img
+                        src={item.data.image}
+                        alt={item.data.title}
+                        class="listen-card__thumb"
+                        width="48"
+                        height="48"
+                        loading="lazy"
+                      />
+                    )}
+                    <div class="listen-card__meta">
+                      <div class="listen-card__artist-name">
+                        {item.data.title}
+                      </div>
+                      <div class="listen-card__role">{item.data.role}</div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="listen-card__tabs"
+                    role="tablist"
+                    aria-label="Tracks"
+                  >
+                    {item.data.audioTracks!.map((track, i) => (
+                      <button
+                        type="button"
+                        id={`tab-${item.id.replace(/\.[^.]+$/, "")}-${i}`}
+                        class={`listen-tab${i === 0 ? " active" : ""}`}
+                        role="tab"
+                        aria-selected={i === 0 ? "true" : "false"}
+                        aria-controls={`panel-${item.id.replace(/\.[^.]+$/, "")}`}
+                        tabindex={i === 0 ? 0 : -1}
+                        data-track-index={String(i)}
+                      >
+                        {track.title}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div
+                    class="listen-card__player"
+                    id={`panel-${item.id.replace(/\.[^.]+$/, "")}`}
+                    role="tabpanel"
+                    aria-labelledby={`tab-${item.id.replace(/\.[^.]+$/, "")}-0`}
+                  >
+                    <div class="listen-player-controls">
+                      <button class="listen-play-btn" aria-label="Play">
+                        <svg class="icon" aria-hidden="true">
+                          <use href="/icons.svg#icon-play" />
+                        </svg>
+                      </button>
+                      <span class="listen-track-title">
+                        {item.data.audioTracks![0].title}
+                      </span>
+                      <div
+                        class="mix-toggle"
+                        role="group"
+                        aria-label="Mix version"
+                      >
+                        <button class="mix-toggle__btn active" data-mix="rough">
+                          Rough
+                        </button>
+                        <button class="mix-toggle__btn" data-mix="final">
+                          Final
+                        </button>
+                      </div>
+                    </div>
+                    <div class="listen-waveform" />
+                    <div class="listen-time">
+                      <span class="listen-time__current">0:00</span>
+                      <span class="listen-time__total">0:00</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
     <!-- Portfolio -->
     <section id="portfolio" class="portfolio-section">
       <div class="container">
         <h2 class="section-title">Featured Work</h2>
 
         <div class="portfolio-filter">
-          <button class="filter-btn active" data-filter="all">All Projects</button>
+          <button class="filter-btn active" data-filter="all"
+            >All Projects</button
+          >
           <button class="filter-btn" data-filter="client">Client Work</button>
-          <button class="filter-btn" data-filter="personal">Personal Projects</button>
+          <button class="filter-btn" data-filter="personal"
+            >Personal Projects</button
+          >
         </div>
 
         <div class="portfolio-gallery">
-          {portfolioItems.map((item) => {
-            const isLocal = item.data.image.startsWith('/images/portfolio/');
-            const webpSrc = isLocal
-              ? item.data.image.replace(/\.[^.]+$/, '.webp')
-              : null;
-            return (
-            <article
-              class={`portfolio-item ${item.data.client === "Personal Project" ? "personal-project" : "client-project"}`}
-              id={item.slug}
-            >
-              <button
-                type="button"
-                class="portfolio-trigger"
-                data-title={item.data.title}
-                data-role={item.data.role}
-                data-client={item.data.client || "Client"}
-                data-description={item.data.description}
-                data-image={item.data.image}
-                data-url={item.data.url}
-              >
-                {isLocal ? (
-                  <picture>
-                    <source srcset={webpSrc} type="image/webp" />
-                    <img
-                      src={item.data.image}
-                      alt={item.data.title}
-                      class="portfolio-image"
-                      loading="lazy"
-                      width="350"
-                      height="250"
-                    />
-                  </picture>
-                ) : (
-                  <img
-                    src={item.data.image}
-                    alt={item.data.title}
-                    class="portfolio-image"
-                    loading="lazy"
-                    width="350"
-                    height="250"
-                  />
-                )}
-                <div class="portfolio-info">
-                  <h3>{item.data.title}</h3>
-                  <p>{item.data.role}</p>
-                  {item.data.client === "Personal Project"
-                    ? <span class="project-badge personal">Personal</span>
-                    : <span class="project-badge client">{item.data.client ?? "Client"}</span>
-                  }
-                </div>
-              </button>
-            </article>
-            );
-          })}
+          {
+            portfolioItems.map((item) => {
+              const isLocal = item.data.image.startsWith("/images/portfolio/");
+              const webpSrc = isLocal
+                ? item.data.image.replace(/\.[^.]+$/, ".webp")
+                : null;
+              return (
+                <article
+                  class={`portfolio-item ${item.data.client === "Personal Project" ? "personal-project" : "client-project"}`}
+                  id={item.slug}
+                >
+                  <button
+                    type="button"
+                    class="portfolio-trigger"
+                    data-title={item.data.title}
+                    data-role={item.data.role}
+                    data-client={item.data.client || "Client"}
+                    data-description={item.data.description}
+                    data-image={item.data.image}
+                    data-url={item.data.url}
+                  >
+                    {isLocal ? (
+                      <picture>
+                        <source srcset={webpSrc} type="image/webp" />
+                        <img
+                          src={item.data.image}
+                          alt={item.data.title}
+                          class="portfolio-image"
+                          loading="lazy"
+                          width="350"
+                          height="250"
+                        />
+                      </picture>
+                    ) : (
+                      <img
+                        src={item.data.image}
+                        alt={item.data.title}
+                        class="portfolio-image"
+                        loading="lazy"
+                        width="350"
+                        height="250"
+                      />
+                    )}
+                    <div class="portfolio-info">
+                      <h3>{item.data.title}</h3>
+                      <p>{item.data.role}</p>
+                      {item.data.client === "Personal Project" ? (
+                        <span class="project-badge personal">Personal</span>
+                      ) : (
+                        <span class="project-badge client">
+                          {item.data.client ?? "Client"}
+                        </span>
+                      )}
+                    </div>
+                  </button>
+                </article>
+              );
+            })
+          }
         </div>
 
         <div class="portfolio-modal" id="portfolio-modal" aria-hidden="true">
@@ -158,13 +317,22 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
             tabindex="-1"
           >
             <div class="portfolio-modal__media-wrap">
-              <img src="" alt="" class="portfolio-modal__image" id="portfolio-modal-image" />
+              <img
+                src=""
+                alt=""
+                class="portfolio-modal__image"
+                id="portfolio-modal-image"
+              />
             </div>
             <div class="portfolio-modal__content">
               <p class="portfolio-modal__label" id="portfolio-modal-client"></p>
               <h3 id="portfolio-modal-title"></h3>
               <p class="portfolio-modal__role" id="portfolio-modal-role"></p>
-              <p class="portfolio-modal__description" id="portfolio-modal-description"></p>
+              <p
+                class="portfolio-modal__description"
+                id="portfolio-modal-description"
+              >
+              </p>
               <a
                 href="#"
                 target="_blank"
@@ -175,7 +343,12 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                 Visit Project
               </a>
             </div>
-            <button type="button" class="portfolio-modal__close" data-modal-close aria-label="Close project details">
+            <button
+              type="button"
+              class="portfolio-modal__close"
+              data-modal-close
+              aria-label="Close project details"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -183,117 +356,56 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
       </div>
     </section>
 
-    <!-- Listen -->
-    {audioItems.length > 0 && (
-      <section id="listen" class="listen-section">
-        <div class="container">
-          <h2 class="section-title">Rough vs. Final</h2>
-          <div class="listen-cards">
-            {audioItems.map((item) => (
-              <div
-                class="listen-card"
-                data-tracks={JSON.stringify(item.data.audioTracks)}
-              >
-                <div class="listen-card__header">
-                  {item.data.image.startsWith('/images/portfolio/') ? (
-                    <picture>
-                      <source srcset={item.data.image.replace(/\.[^.]+$/, '.webp')} type="image/webp" />
-                      <img
-                        src={item.data.image}
-                        alt={item.data.title}
-                        class="listen-card__thumb"
-                        width="48"
-                        height="48"
-                        loading="lazy"
-                      />
-                    </picture>
-                  ) : (
-                    <img
-                      src={item.data.image}
-                      alt={item.data.title}
-                      class="listen-card__thumb"
-                      width="48"
-                      height="48"
-                      loading="lazy"
-                    />
-                  )}
-                  <div class="listen-card__meta">
-                    <div class="listen-card__artist-name">{item.data.title}</div>
-                    <div class="listen-card__role">{item.data.role}</div>
-                  </div>
-                </div>
-
-                <div class="listen-card__tabs" role="tablist" aria-label="Tracks">
-                  {item.data.audioTracks!.map((track, i) => (
-                    <button
-                      type="button"
-                      id={`tab-${item.id.replace(/\.[^.]+$/, '')}-${i}`}
-                      class={`listen-tab${i === 0 ? " active" : ""}`}
-                      role="tab"
-                      aria-selected={i === 0 ? 'true' : 'false'}
-                      aria-controls={`panel-${item.id.replace(/\.[^.]+$/, '')}`}
-                      tabindex={i === 0 ? 0 : -1}
-                      data-track-index={String(i)}
-                    >
-                      {track.title}
-                    </button>
-                  ))}
-                </div>
-
-                <div
-                  class="listen-card__player"
-                  id={`panel-${item.id.replace(/\.[^.]+$/, '')}`}
-                  role="tabpanel"
-                  aria-labelledby={`tab-${item.id.replace(/\.[^.]+$/, '')}-0`}
-                >
-                  <div class="listen-player-controls">
-                    <button class="listen-play-btn" aria-label="Play">
-                      <svg class="icon" aria-hidden="true"><use href="/icons.svg#icon-play"></use></svg>
-                    </button>
-                    <span class="listen-track-title">
-                      {item.data.audioTracks![0].title}
-                    </span>
-                    <div class="mix-toggle" role="group" aria-label="Mix version">
-                      <button class="mix-toggle__btn active" data-mix="rough">Rough</button>
-                      <button class="mix-toggle__btn" data-mix="final">Final</button>
-                    </div>
-                  </div>
-                  <div class="listen-waveform"></div>
-                  <div class="listen-time">
-                    <span class="listen-time__current">0:00</span>
-                    <span class="listen-time__total">0:00</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    )}
-
     <!-- Contact -->
     <section id="contact" class="contact-section">
       <div class="container">
         <h2 class="section-title">Get Started</h2>
         <div class="contact-content">
           <div class="contact-info">
-            <p><svg class="icon contact-icon" aria-hidden="true"><use href="/icons.svg#icon-envelope"></use></svg> {contact.email}</p>
-            <p><svg class="icon contact-icon" aria-hidden="true"><use href="/icons.svg#icon-phone"></use></svg> {contact.phone}</p>
-            <p><svg class="icon contact-icon" aria-hidden="true"><use href="/icons.svg#icon-map-marker-alt"></use></svg> {contact.location}</p>
+            <p>
+              <svg class="icon contact-icon" aria-hidden="true"
+                ><use href="/icons.svg#icon-envelope"></use></svg
+              >
+              {contact.email}
+            </p>
+            <p>
+              <svg class="icon contact-icon" aria-hidden="true"
+                ><use href="/icons.svg#icon-phone"></use></svg
+              >
+              {contact.phone}
+            </p>
+            <p>
+              <svg class="icon contact-icon" aria-hidden="true"
+                ><use href="/icons.svg#icon-map-marker-alt"></use></svg
+              >
+              {contact.location}
+            </p>
             <div class="social-links">
-              {contact.socialLinks.map((social) => (
-                <a href={social.url} target="_blank" rel="noopener noreferrer" class="social-link" aria-label={social.platform}>
-                  <svg class="icon" aria-hidden="true"><use href={`/icons.svg#${socialIconMap[social.icon] || 'icon-hashtag'}`}></use></svg>
-                </a>
-              ))}
+              {
+                contact.socialLinks.map((social) => (
+                  <a
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="social-link"
+                    aria-label={social.platform}
+                  >
+                    <svg class="icon" aria-hidden="true">
+                      <use
+                        href={`/icons.svg#${socialIconMap[social.icon] || "icon-hashtag"}`}
+                      />
+                    </svg>
+                  </a>
+                ))
+              }
             </div>
 
             <div class="bandcamp-follow">
               <iframe
-              title="Follow Ryan Gildea on Bandcamp"
-              scrolling="no"
-              style="border: 0;width: 100%;height: 33px;"
-              src="https://bandcamp.com/band_follow_button_classic/1087522331"
+                title="Follow Ryan Gildea on Bandcamp"
+                scrolling="no"
+                style="border: 0;width: 100%;height: 33px;"
+                src="https://bandcamp.com/band_follow_button_classic/1087522331"
               ></iframe>
             </div>
           </div>
@@ -306,7 +418,12 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
           >
             <input type="hidden" name="form-name" value="contact" />
             <p style="display: none">
-              <label for="bot-field">Don't fill this out: <input id="bot-field" name="bot-field" /></label>
+              <label for="bot-field"
+                >Don't fill this out: <input
+                  id="bot-field"
+                  name="bot-field"
+                /></label
+              >
             </p>
             <div class="form-group">
               <label for="name">Name</label>
@@ -322,7 +439,8 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
             </div>
             <div class="form-group">
               <label for="message">Message</label>
-              <textarea id="message" name="message" rows="5" required></textarea>
+              <textarea id="message" name="message" rows="5" required
+              ></textarea>
             </div>
             <button type="submit" class="submit-button">Send Message</button>
           </form>
@@ -331,7 +449,7 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
     </section>
   </main>
   <script>
-    import { initAudioPlayers } from '../scripts/audio-player.js';
+    import { initAudioPlayers } from "../scripts/audio-player.js";
     initAudioPlayers();
   </script>
 </Base>

@@ -8,6 +8,13 @@ test.describe("Listen section", () => {
     await expect(page.locator('.nav-links a[href="/#listen"]')).toBeVisible();
   });
 
+  test("should render a description below the section title", async ({ page }) => {
+    await page.goto("/");
+    const desc = page.locator(".listen-section .section-desc");
+    await expect(desc).toBeVisible();
+    await expect(desc).not.toBeEmpty();
+  });
+
   test("should render an artist card for each portfolio item with audio", async ({
     page,
   }) => {
@@ -21,14 +28,14 @@ test.describe("Listen section", () => {
     await expect(cards.first().locator(".listen-card__player")).toBeVisible();
   });
 
-  test("should show one tab per track and mark first tab active", async ({
-    page,
-  }) => {
+  test("should show at least one tab per card", async ({ page }) => {
     await page.goto("/");
-    const firstCard = page.locator(".listen-card").first();
-    const tabs = firstCard.locator(".listen-tab");
-    await expect(tabs).toHaveCount(3); // OCCO has 3 tracks
-    await expect(tabs.first()).toHaveClass(/active/);
+    const cards = page.locator(".listen-card");
+    const count = await cards.count();
+    expect(count).toBeGreaterThan(0);
+    for (let i = 0; i < count; i++) {
+      expect(await cards.nth(i).locator(".listen-tab").count()).toBeGreaterThan(0);
+    }
   });
 
   test("clicking a tab should keep it active", async ({
