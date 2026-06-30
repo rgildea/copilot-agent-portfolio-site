@@ -144,4 +144,21 @@ test.describe("Audio player button behavior", () => {
     const href = await playBtn.locator("use").getAttribute("href");
     expect(href).toContain("icon-play");
   });
+
+  test("switching tabs resets the mix toggle to rough", async ({ page }) => {
+    await stallAudio(page);
+    await page.goto("/");
+    const firstCard = page.locator(".listen-card").first();
+    const tabs = firstCard.locator(".listen-tab");
+    if (await tabs.count() < 2) return;
+
+    const toggle = firstCard.locator(".mix-toggle");
+    await toggle.locator('[data-mix="final"]').click();
+    await expect(toggle.locator('[data-mix="final"]')).toHaveClass(/active/);
+
+    await tabs.nth(1).click();
+
+    await expect(toggle.locator('[data-mix="rough"]')).toHaveClass(/active/);
+    await expect(toggle.locator('[data-mix="final"]')).not.toHaveClass(/active/);
+  });
 });

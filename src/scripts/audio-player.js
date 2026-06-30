@@ -123,7 +123,7 @@ function initCard(card) {
       updatePlayBtn(card, false);
       els.roughWaveformEl.innerHTML = '';
       els.finalWaveformEl.innerHTML = '';
-      loadTrackPair(card, state, idx, state.activeMix, false, 0, els);
+      loadTrackPair(card, state, idx, 'rough', false, 0, els);
     });
   });
 
