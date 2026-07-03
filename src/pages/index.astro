@@ -392,15 +392,17 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
     <!-- About -->
     <section id="about" class="about-section">
       <div class="container">
-        <h2 class="section-title">About Me</h2>
-        <div class="about-content">
+        <h2 class="section-title">{about.headline}</h2>
+        <div class={`about-content${about.skills?.length ? "" : " about-content--single"}`}>
           <div class="about-text" set:html={aboutBioHtml} />
-          <div class="skills">
-            <h3>Skills</h3>
-            <ul class="skill-list">
-              {about.skills.map((skill) => <li>{skill}</li>)}
-            </ul>
-          </div>
+          {about.skills && about.skills.length > 0 && (
+            <div class="skills">
+              <h3>Skills</h3>
+              <ul class="skill-list">
+                {about.skills.map((skill) => <li>{skill}</li>)}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </section>

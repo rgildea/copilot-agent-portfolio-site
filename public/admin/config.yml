@@ -136,10 +136,12 @@ collections:
         name: "about"
         file: "src/data/about.json"
         fields:
+          - { label: "Headline", name: "headline", widget: "string" }
           - { label: "Bio", name: "bio", widget: "markdown" }
           - label: "Skills"
             name: "skills"
             widget: "list"
+            required: false
             field: { label: "Skill", name: "skill", widget: "string" }
 
       - label: "Contact Information"

@@ -556,6 +556,7 @@ section { padding: var(--space-2xl) 0; position: relative; z-index: 1; }
 .about-section { background: var(--ink-2); }
 
 .about-content { display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-2xl); }
+.about-content--single { grid-template-columns: 1fr; }
 
 .about-text p {
   margin-bottom: var(--space-lg);
