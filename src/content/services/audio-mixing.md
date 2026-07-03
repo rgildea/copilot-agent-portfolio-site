@@ -1,6 +1,9 @@
 ---
-title: Audio Mixing
+title: Mixing
 icon: fa-sliders-h
-description: Professional mixing services using top-tier plugins and hardware. My mixing approach balances technical precision with creative flair to ensure your tracks have clarity, depth, and impact.
-order: 2
+intro: I'll transform your rough tracks into impactful, professional releases without losing the unique and distinctive energy that defines your sound.
+bullets:
+  - Your mixes will stand alongside the best in your genre
+  - Stop apologizing for self-produced production quality and take your music to the next level
+order: 1
 ---

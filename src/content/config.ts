@@ -31,7 +31,8 @@ const services = defineCollection({
   schema: z.object({
     title: z.string(),
     icon: z.string(),
-    description: z.string(),
+    intro: z.string(),
+    bullets: z.array(z.string()).optional(),
     order: z.number().default(10),
   }),
 });

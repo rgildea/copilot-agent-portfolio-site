@@ -81,12 +81,57 @@ collections:
           widget: "string",
           hint: "Font Awesome icon class (e.g. fa-music)",
         }
-      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Intro", name: "intro", widget: "text" }
+      - label: "Bullets"
+        name: "bullets"
+        widget: "list"
+        required: false
+        field: { label: "Bullet", name: "bullet", widget: "string" }
       - { label: "Order", name: "order", widget: "number", default: 10 }
 
   - name: "settings"
     label: "Site Settings"
     files:
+      - label: "Hero"
+        name: "hero"
+        file: "src/data/hero.json"
+        fields:
+          - { label: "Headline", name: "headline", widget: "string" }
+          - { label: "Sub-headline", name: "subheadline", widget: "text" }
+
+      - label: "Services Section"
+        name: "services-section"
+        file: "src/data/services-section.json"
+        fields:
+          - { label: "Headline", name: "headline", widget: "string" }
+          - { label: "Sub-headline", name: "subheadline", widget: "text" }
+          - {
+              label: "Show In Nav",
+              name: "showInNav",
+              widget: "boolean",
+              default: true,
+            }
+          - { label: "Nav Label", name: "navLabel", widget: "string" }
+
+      - label: "Process Section"
+        name: "process"
+        file: "src/data/process.json"
+        fields:
+          - { label: "Headline", name: "headline", widget: "string" }
+          - {
+              label: "Show In Nav",
+              name: "showInNav",
+              widget: "boolean",
+              default: true,
+            }
+          - { label: "Nav Label", name: "navLabel", widget: "string" }
+          - label: "Steps"
+            name: "steps"
+            widget: "list"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+
       - label: "About Information"
         name: "about"
         file: "src/data/about.json"

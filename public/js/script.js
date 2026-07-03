@@ -11,16 +11,13 @@ document.addEventListener("DOMContentLoaded", function () {
 // Navigation scroll effect
 function initNavbar() {
   const navbar = document.querySelector(".navbar");
-  const navbarMark = document.querySelector(".navbar-mark");
   const scrollThreshold = 100;
 
   function updateNavbar() {
     if (window.scrollY > scrollThreshold) {
       navbar.classList.add("scrolled");
-      if (navbarMark) navbarMark.setAttribute("tabindex", "0");
     } else {
       navbar.classList.remove("scrolled");
-      if (navbarMark) navbarMark.setAttribute("tabindex", "-1");
     }
   }
 

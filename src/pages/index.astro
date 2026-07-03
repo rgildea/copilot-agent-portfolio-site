@@ -6,6 +6,9 @@ import DOMPurify from "isomorphic-dompurify";
 
 import about from "../data/about.json";
 import contact from "../data/contact.json";
+import hero from "../data/hero.json";
+import servicesSection from "../data/services-section.json";
+import processSection from "../data/process.json";
 
 const socialIconMap = {
   "fa-linkedin": "icon-linkedin",
@@ -22,6 +25,9 @@ const portfolioItems = (await getCollection("portfolio")).sort(
 );
 const audioItems = portfolioItems.filter(
   (item) => item.data.audioTracks && item.data.audioTracks.length > 0,
+);
+const serviceItems = (await getCollection("services")).sort(
+  (a, b) => a.data.order - b.data.order,
 );
 const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
   ALLOWED_TAGS: [
@@ -47,6 +53,10 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
 <Base
   title="Ryan Gildea | Audio Engineer & Producer"
   hasListenSection={audioItems.length > 0}
+  showServicesNav={servicesSection.showInNav}
+  servicesNavLabel={servicesSection.navLabel}
+  showProcessNav={processSection.showInNav}
+  processNavLabel={processSection.navLabel}
 >
   <!-- Hero -->
   <header class="hero">
@@ -56,40 +66,17 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
       <div class="hero-bg bg-3"></div>
     </div>
     <div class="hero-content">
-      <div class="hero-eyebrow">
-        Boutique Mix &amp; Master &middot; Neo-Psych Specialist
-      </div>
-      <h1 id="hero-name">Ryan Gildea</h1>
-      <h2>Music Production | Mixing | Mastering</h2>
+      <h1>{hero.headline}</h1>
+      <p class="hero-subheadline">{hero.subheadline}</p>
       <div class="hero-actions">
         <a href="#contact" class="btn btn-primary">Get Started</a>
-        <a href="#listen" class="btn btn-secondary">Hear the Work</a>
-      </div>
-      <div class="spotify-direct-embed" id="spotify-facade">
-        <button class="spotify-facade-btn" aria-label="Load Spotify playlist">
-          <img
-            src="/images/spotify-placeholder.jpg"
-            alt=""
-            class="spotify-facade-img"
-            aria-hidden="true"
-          />
-          <div class="spotify-facade-content">
-            <svg
-              class="spotify-facade-play"
-              viewBox="0 0 64 64"
-              aria-hidden="true"
-            >
-              <circle cx="32" cy="32" r="32"></circle>
-              <polygon points="24,16 48,32 24,48"></polygon>
-            </svg>
-          </div>
-        </button>
+        <a href="#listen" class="btn btn-secondary">Hear The Difference</a>
       </div>
     </div>
     <a
-      href="#about"
+      href="#services"
       class="scroll-indicator"
-      aria-label="Scroll to About section"
+      aria-label="Scroll to Services section"
     >
       <div class="scroll-text">Scroll for more</div>
       <div class="scroll-arrow">
@@ -100,19 +87,45 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
   </header>
 
   <main>
-    <!-- About -->
-    <section id="about" class="about-section">
+    <!-- Services -->
+    <section id="services" class="services-section">
       <div class="container">
-        <h2 class="section-title">About Me</h2>
-        <div class="about-content">
-          <div class="about-text" set:html={aboutBioHtml} />
-          <div class="skills">
-            <h3>Skills</h3>
-            <ul class="skill-list">
-              {about.skills.map((skill) => <li>{skill}</li>)}
-            </ul>
-          </div>
+        <h2 class="section-title">{servicesSection.headline}</h2>
+        <p class="section-desc">{servicesSection.subheadline}</p>
+        <div class="service-cards">
+          {
+            serviceItems.map((item) => (
+              <div class="service-card">
+                <h3>{item.data.title}</h3>
+                <p>{item.data.intro}</p>
+                {item.data.bullets && (
+                  <ul class="service-card__bullets">
+                    {item.data.bullets.map((bullet) => (
+                      <li>{bullet}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))
+          }
         </div>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section id="process" class="process-section">
+      <div class="container">
+        <h2 class="section-title">{processSection.headline}</h2>
+        <ol class="process-steps">
+          {
+            processSection.steps.map((step) => (
+              <li class="process-step">
+                <h3>{step.headline}</h3>
+                <p>{step.description}</p>
+              </li>
+            ))
+          }
+        </ol>
       </div>
     </section>
 
@@ -224,6 +237,26 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
                   </div>
                 </div>
               ))}
+            </div>
+            <div class="spotify-direct-embed" id="spotify-facade">
+              <button class="spotify-facade-btn" aria-label="Load Spotify playlist">
+                <img
+                  src="/images/spotify-placeholder.jpg"
+                  alt=""
+                  class="spotify-facade-img"
+                  aria-hidden="true"
+                />
+                <div class="spotify-facade-content">
+                  <svg
+                    class="spotify-facade-play"
+                    viewBox="0 0 64 64"
+                    aria-hidden="true"
+                  >
+                    <circle cx="32" cy="32" r="32"></circle>
+                    <polygon points="24,16 48,32 24,48"></polygon>
+                  </svg>
+                </div>
+              </button>
             </div>
           </div>
         </section>
@@ -351,6 +384,22 @@ const aboutBioHtml = DOMPurify.sanitize(marked.parse(about.bio), {
             >
               <span aria-hidden="true">&times;</span>
             </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about-section">
+      <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+          <div class="about-text" set:html={aboutBioHtml} />
+          <div class="skills">
+            <h3>Skills</h3>
+            <ul class="skill-list">
+              {about.skills.map((skill) => <li>{skill}</li>)}
+            </ul>
           </div>
         </div>
       </div>

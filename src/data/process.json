@@ -1,0 +1,23 @@
+{
+  "headline": "How We Will Work Together",
+  "showInNav": true,
+  "navLabel": "Process",
+  "steps": [
+    {
+      "headline": "Step 1. Understand Your Vision",
+      "description": "We'll have a voice or video call to help me understand your sonic identity and your goals for the project."
+    },
+    {
+      "headline": "Step 2. Create A First Mix Quickly",
+      "description": "I will get you an initial mix quickly, so you can give feedback early. Then we can work together to polish the track to your liking. No surprises, no disappointment, just quick, prompt, unlimited revisions, to ensure you're satisfied."
+    },
+    {
+      "headline": "Step 3. Mastering (optional)",
+      "description": "I'll finalize your tracks to give them loudness and clarity without losing depth and bring out the color in your mix. If you prefer to use your own mastering engineer, that's fine. No worries, and no hard sales pitches."
+    },
+    {
+      "headline": "Step 4. I'll Deliver Your Project On-Time",
+      "description": "You'll get your final mixes or masters and any versions or stems that you need quickly and on-time."
+    }
+  ]
+}

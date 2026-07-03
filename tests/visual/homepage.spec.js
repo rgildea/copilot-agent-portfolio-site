@@ -7,7 +7,7 @@ test.describe("Homepage visual tests", () => {
 
     await expect(page.locator(".hero")).toBeVisible();
     await expect(page.locator(".hero h1")).toBeVisible();
-    await expect(page.locator(".hero h2")).toBeVisible();
+    await expect(page.locator(".hero-subheadline")).toBeVisible();
     await expect(page.locator(".hero .btn-primary")).toBeVisible();
   });
 
@@ -27,7 +27,7 @@ test.describe("Homepage visual tests", () => {
     await expect(page.locator(".navbar")).toBeVisible();
     await expect(page.locator('.nav-links a[href="/#about"]')).toBeVisible();
     await expect(
-      page.locator('.nav-links a[href="/#portfolio"]'),
+      page.locator(".nav-links a", { hasText: "Work" }),
     ).toBeVisible();
     await expect(page.locator('.nav-links a[href="/#contact"]')).toBeVisible();
 
