@@ -192,13 +192,22 @@ h1, h2, h3, h4, h5, h6 {
   position: fixed; top: 0; width: 100%; z-index: 1000;
   height: var(--navbar-height);
   display: flex; align-items: center;
-  background: transparent;
+  background: rgba(22,19,14,0.45);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border-bottom: 1px solid rgba(236,230,216,0.08);
   transition: background var(--dur-micro), border-color var(--dur-micro), padding var(--dur-micro);
 }
 
 .navbar.scrolled {
-  background: var(--ink);
+  background: rgba(22,19,14,0.82);
   border-bottom: 1px solid var(--line-2);
+}
+
+/* Fallback for browsers without backdrop-filter support */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .navbar { background: rgba(22,19,14,0.92); }
+  .navbar.scrolled { background: var(--ink); }
 }
 
 .navbar .container { width: 100%; max-width: 100%; }
